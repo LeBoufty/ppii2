@@ -11,11 +11,6 @@ float marge;
 bool excl_carre(float x,float y,float ax,float ay,float bx,float by,float marge)
 {
     bool res=true;
-    int c1,c2,c3,c4;
-    //[1**2]
-    //[****] comment j'ai décidé de numéroter les 4 coins du carré (c1,c2,c3,c4)
-    //[****]
-    //[3**4]
 
     if(ax>bx)
     {
