@@ -1,3 +1,4 @@
+#include"potagibus.h"
 #include<stdlib.h>
 #include<stdio.h>
 #include<stdbool.h>
@@ -7,7 +8,7 @@ float x,y,ax,ay,bx,by; //correspondra aux coordonnées en x et en y respectiveme
 
 float marge;
 
-bool excl_carre(x,y,ax,ay,bx,by,marge)
+bool excl_carre(float x,float y,float ax,float ay,float bx,float by,float marge)
 {
     bool res=true;
     int c1,c2,c3,c4;
