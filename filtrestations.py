@@ -7,7 +7,7 @@ xy_trouves = []
 for ligne in data:
     if len(ligne) == 4:
         id, x, y, acces = ligne
-        if acces == "Accès libre" and (x,y) not in xy_trouves:
+        if acces == "Accès libre" and (x,y) not in xy_trouves and id != "Nonconcerné":
             xy_trouves.append((x,y))
             sortie.write((id + ',' + x + ',' + y + '\n').replace(' ', ''))
 
