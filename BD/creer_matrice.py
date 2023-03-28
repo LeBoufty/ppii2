@@ -8,15 +8,15 @@ from outils import *
 # Les distances sont en km
 
 # Suppression de l'ancienne matrice
-f = open('matrice.csv', 'w')
+f = open('BD/matrice.csv', 'w')
 f.write('')
 f.close()
 
 # Ouverture de la nouvelle matrice
-f = open('matrice.csv', 'a')
+f = open('BD/matrice.csv', 'a')
 
 # Récupération des coordonnées
-data = [i.replace('\n', '').split(',') for i in open('stations.csv', 'r').readlines()]
+data = [i.replace('\n', '').split(',') for i in open('BD/stations.csv', 'r').readlines()]
 data = [(float(i[1]), float(i[2])) for i in data]
 
 # Création des lignes
@@ -25,8 +25,9 @@ for k in range(len(data)):
     xk, yk = data[k]
     for i in range(len(data)):
         xi, yi = data[i]
-        sortie += ',' + str(distance(xk, yk, xi, yi))
+        sortie += ',' + str(int(distance(xk, yk, xi, yi)))
     sortie += '\n'
     f.write(sortie[1:])
 
+print('Fini !')
 f.close()
