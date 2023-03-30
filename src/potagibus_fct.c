@@ -85,3 +85,22 @@ bool excl_ovale(coord* point, coord* dep, coord* arr)
     }
 
 }
+
+int** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la partie basse de la matrice est tout simplement pas généré) de taille nxn*/{
+    int** mat=(int**) malloc(n*sizeof(int*));
+    for (int i=0; i<n; i++) {
+        mat[i]=(int*) malloc((i+1)*sizeof(int));
+    }
+    return mat;
+}
+
+
+float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
+    float x1=(p1->x)*0.0174532925;float y1=(p1->y)*0.0174532925;
+    float x2=(p2->x)*0.0174532925;float y2=(p2->y)*0.0174532925;
+    if (x1==x2 && y1==y2){return 0;}
+    float A= sin(y1)*sin(y2) + cos(y1)*cos(y2)*cos(x2-x1);
+    if (A>1){A=1;}
+    if (A<-1){A=-1;}
+    return 6371*acosf(A);
+}

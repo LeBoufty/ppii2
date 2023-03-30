@@ -4,12 +4,18 @@
 
 struct _coord
 {
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 typedef struct _coord coord;
+
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge);
 
 bool excl_ovale(coord* point, coord* dep, coord* arr);
+
+int** create_Matrice(int n);
+
+float distance(coord* p1, coord* p2);
+
 #endif
