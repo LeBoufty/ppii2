@@ -104,3 +104,59 @@ float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
     if (A<-1){A=-1;}
     return 6371*acosf(A);
 }
+
+
+float** suppr_point(coord* depart, coord* arrivée, float** tableau) /*utilise la matrice triangulaire pour éliminer les points inutiles grâce à la méthode des "ovales". Renvoi un tableau formé d'élément de la struct "coord" qui correspondront aux coordonnées x et y dans le tableau triangulaire des points utilisables*/
+{
+
+}
+
+
+
+//fonctions d'actions sur les listes chainées
+
+
+
+list_t* list_create(){
+    list_t* list=malloc(sizeof(list_t));
+    coord* e1=calloc(1,sizeof(coord));
+    list->element=e1;
+    list->next=NULL;
+    return list;
+}
+
+
+void list_destroy(list_t *one_list){
+    list_t* point=one_list;list_t* point2=one_list;
+    while (point2!=NULL){
+        point2=point2->next;
+        free(point);
+        point=point2;
+    }
+}
+
+bool list_is_empty(list_t* one_list){
+    if (one_list==NULL){return true;}
+    return false;
+}
+
+void list_append(list_t* one_list, float coord_x, float coord_y){
+    list_t* list=list_create();
+    list->element=one_list->element;
+    list->next=one_list->next;
+    one_list->element->x=coord_x;
+    one_list->element->y=coord_y;
+    one_list->next=list;
+}
+
+void element_print(coord* one_element){
+    printf("%s: %s",one_element->x,one_element->y);
+}
+
+void list_print(list_t* one_list){
+    list_t* list=one_list;
+    while (list!=NULL){
+        element_print(list->element);
+        list=list->next;
+    }
+}
