@@ -86,10 +86,10 @@ bool excl_ovale(coord* point, coord* dep, coord* arr, int marge)
 
 }
 
-int** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la partie basse de la matrice est tout simplement pas généré) de taille nxn*/{
-    int** mat=(int**) malloc(n*sizeof(int*));
+float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la partie basse de la matrice est tout simplement pas généré) de taille nxn*/{
+    float** mat=(float**) malloc(n*sizeof(float*));
     for (int i=0; i<n; i++) {
-        mat[i]=(int*) malloc((i+1)*sizeof(int));
+        mat[i]=(float*) malloc((i+1)*sizeof(float));
     }
     return mat;
 }
