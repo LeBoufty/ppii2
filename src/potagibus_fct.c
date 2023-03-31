@@ -68,13 +68,13 @@ bool excl_carre(coord* point, coord* dep, coord* arr, int marge)
     return(res);
 }
 
-bool excl_ovale(coord* point, coord* dep, coord* arr)
+bool excl_ovale(coord* point, coord* dep, coord* arr, int marge)
 {
     float distab,N,distac,distbc;
-    distab=sqrt(pow((arr->x-dep->x),2)+pow((arr->y-dep->y),2));
-    distac=sqrt(pow((point->x-dep->x),2)+pow((point->y-dep->y),2));
-    distbc=sqrt(pow((arr->x-point->x),2)+pow((arr->y-point->y),2));
-    N=distab+1/distab;
+    distab=distance(dep,arr);
+    distac=distance(dep,point);
+    distbc=distance(point,arr);
+    N=distab+marge/distab;
     if(distac+distbc<=N)
     {
         return(true);

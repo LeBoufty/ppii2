@@ -10,9 +10,9 @@ struct _coord
 
 typedef struct _coord coord;
 
-bool excl_carre(coord* point, coord* dep, coord* arr, int marge);
+bool excl_carre(coord* point, coord* dep, coord* arr, int marge); 
 
-bool excl_ovale(coord* point, coord* dep, coord* arr);
+bool excl_ovale(coord* point, coord* dep, coord* arr, int marge);
 
 int** create_Matrice(int n);
 

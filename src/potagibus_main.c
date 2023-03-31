@@ -31,11 +31,13 @@ int main()
     e->y=4;
 
     printf("test pour carré, avec c: %d\n", excl_carre(c, a, b, marge));
-    printf("test pour ovale, avec c: %d\n", excl_ovale(c, a, b));
+    printf("test pour ovale, avec c: %d\n", excl_ovale(c, a, b, marge));
     printf("test pour carré, avec d: %d\n", excl_carre(d, a, b, marge));
-    printf("test pour ovale, avec d: %d\n", excl_ovale(d, a, b));
+    printf("test pour ovale, avec d: %d\n", excl_ovale(d, a, b, marge));
     printf("test pour carré, avec e: %d\n", excl_carre(e, a, b, marge));
-    printf("test pour ovale, avec e: %d\n", excl_ovale(e, a, b));
+    printf("test pour ovale, avec e: %d\n", excl_ovale(e, a, b, marge));
+
+    
 
     free(a);
     free(b);
