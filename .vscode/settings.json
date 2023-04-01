@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "potagibus.h": "c"
+        "potagibus.h": "c",
+        "stdio.h": "c"
     }
 }
