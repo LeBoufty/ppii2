@@ -14,6 +14,16 @@ struct _list_t { coord* element;struct _list_t* next;};
 
 typedef struct _list_t list_t;
 
+float** create_Matrice(int n);
+
+float element_mat(float** mat,int x, int y);
+
+float distance(coord* p1, coord* p2);
+
+float** suppr_point(coord* depart, coord* arrivee, float** tableau);
+
+list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge);
+
 list_t *list_create();
 
 void list_destroy(list_t *one_list);
@@ -26,14 +36,10 @@ void element_print(coord *one_element);
 
 void list_print(list_t *one_list);
 
+int list_size(list_t* one_list);
+
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge); 
 
 bool excl_ovale(coord* point, coord* dep, coord* arr, int marge);
-
-float** create_Matrice(int n);
-
-float distance(coord* p1, coord* p2);
-
-float** suppr_point(coord* depart, coord* arrivée, float** tableau);
 
 #endif

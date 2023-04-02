@@ -94,6 +94,17 @@ float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la p
     return mat;
 }
 
+float element_mat(float** mat,int x, int y) /*sert à renvoyer l'élément de la martice triangulaire situé à la ligne x et à la colonne y*/
+{
+    if(y>sizeof(mat[x]))
+    {
+        return(mat[y][x]);
+    }
+    else
+    {
+        return(mat[x][y]);
+    }
+}
 
 float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
     float x1=(p1->x)*0.0174532925;float y1=(p1->y)*0.0174532925;
@@ -106,11 +117,64 @@ float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
 }
 
 
-float** suppr_point(coord* depart, coord* arrivée, float** tableau) /*utilise la matrice triangulaire pour éliminer les points inutiles grâce à la méthode des "ovales". Renvoi un tableau formé d'élément de la struct "coord" qui correspondront aux coordonnées x et y dans le tableau triangulaire des points utilisables*/
+float** suppr_point(coord* depart, coord* arrivee, float** tableau) /*utilise la matrice triangulaire pour éliminer les points inutiles grâce à la méthode des "ovales". Renvoi un tableau formé de tableaux avec un élément de la struct "coord" qui correspondront aux coordonnées x et y dans le tableau triangulaire des points utilisables.*/
 {
-
+    int marge=1;
+    list_t* liste;
+    liste=uppr_point_int(depart, arrivee, tableau, marge);
+    while((list_is_empty(liste))||marge>10)
+    {
+        marge+=1;
+        liste=uppr_point_int(depart, arrivee, tableau, marge);        
+    }
+    if(list_is_empty(liste))
+    {
+        return(NULL);
+    }
+    else
+    {
+        int size=list_size(liste);
+        int k;
+        float** res=(float**) malloc(size*(sizeof(coord*)));
+        list_t* liste_int=liste;
+        int size=0;
+        for(k=0;k<size;k++)
+        {
+            res[k]=liste_int->element;
+            liste_int=liste_int->next;
+        }
+        list_destroy(liste);
+        return(res);
+    }
+    
 }
 
+list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge) /*fonction intermédiaire de suppr_point utilisé pour la récusricitvé*/
+{
+    list_t* liste=list_create();
+    coord* coord_pt;
+    int i,j;
+    for(i=0;i<sizeof(tableau);i++)
+    {
+        for(j=0;j<sizeof(tableau[j]);j++)
+        {
+            coord_pt->x=i;
+            coord_pt->y=j;
+            if(excl_ovale(coord_pt,depart,arrivee,marge))
+            {
+                if(liste->next==NULL)
+                {
+                    liste->element=coord_pt;
+                }
+                else
+                {
+                    list_append(liste,i,j);
+                }
+            }
+        }
+    }
+    return(liste);
+}
 
 
 //fonctions d'actions sur les listes chainées
@@ -159,4 +223,14 @@ void list_print(list_t* one_list){
         element_print(list->element);
         list=list->next;
     }
+}
+
+int list_size(list_t* one_list){
+    list_t* list=one_list;
+    int size=0;
+    while (list!=NULL){
+        size+=1;
+        list=list->next;
+    }
+    return(size);
 }
