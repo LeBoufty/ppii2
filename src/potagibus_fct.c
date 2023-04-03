@@ -86,9 +86,9 @@ bool excl_ovale(coord* point, coord* dep, coord* arr, int marge)
 
 }
 
-float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la partie basse de la matrice est tout simplement pas généré) de taille nxn*/{
-    float** mat=(float**) malloc(n*sizeof(float*));
-    for (int i=0; i<n; i++) {
+float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la partie basse de la matrice est tout simplement pas généré) de taille n-1 x n-1 */{
+    float** mat=(float**) malloc((n-1)*sizeof(float*));
+    for (int i=0; i<n-1; i++) {
         mat[i]=(float*) malloc((i+1)*sizeof(float));
     }
     return mat;
@@ -176,6 +176,24 @@ list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marg
     return(liste);
 }
 
+
+/*Gen_Matrice(List_points_Trie : list_t*, Autonomie : Int, Taille : Int)->Matrice_Adj : float** */
+float** Gen_Matrice(list_t* List_points_Trie, int autonomie, int taille){
+    float** mat=create_Matrice(taille);
+    list_t* p1=List_points_Trie;
+    for (int i=0;i<taille-1; i++){
+        list_t* p2=p1->next;
+        for (int j=0;j<taille-i-1;j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
+            float a=distance(p1->element,p2->element);
+            if (a<autonomie){
+                mat[i][j]=a;}
+            else {mat[i][j]=0;}/* Vu comment on a traité nos données il est impossible d'avoir 2 points collés*/
+            p2=p2->next;
+        }
+        p1=p1->next;
+    }
+    return mat;
+}
 
 //fonctions d'actions sur les listes chainées
 

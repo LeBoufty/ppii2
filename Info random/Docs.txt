@@ -1,18 +1,18 @@
 Fonctions :
- -Selection_de_points(List_points :List, Départ : coord*, Arrive : coord*)->List_points_Trie :List, IDepart : Int, IArrivee : Int
+ -Selection_de_points(List_points :List, Départ : coord*, Arrive : coord*)->List_points_Trie : list_t*, IDepart : Int, IArrivee : Int, taille : Int
    La sélection de points prend en entrée la liste des stations et fait du preprocessing, en gros elle enlève tous les points qui sont trop loin de nos
    points.
    Donc, en entrée, on a la liste des stations, les coordonnées du départ et de l'arrivée. Et en sortie la liste (chaînée possiblement) des points
-   qui nous sont utiles. Et si possible (après réflexion, c'est nécessaire.) l'index du point de départ et d'arrivée.
+   qui nous sont utiles. Et l'index du point de départ, d'arrivée et la longueur de la liste.
 
       Info complémentaire : Il faudra peut-être avoir une fonction qui donne le nom d'une station en fonction de son indice dans liste de sortie.
 
- -Gen_Matrice(List_points_Trie : List, Autonomie : Int(ou float))->Matrice_Adj : float**
+ -Gen_Matrice(List_points_Trie : list_t*, Autonomie : Int, Taille : Int)->Matrice_Adj : float**
    Cette fonction génère la matrice d'adjacence à l'aide de la liste des points de la fonction Selection_de_points. Et elle fait en même temps la réduction
    des arcs inutiles grâce à l'autonomie.
-   Donc, en entrée, on a la liste de points et l'autonomie. Et en sortie donne la matrice d'adjacence.
+   Donc, en entrée, on a la liste de points, l'autonomie et la taille de liste(C'est pour éviter d'avoir à la recalculer). Et en sortie donne la matrice d'adjacence.
 
- -Plus_cours_chemin(Matrice_Adj : float**, IDepart : Int, IArrive : Int)-> Chemin: List
+ -Plus_courts_chemin(Matrice_Adj : float**, IDepart : Int, IArrive : Int)-> Chemin: List
    Grâce à la matrice d'adjacence (et 2-3 fonctions parallèles) calcul le plus court chemin entre le point de départ et le point d'arrivée.
    En entrée, il nous faut la matrice d'adjacence, l'indice du point de départ et l'indice du point d'arrivée (Il faudra faire une réu de chantier pour
    les indices dans la matrice, ça va être un beau bordels) et en sortie la liste des points de passage (en indice ou autre).

@@ -24,6 +24,8 @@ float** suppr_point(coord* depart, coord* arrivee, float** tableau);
 
 list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge);
 
+float** Gen_Matrice(list_t* List_points_Trie, int autonomie, int taille);
+
 list_t *list_create();
 
 void list_destroy(list_t *one_list);
