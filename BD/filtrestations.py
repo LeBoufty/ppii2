@@ -7,11 +7,6 @@ print('Parsing...')
 data = monstre(open(nomBD, 'r').read())[1:]
 print('Parsing fini.')
 
-# Rafraichissement de la BD
-sortie = open('BD/stations.csv', 'w')
-sortie.write('')
-sortie.close()
-
 def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool = True, doublons:bool = False, nomsortie:str = 'stations'):
     # Màj du nom de la sortie : ne pas oublier de lancer le programme depuis la racine du projet !!
     nomsortie = 'BD/'+nomsortie+'.csv'
