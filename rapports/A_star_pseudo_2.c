@@ -1,7 +1,7 @@
-file_prochain = [] // De la plus petite à plus grande distance
-chemin_depart = [id_depart] // Du départ à l'arrivée
+file_prochain = [] // De la plus petite a plus grande distance
+chemin_depart = [id_depart] // Du départ a l'arrivee
 vu = [id_depart] // Du plus petit au plus grand ID
-lambda = 2 // lambda permet de choisir le style de chemin préféré pour une recherche plus rapide
+lambda = 2 // lambda permet de choisir le style de chemin prefere pour une recherche plus rapide
 
 pour i, voisin de id_depart :
     distance_total_appro_i = distance(id_depart, i) + lambda*distance(i, id_arrive)
