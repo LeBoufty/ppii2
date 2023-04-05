@@ -96,7 +96,7 @@ float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la p
 
 float element_mat(float** mat,int x, int y) /*sert à renvoyer l'élément de la martice triangulaire situé à la ligne x et à la colonne y*/
 {
-    if(y>sizeof(mat[x]))
+    if(y>sizeof(mat[x])) /* décalage d'indice et x=y*/
     {
         return(mat[y][x]);
     }
@@ -177,17 +177,15 @@ list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marg
 }
 
 
-/*Gen_Matrice(List_points_Trie : list_t*, Autonomie : Int, Taille : Int)->Matrice_Adj : float** */
-float** Gen_Matrice(list_t* List_points_Trie, int autonomie, int taille){
+/*Gen_Matrice(List_points_Trie : list_t*, Taille : Int)->Matrice_Adj : float** */
+float** Gen_Matrice(list_t* List_points_Trie, int taille){
     float** mat=create_Matrice(taille);
     list_t* p1=List_points_Trie;
     for (int i=0;i<taille-1; i++){
         list_t* p2=p1->next;
         for (int j=0;j<taille-i-1;j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
             float a=distance(p1->element,p2->element);
-            if (a<autonomie){
-                mat[i][j]=a;}
-            else {mat[i][j]=0;}/* Vu comment on a traité nos données il est impossible d'avoir 2 points collés*/
+            mat[i][j]=a;
             p2=p2->next;
         }
         p1=p1->next;
