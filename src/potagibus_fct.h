@@ -1,6 +1,18 @@
 #ifndef __POTAGIBUS_H__
 #define __POTAGIBUS_H__
-#include<stdbool.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+struct Station {
+    char id[32];
+    float longitude;
+    float latitude;
+    int nbre_pdc;
+    struct Station* next;
+};
 
 struct _coord
 {
@@ -14,6 +26,8 @@ struct _list_t { coord* element;struct _list_t* next;};
 
 typedef struct _list_t list_t;
 
+struct Station* read_csv(const char* filename);
+
 float** create_Matrice(int n);
 
 float element_mat(float** mat,int x, int y);
@@ -24,7 +38,7 @@ float** suppr_point(coord* depart, coord* arrivee, float** tableau);
 
 list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge);
 
-float** Gen_Matrice(list_t* List_points_Trie, int autonomie, int taille);
+float** Gen_Matrice(list_t* List_points_Trie, int taille);
 
 list_t *list_create();
 

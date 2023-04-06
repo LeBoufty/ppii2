@@ -1,9 +1,6 @@
-#include"potagibus.h"
-#include<stdlib.h>
-#include<stdio.h>
-#include<stdbool.h>
-#include<math.h>
+#include "potagibus_fct.h"
 
+ 
 // float x,y,ax,ay,bx,by; //correspondra aux coordonnées en x et en y respectivement du points dont on veut savoir si on l'utilise, du point de départ et du point d'arrivée
 
 // float marge;
@@ -37,6 +34,47 @@
 //     }
 //     return(res);
 // }
+
+struct Station* read_csv(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        printf("Impossible d'ouvrir le fichier %s\n", filename);
+        return NULL;
+    }
+    char buffer[128];
+    struct Station* head = NULL;
+    struct Station* tail = NULL;
+    while (fgets(buffer, 128, file)) {
+        struct Station* station = malloc(sizeof(struct Station));
+        if (!station) {
+            printf("Erreur d'allocation mémoire\n");
+            return NULL;
+        }
+        char* id_str = strtok(buffer, ",");
+        char* lon_str = strtok(NULL, ",");
+        char* lat_str = strtok(NULL, ",");
+        char* nbre_str = strtok(NULL, ",");
+        if (!id_str || !lon_str || !lat_str || !nbre_str) {
+            printf("Format de fichier incorrect\n");
+            return NULL;
+        }
+        strncpy(station->id, id_str, 31);
+        station->id[31] = '\0';
+        station->longitude = atof(lon_str);
+        station->latitude = atof(lat_str);
+        station->nbre_pdc = atoi(nbre_str);
+        station->next = NULL;
+        if (!head) {
+            head = station;
+        } else {
+            tail->next = station;
+        }
+        tail = station;
+    }
+    fclose(file);
+    return head;
+}
+
 
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge)
 {
@@ -96,7 +134,7 @@ float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la p
 
 float element_mat(float** mat,int x, int y) /*sert à renvoyer l'élément de la martice triangulaire situé à la ligne x et à la colonne y*/
 {
-    if(y>sizeof(mat[x])) /* décalage d'indice et x=y*/
+    if(y>1.0*sizeof(mat[x])) /* décalage d'indice et x=y*/ 
     {
         return(mat[y][x]);
     }
@@ -116,9 +154,9 @@ float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
     return 6371*acosf(A);
 }
 
-
+/*
 float** suppr_point(coord* depart, coord* arrivee, float** tableau) /*utilise la matrice triangulaire pour éliminer les points inutiles grâce à la méthode des "ovales". Renvoi un tableau formé de tableaux avec un élément de la struct "coord" qui correspondront aux coordonnées x et y dans le tableau triangulaire des points utilisables.*/
-{
+/*{
     int marge=1;
     list_t* liste;
     liste=uppr_point_int(depart, arrivee, tableau, marge);
@@ -150,7 +188,7 @@ float** suppr_point(coord* depart, coord* arrivee, float** tableau) /*utilise la
 }
 
 list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge) /*fonction intermédiaire de suppr_point utilisé pour la récusricitvé*/
-{
+/*{
     list_t* liste=list_create();
     coord* coord_pt;
     int i,j;
@@ -175,7 +213,7 @@ list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marg
     }
     return(liste);
 }
-
+*/
 
 /*Gen_Matrice(List_points_Trie : list_t*, Taille : Int)->Matrice_Adj : float** */
 float** Gen_Matrice(list_t* List_points_Trie, int taille){
@@ -230,7 +268,7 @@ void list_append(list_t* one_list, float coord_x, float coord_y){
 }
 
 void element_print(coord* one_element){
-    printf("%s: %s",one_element->x,one_element->y);
+    printf("%f: %f",one_element->x,one_element->y);
 }
 
 void list_print(list_t* one_list){
