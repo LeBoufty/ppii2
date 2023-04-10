@@ -1,8 +1,8 @@
-#include"potagibus.h"
-#include<stdlib.h>
-#include<stdio.h>
-#include<stdbool.h>
-#include<math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+#include "potagibus_fct.h"
 
 int main()
 {
@@ -47,6 +47,22 @@ int main()
 
     
 
-
+    struct Station* head = read_csv("../BD/stations.csv");
+    if (!head) {
+        printf("Erreur lors de la lecture du fichier\n");
+        return -1;
+    }
+    int count = 0;
+    for (struct Station* station = head; station; station = station->next) {
+        printf("%s,%f,%f,%d\n", station->id, station->longitude, station->latitude, station->nbre_pdc);
+        count++;
+    }
+    printf("Nombre de stations : %d\n", count); 
+    // Libérer la mémoire allouée pour chaque station
+    for (struct Station* station = head; station; ) {
+        struct Station* next = station->next;
+        free(station);
+        station = next;
+    }
 
 }

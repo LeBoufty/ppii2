@@ -11,10 +11,10 @@ potagibus.exe: obj/potagibus_fct.o obj/potagibus_main.o
 #Fichiers objets
 
 
-obj/potagibus_fct.o: src/potagibus.h src/potagibus_fct.c
+obj/potagibus_fct.o: src/potagibus_fct.h src/potagibus_fct.c
 	$(comp) src/potagibus_fct.c -o obj/potagibus_fct.o
 	
-obj/potagibus_main.o: src/potagibus.h src/potagibus_main.c
+obj/potagibus_main.o: src/potagibus_fct.h src/potagibus_main.c
 	$(comp) src/potagibus_main.c -o obj/potagibus_main.o
 
 
