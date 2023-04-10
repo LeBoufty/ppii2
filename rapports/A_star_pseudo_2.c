@@ -10,11 +10,15 @@ pour i, voisin de id_depart :
 
 tant que file_prochain != [] ou point_plus_proche(file_prochain) == id_arrive :
     [meilleur_distance, id_meilleur_point, meilleur_chemin] = retire_plus_petit(file_prochain)
+    si vu[id_meilleur_point] == Vraie :
+        continue
     vu += [id_meilleur_point]
     meilleur_chemin += [id_meilleur_point]
 
     pour i, voisin de id_meilleur_point :
-        distance_total_appro_i = distance(id_meilleur_point, i) + lambda*distance(i, id_arrive)
+        si vu[i] == Vraie :
+            continue
+        distance_total_appro_i = meilleur_distance + distance(id_meilleur_point, i) + lambda*distance(i, id_arrive)
         insert_croissant(file_prochain, [distance_total_appro_i, i, meilleur_chemin])
 
 
