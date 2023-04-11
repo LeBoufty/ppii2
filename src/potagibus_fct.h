@@ -58,4 +58,6 @@ bool excl_carre(coord* point, coord* dep, coord* arr, int marge);
 
 bool excl_ovale(coord* point, coord* dep, coord* arr, int marge);
 
+int taille_matrice(float** mat_adj);
+
 #endif

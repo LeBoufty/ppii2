@@ -132,16 +132,26 @@ float** create_Matrice(int n) /* Créer une matrice triangulaire supérieur(la p
     return mat;
 }
 
-float element_mat(float** mat,int x, int y) /*sert à renvoyer l'élément de la martice triangulaire situé à la ligne x et à la colonne y*/
-{
-    if(y>1.0*sizeof(mat[x])) /* décalage d'indice et x=y*/ 
-    {
-        return(mat[y][x]);
+// Donne la distance entre deux stations en fonction de leur id (dans la matrice)
+float element_mat(float** mat, int i, int j){
+    if (i == j){
+        return 0;
     }
-    else
-    {
-        return(mat[x][y]);
+    if (i > j){
+        return mat[i][j];
     }
+    else{
+        return mat[j][i];
+    }
+}
+
+// Donne la taille de la matrice (nombre de stations)
+int taille_matrice(float** mat_adj){
+    int i = 0;
+    while (mat_adj[i] != NULL){
+        i++;
+    }
+    return i;
 }
 
 float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{

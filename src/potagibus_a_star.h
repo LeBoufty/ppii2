@@ -52,8 +52,4 @@ void destroy_file(file* f);
 
 int* a_star(float** mat_adj, int depart, int arrivee, float distance_max);
 
-int demande_distance_matrice(float** mat_adj, int i, int j);
-
-int taille_matrice(float** mat_adj);
-
 #endif

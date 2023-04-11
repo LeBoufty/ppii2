@@ -294,13 +294,13 @@ int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
 
         // On ajoute tous les points adjacents au point actuel dans la file
         for (int i = 0; i < taille; i++){
-            float longueur = demande_distance_matrice(mat_adj, id_tmp, i); // Distance entre le point actuel et le point i
+            float longueur = element_mat(mat_adj, id_tmp, i); // Distance entre le point actuel et le point i
 
             if (longueur <= distance_max && !visite[i]){ // Si le point n'est pas visité et qu'il est accessible
 
                 chemin* chemin_tmp2 = push_chemin(chemin_tmp, i, longueur); // On crée un nouveau chemin
                 push_garbage_chemin(garbage_collector, chemin_tmp2); // On ajoute le chemin à la liste de garbage
-                float distance_approche = distance_chemin_tmp + longueur + LAMBDA * demande_distance_matrice(mat_adj, i, arrivee); // Distance entre le point actuel et le point d'arrivée
+                float distance_approche = distance_chemin_tmp + longueur + LAMBDA * element_mat(mat_adj, i, arrivee); // Distance entre le point actuel et le point d'arrivée
 
                 enqueue_file(file_priorite, chemin_tmp2, i, distance_approche); // On ajoute le point à la file
             }
@@ -325,22 +325,4 @@ int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
     free(visite);
 
     return chemin_final;
-}
-
-int demande_distance_matrice(float** mat_adj, int i, int j){
-    if (i == j){
-        return 0;
-    }
-    if (i < j){
-        return mat_adj[i][j];
-    }
-    return mat_adj[j][i];
-}
-
-int taille_matrice(float** mat_adj){
-    int i = 0;
-    while (mat_adj[i] != NULL){
-        i++;
-    }
-    return i;
 }
