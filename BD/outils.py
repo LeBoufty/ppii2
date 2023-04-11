@@ -16,15 +16,61 @@ def distance(x1:float, y1:float, x2:float, y2:float) -> float:
     
     return 6371 * acos(A)
 
-def a_proximite(x:float, y:float, xy_trouves:list, distmin = 5) -> bool:
+class Station:
+    def __init__(self, x:float, y:float, id:str, val_id:list, acces:str, nbre_pdc:int):
+        self.x = x
+        self.y = y
+        self.id = id
+        self.val_id = val_id
+        self.val_num = [indice(i) for i in val_id]
+        self.values = []
+        self.stations = [id]
+        self.acces = acces == "Accès libre"
+        self.nb_pdc = nbre_pdc
+    
+    def distance(self, x:float, y:float):
+        return distance(x, y, self.x, self.y)
+    
+    def __str__(self):
+        return ','.join(self.values) + '\n'
+    
+    def xy(self):
+        return (self.x, self.y)
+    
+    def scan(self, ligne:list):
+        self.values = [ligne[i] for i in self.val_num]
+        return self
+    
+    def indice(self, propriete:str):
+        i = 0
+        while i < len(self.val_id) and self.val_id[i] != propriete: i += 1
+        if self.val_id[i] == propriete: return i
+        else: return None
+    
+    def add_station(self, id:str, nb_pdc:int):
+        try:
+            if 'nbre_pdc' in self.val_id:
+                self.nb_pdc += int(nb_pdc)
+                self.values[self.indice('nbre_pdc')] = str(self.nb_pdc)
+            self.stations.append(id)
+        except ValueError: # Réaction disproportionnée à une inversion de paramètres que j'ai faite comme un con,
+                           # Mais autant y garder là au cas où...
+            print("ERREUR : La station", id, "n'a pas été ajoutée à", self.id)
+    
+    def __sub__(self, other):
+        x, y = other.xy()
+        return self.distance(x, y)
+
+def a_proximite(stat:Station, stations_trouvees:list, distmin = 5) -> bool:
     """Donne si une station x,y est à moins de distmin d'une autre."""
     i = 0
-    if len(xy_trouves) == 0: return False
-    x2, y2 = xy_trouves[0]
-    while i < len(xy_trouves) and distance(x, y, x2, y2) > distmin:
-        x2, y2 = xy_trouves[i]
-        i += 1
-    return distance(x, y, x2, y2) <= distmin
+    if len(stations_trouvees) == 0: return False
+    while i < len(stations_trouvees) and stat - stations_trouvees[i] > distmin: i += 1
+    if i != len(stations_trouvees):
+        if stat - stations_trouvees[i] != 0:
+            stations_trouvees[i].add_station(stat.id, stat.nb_pdc)
+        return True
+    else: return False
 
 colonnes = [
     # La description des propriétés se trouve ici : https://schema.data.gouv.fr/etalab/schema-irve-statique/2.2.0/documentation.html

@@ -26,6 +26,7 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     i = 0
 
     # Liste des coordonnées trouvées
+    stations_trouvees = []
     xy_trouves = []
 
     for ligne in data:
@@ -37,14 +38,20 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
         x, y = float(ligne[indice('consolidated_longitude')]), float(ligne[indice('consolidated_latitude')])
         id = ligne[indice('id_station_itinerance')]
         acces = ligne[indice('condition_acces')]
+        nbre_pdc = int(ligne[indice('nbre_pdc')])
+        stat = Station(x, y, id, proprietes, acces, nbre_pdc)
         # On ne garde que les propriétés demandées
-        ligne = [ligne[i] for i in a_garder]
+        stat.scan(ligne)
         # On ne garde que les stations qui respectent les conditions données
-        if (acces == "Accès libre" and libre) and ((x,y) not in xy_trouves and not doublons) and ("Non" not in id and concerne) and not a_proximite(x,y,xy_trouves,distmin):
-            xy_trouves.append((x,y))
-            sortie.write(','.join(ligne) + '\n')
+        if (acces == "Accès libre" and libre) and ((x,y) not in xy_trouves and not doublons) and ("Non" not in id and concerne) and not a_proximite(stat,stations_trouvees,distmin):
+            stations_trouvees.append(stat)
+            xy_trouves.append(stat.xy()) # On garde xy_trouves pour éviter les doublons
     # Et si tout va bien ça n'a toujours pas planté.
+    print('Ecriture des données...')
+    # On écrit toutes les stations qu'on a trouvées
+    for s in stations_trouvees:
+        sortie.write(str(s))
     print('Fini !')
     sortie.close()
 
-filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc'])
+filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc'], nomsortie='stations_test')
