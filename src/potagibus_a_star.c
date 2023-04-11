@@ -25,11 +25,46 @@ chemin* push_chemin(chemin* c, int id, float distance){
     return new;
 }
 
-// Destruction d'un chemin et de tous ses éléments | Non utilisé, utilisé destroy_garbage_list
-chemin* destroy_chemin(chemin* c){ 
+// Taille d'un chemin
+int taille_chemin(chemin* c){ 
+    // Si le chemin n'existe pas, retourne 0
+    if (c == NULL){ 
+        return 0;
+    }
+
+    // Parcours du chemin pour compter le nombre d'éléments
+    int taille = 0;
+    while (c != NULL){
+        taille++;
+        c = c -> suivant;
+    }
+    return taille;
+}
+
+// Copie d'un chemin en un tableau d'entiers géré dynamiquement
+int* copy_chemin(chemin* c){ 
     // Si le chemin n'existe pas, on ne fait rien
     if (c == NULL){ 
         return NULL;
+    }
+
+    // Création d'un tableau dynamique
+    int taille = taille_chemin(c);
+    int* tab = malloc(sizeof(int) * taille);
+
+    // Copie du chemin dans le tableau
+    for (int i = 0; i < taille; i++){ 
+        tab[i] = c -> id;
+        c = c -> suivant;
+    }
+    return tab;
+}
+
+// Destruction d'un chemin et de tous ses éléments | Non utilisé, utilisé destroy_garbage_chemin
+void destroy_chemin(chemin* c){ 
+    // Si le chemin n'existe pas, on ne fait rien
+    if (c == NULL){ 
+        return;
     }
 
     // Destruction de tous les éléments du chemin
@@ -42,8 +77,8 @@ chemin* destroy_chemin(chemin* c){
 }
 
 // Création d'une liste de garbage vide
-garbage_list* create_garbage_list(){ 
-    garbage_list* g = malloc(sizeof(garbage_list));
+garbage_chemin* create_garbage_chemin(){ 
+    garbage_chemin* g = malloc(sizeof(garbage_chemin));
     g -> taille = 0;
     g -> taille_max = INITIAL_SIZE;
     g -> chemin = malloc(sizeof(chemin*) * g -> taille_max);
@@ -51,7 +86,7 @@ garbage_list* create_garbage_list(){
 }
 
 // Ajout d'un élément à la liste de garbage
-void push_garbage_list(garbage_list* g, chemin* c){ 
+void push_garbage_chemin(garbage_chemin* g, chemin* c){ 
     // Si la liste de garbage n'existe pas, on ne fait rien
     if (g == NULL){ 
         return;
@@ -70,7 +105,7 @@ void push_garbage_list(garbage_list* g, chemin* c){
 }
 
 // Destruction de la liste de garbage
-void destroy_garbage_list(garbage_list* g){ 
+void destroy_garbage_chemin(garbage_chemin* g){ 
     // Si la liste de garbage n'existe pas, on ne fait rien
     if (g == NULL){ 
         return;
@@ -98,7 +133,7 @@ file* create_file(){
 }
 
 // Ajout d'un élément dans la file de priorité triée par distance
-void enqueue_file(file* f, chemin* c, garbage_list* g, int id, float distance_approche){ 
+void enqueue_file(file* f, chemin* c, int id, float distance_approche){ 
     // Si la file n'existe pas, on ne fait rien
     if (f == NULL){ 
         return;
@@ -124,9 +159,6 @@ void enqueue_file(file* f, chemin* c, garbage_list* g, int id, float distance_ap
         tmp_suivant -> precedent = new;
     }
     tmp -> suivant = new;
-
-    // Ajout de l'élément à la liste de garbage
-    push_garbage_list(g, c);
 
     return;
 }
@@ -160,6 +192,37 @@ void dequeue(file* f, chemin** c, int* id, float* distance_approche){
     return;
 }
 
+// Retourne true si la file est vide, false sinon
+bool is_empty_file(file* f){
+    // Si la file n'existe pas ou est vide, on retourne true
+    if (f == NULL){
+        return true;
+    }
+    if (f -> suivant == NULL){
+        return true;
+    }
+
+    return false;
+}
+
+// Retourne true si le premier élément de la file a l'id recherché, false sinon
+bool is_next_file(file* f, int id){
+    // Si la file n'existe pas ou est vide, on retourne false
+    if (f == NULL){
+        return false;
+    }
+    if (f -> suivant == NULL){
+        return false;
+    }
+
+ 
+    if (f -> suivant -> id == id){
+        return true;
+    }
+
+    return false;
+}
+
 // Destruction de la file
 void destroy_file(file* f){
     // Si la file n'existe pas, on ne fait rien
@@ -172,7 +235,42 @@ void destroy_file(file* f){
     while (f != NULL){
         tmp = f;
         f = f -> suivant;
-        destroy_chemin(tmp -> chemin); // BUG c'est sûr ! 
         free(tmp);
+    }
+}
+
+
+// Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets
+int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
+    // Création du chemin de départ
+    chemin* chemin_base = create_chemin(depart);
+    chemin* chemin_initial = push_chemin(chemin_base, depart, 0);
+
+    // Création de la liste de garbage
+    garbage_chemin* garbage_collector = create_garbage_chemin();
+    push_garbage_chemin(garbage_collector, chemin_base);
+    push_garbage_chemin(garbage_collector, chemin_initial);
+
+    // Création de la file de priorité triée par distance
+    file* file_priorite = create_file();
+    enqueue_file(file_priorite, chemin_initial, depart, 0);
+
+    // Création et initialisation du tableau des points visités
+    int taille = taille_matrice(mat_adj);
+    bool* visite = malloc(sizeof(bool) * taille);
+    for (int i = 0; i < taille; i++){
+        visite[i] = false;
+    }
+
+    // Initialisation des variables temporaires
+    chemin* chemin_tmp = NULL;
+    int id_tmp = -1;
+    float distance_approche_tmp = -1; // Variable inutile ici, mais nécessaire pour la file de priorité
+
+    // Début de l'algorithme A*
+    while (!is_empty_file(file_priorite) && !is_next_file(file_priorite, arrivee)){
+        // Récupération du premier élément de la file
+        dequeue(file_priorite, &chemin_tmp, &id_tmp, &distance_approche_tmp);
+
     }
 }
