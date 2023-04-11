@@ -145,13 +145,36 @@ float element_mat(float** mat, int i, int j){
     }
 }
 
-// Donne la taille de la matrice (nombre de stations)
-int taille_matrice(float** mat_adj){
-    int i = 0;
-    while (mat_adj[i] != NULL){
-        i++;
+// Détruit la matrice
+void destroy_Matrice(float** mat, int n){
+    for (int i=0; i<n-1; i++) {
+        free(mat[i]);
     }
-    return i;
+    free(mat);
+}
+
+// Génération d'une matrice triangulaire supérieur avec sa taille incluse
+matrice_sup* create_Matrice_struc(int n){
+    matrice_sup* mat_st = (matrice_sup*) malloc(sizeof(matrice_sup));
+    mat_st -> taille = n;
+    mat_st -> mat = create_Matrice(n);
+    return mat_st;
+}
+
+// Donne la distance entre deux stations en fonction de leur id (dans la matrice)
+float element_mat_struc(matrice_sup* mat_st, int i, int j){
+    return element_mat(mat_st->mat, i, j);
+}
+
+// Donne la taille de la matrice
+int taille_mat_struc(matrice_sup* mat_st){
+    return mat_st->taille;
+}
+
+// Détruit la matrice
+void destroy_Matrice_struc(matrice_sup* mat_st){
+    destroy_Matrice(mat_st->mat, mat_st->taille);
+    free(mat_st);
 }
 
 float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
@@ -241,6 +264,24 @@ float** Gen_Matrice(list_t* List_points_Trie, int taille){
     return mat;
 }
 
+// Génère la matrice de distance entre les stations à partir d'une liste de coordonnées
+matrice_sup* Gen_Matrice_struc(list_t* List_points_Trie){
+    int taille = list_size(List_points_Trie);
+    matrice_sup* mat_st = create_Matrice_struc(taille);
+    list_t* p1 = List_points_Trie;
+
+    for (int i = 0; i < taille - 1; i++){
+        list_t* p2 = p1 -> next;
+        for (int j = 0; j < taille - i - 1; j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
+            float a = distance(p1 -> element, p2 -> element);
+            mat_st -> mat[i][j] = a;
+            p2 = p2 -> next;
+        }
+        p1 = p1 -> next;
+    }
+    return mat_st;
+}
+
 //fonctions d'actions sur les listes chainées
 
 
@@ -254,12 +295,16 @@ list_t* list_create(){
 }
 
 
-void list_destroy(list_t *one_list){
-    list_t* point=one_list;list_t* point2=one_list;
-    while (point2!=NULL){
-        point2=point2->next;
-        free(point);
-        point=point2;
+void list_destroy(list_t* one_list){
+    list_t* list;
+    printf("free element");
+    while (one_list != NULL){
+        list = one_list;
+        one_list = one_list -> next;
+        
+        free(list -> element);
+        
+        free(list);
     }
 }
 
@@ -268,13 +313,23 @@ bool list_is_empty(list_t* one_list){
     return false;
 }
 
-void list_append(list_t* one_list, float coord_x, float coord_y){
+void list_append_mauvais(list_t* one_list, float coord_x, float coord_y){
     list_t* list=list_create();
     list->element=one_list->element;
     list->next=one_list->next;
     one_list->element->x=coord_x;
     one_list->element->y=coord_y;
     one_list->next=list;
+}
+
+void list_append(list_t* one_list, float coord_x, float coord_y){
+    list_t* list_suiv = list_create();
+    list_suiv -> element -> x = one_list -> element -> x;
+    list_suiv -> element -> y = one_list -> element -> y;
+    list_suiv -> next = one_list -> next;
+    one_list -> element -> x = coord_x;
+    one_list -> element -> y = coord_y;
+    one_list -> next = list_suiv;
 }
 
 void element_print(coord* one_element){

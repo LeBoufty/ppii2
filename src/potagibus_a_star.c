@@ -251,7 +251,7 @@ void destroy_file(file* f){
 
 
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets
-int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
+int* a_star(matrice_sup* mat_st, int depart, int arrivee, float distance_max){
     // Création du chemin de départ
     chemin* chemin_base = create_chemin();
     chemin* chemin_initial = push_chemin(chemin_base, depart, 0);
@@ -266,7 +266,7 @@ int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
     enqueue_file(file_priorite, chemin_initial, depart, 0);
 
     // Création et initialisation du tableau des points visités
-    int taille = taille_matrice(mat_adj);
+    int taille = taille_mat_struc(mat_st);
     bool* visite = malloc(sizeof(bool) * taille);
     for (int i = 0; i < taille; i++){
         visite[i] = false;
@@ -294,13 +294,13 @@ int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
 
         // On ajoute tous les points adjacents au point actuel dans la file
         for (int i = 0; i < taille; i++){
-            float longueur = element_mat(mat_adj, id_tmp, i); // Distance entre le point actuel et le point i
+            float longueur = element_mat_struc(mat_st, id_tmp, i); // Distance entre le point actuel et le point i
 
             if (longueur <= distance_max && !visite[i]){ // Si le point n'est pas visité et qu'il est accessible
 
                 chemin* chemin_tmp2 = push_chemin(chemin_tmp, i, longueur); // On crée un nouveau chemin
                 push_garbage_chemin(garbage_collector, chemin_tmp2); // On ajoute le chemin à la liste de garbage
-                float distance_approche = distance_chemin_tmp + longueur + LAMBDA * element_mat(mat_adj, i, arrivee); // Distance entre le point actuel et le point d'arrivée
+                float distance_approche = distance_chemin_tmp + longueur + LAMBDA * element_mat_struc(mat_st, i, arrivee); // Distance entre le point actuel et le point d'arrivée
 
                 enqueue_file(file_priorite, chemin_tmp2, i, distance_approche); // On ajoute le point à la file
             }

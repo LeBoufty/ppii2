@@ -50,6 +50,6 @@ bool is_empty_file(file* f);
 bool is_next_file(file* f, int id);
 void destroy_file(file* f);
 
-int* a_star(float** mat_adj, int depart, int arrivee, float distance_max);
+int* a_star(matrice_sup* mat_st, int depart, int arrivee, float distance_max);
 
 #endif

@@ -37,8 +37,25 @@ int main(int argc, char** argv){
     destroy_file(f);
     printf("\n");
 
-
+    list_t* l = list_create();
+    list_append(l, 1, 1);
+    // printf("%p\n",(void*) l);
+    // printf("%p\n",(void*) l->next);
+    // printf("%p\n",(void*) l->element);
+    // printf("%p\n",(void*) l->next->element);
     
+    list_append(l, 2, 2);
+    list_append(l, 3, 3);
+    list_append(l, 4, 4);
+    list_append(l, 1, 2);
+    list_append(l, 2, 3);
+    list_append(l, 3, 4);
+    float** M = Gen_Matrice(l, 7);
+    //int* tab = a_star(M, 0, 3, 1);
+    printf("lol\n");
+    list_destroy(l);
+    destroy_Matrice(M, 7);
+    //free(tab);
 
     return 0;
 }
