@@ -41,6 +41,16 @@ int taille_chemin(chemin* c){
     return taille;
 }
 
+// Distance d'un chemin
+float distance_chemin(chemin* c){ 
+    // Si le chemin n'existe pas, retourne 0
+    if (c == NULL){ 
+        return 0;
+    }
+
+    return c -> distance;
+}
+
 // Copie d'un chemin en un tableau d'entiers géré dynamiquement
 int* copy_chemin(chemin* c){ 
     // Si le chemin n'existe pas, on ne fait rien
@@ -243,7 +253,7 @@ void destroy_file(file* f){
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets
 int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
     // Création du chemin de départ
-    chemin* chemin_base = create_chemin(depart);
+    chemin* chemin_base = create_chemin();
     chemin* chemin_initial = push_chemin(chemin_base, depart, 0);
 
     // Création de la liste de garbage
@@ -266,11 +276,71 @@ int* a_star(float** mat_adj, int depart, int arrivee, float distance_max){
     chemin* chemin_tmp = NULL;
     int id_tmp = -1;
     float distance_approche_tmp = -1; // Variable inutile ici, mais nécessaire pour la file de priorité
+    float distance_chemin_tmp = -1;
 
     // Début de l'algorithme A*
     while (!is_empty_file(file_priorite) && !is_next_file(file_priorite, arrivee)){
         // Récupération du premier élément de la file
         dequeue(file_priorite, &chemin_tmp, &id_tmp, &distance_approche_tmp);
+        distance_chemin_tmp = distance_chemin(chemin_tmp);
+        
+        // Si le point est déjà visité, on ne le traite pas
+        if (visite[id_tmp]){
+            continue;
+        }
 
+        // On marque le point comme visité
+        visite[id_tmp] = true;
+
+        // On ajoute tous les points adjacents au point actuel dans la file
+        for (int i = 0; i < taille; i++){
+            float longueur = demande_distance_matrice(mat_adj, id_tmp, i); // Distance entre le point actuel et le point i
+
+            if (longueur <= distance_max && !visite[i]){ // Si le point n'est pas visité et qu'il est accessible
+
+                chemin* chemin_tmp2 = push_chemin(chemin_tmp, i, longueur); // On crée un nouveau chemin
+                push_garbage_chemin(garbage_collector, chemin_tmp2); // On ajoute le chemin à la liste de garbage
+                float distance_approche = distance_chemin_tmp + longueur + LAMBDA * demande_distance_matrice(mat_adj, i, arrivee); // Distance entre le point actuel et le point d'arrivée
+
+                enqueue_file(file_priorite, chemin_tmp2, i, distance_approche); // On ajoute le point à la file
+            }
+        }
     }
+
+    // Si la file est vide, on retourne NULL
+    if (is_empty_file(file_priorite)){
+        destroy_garbage_chemin(garbage_collector);
+        destroy_file(file_priorite);
+        free(visite);
+        return NULL;
+    }
+
+    // Récupération du chemin le plus court
+    dequeue(file_priorite, &chemin_tmp, &id_tmp, &distance_approche_tmp);
+    int* chemin_final = copy_chemin(chemin_tmp);
+
+    // Destruction des structures de données
+    destroy_garbage_chemin(garbage_collector);
+    destroy_file(file_priorite);
+    free(visite);
+
+    return chemin_final;
+}
+
+int demande_distance_matrice(float** mat_adj, int i, int j){
+    if (i == j){
+        return 0;
+    }
+    if (i < j){
+        return mat_adj[i][j];
+    }
+    return mat_adj[j][i];
+}
+
+int taille_matrice(float** mat_adj){
+    int i = 0;
+    while (mat_adj[i] != NULL){
+        i++;
+    }
+    return i;
 }

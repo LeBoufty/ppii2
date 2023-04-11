@@ -35,6 +35,7 @@ struct garbage_chemin
 
 chemin* create_chemin();
 chemin* push_chemin(chemin* c, int id, float distance);
+float distance_chemin(chemin* c);
 int* copy_chemin(chemin* c);
 void destroy_chemin(chemin* c);
 
@@ -51,5 +52,8 @@ void destroy_file(file* f);
 
 int* a_star(float** mat_adj, int depart, int arrivee, float distance_max);
 
+int demande_distance_matrice(float** mat_adj, int i, int j);
+
+int taille_matrice(float** mat_adj);
 
 #endif
