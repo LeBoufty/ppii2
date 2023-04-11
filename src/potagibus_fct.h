@@ -34,9 +34,9 @@ float element_mat(float** mat,int x, int y);
 
 float distance(coord* p1, coord* p2);
 
-float** suppr_point(coord* depart, coord* arrivee, float** tableau);
+list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point);
 
-list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge);
+list_t* Selection_de_points_int(coord* depart, coord* arrivee, list_t* liste_point, int marge);
 
 float** Gen_Matrice(list_t* List_points_Trie, int taille);
 

@@ -154,16 +154,17 @@ float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
     return 6371*acosf(A);
 }
 
-/*
-float** suppr_point(coord* depart, coord* arrivee, float** tableau) /*utilise la matrice triangulaire pour éliminer les points inutiles grâce à la méthode des "ovales". Renvoi un tableau formé de tableaux avec un élément de la struct "coord" qui correspondront aux coordonnées x et y dans le tableau triangulaire des points utilisables.*/
-/*{
+
+
+list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point)
+{
     int marge=1;
     list_t* liste;
-    liste=uppr_point_int(depart, arrivee, tableau, marge);
-    while((list_is_empty(liste))||marge>10)
+    liste=Selection_de_points_int(depart, arrivee, liste_point, marge);
+    while((list_is_empty(liste))||marge<10)
     {
         marge+=1;
-        liste=uppr_point_int(depart, arrivee, tableau, marge);        
+        liste=Selection_de_points_int(depart, arrivee, liste_point, marge);        
     }
     if(list_is_empty(liste))
     {
@@ -171,49 +172,48 @@ float** suppr_point(coord* depart, coord* arrivee, float** tableau) /*utilise la
     }
     else
     {
-        int size=list_size(liste);
-        int k;
-        float** res=(float**) malloc(size*(sizeof(coord*)));
-        list_t* liste_int=liste;
-        int size=0;
-        for(k=0;k<size;k++)
-        {
-            res[k]=liste_int->element;
-            liste_int=liste_int->next;
-        }
-        list_destroy(liste);
-        return(res);
+        return(liste);
     }
     
 }
 
-list_t* suppr_point_int(coord* depart, coord* arrivee, float** tableau, int marge) /*fonction intermédiaire de suppr_point utilisé pour la récusricitvé*/
-/*{
+list_t* Selection_de_points_int(coord* depart, coord* arrivee, list_t* liste_point, int marge)
+{
     list_t* liste=list_create();
+    list_t* liste_temp=liste_point;
+
     coord* coord_pt;
-    int i,j;
-    for(i=0;i<sizeof(tableau);i++)
+    while(liste_temp->next!=NULL)
     {
-        for(j=0;j<sizeof(tableau[j]);j++)
+        coord_pt=liste_temp->element;
+        if(excl_ovale(coord_pt,depart,arrivee,marge))
         {
-            coord_pt->x=i;
-            coord_pt->y=j;
-            if(excl_ovale(coord_pt,depart,arrivee,marge))
+            if(liste->next==NULL)
             {
-                if(liste->next==NULL)
-                {
-                    liste->element=coord_pt;
-                }
-                else
-                {
-                    list_append(liste,i,j);
-                }
+                liste->element=coord_pt;
+            }
+            else
+            {
+                list_append(liste,coord_pt->x,coord_pt->y);
             }
         }
+        liste_temp=liste_temp->next;
     }
-    return(liste);
+    coord_pt=liste_temp->element;
+    if(excl_ovale(coord_pt,depart,arrivee,marge))
+        {
+            if(liste->next==NULL)
+            {
+                liste->element=coord_pt;
+            }
+            else
+            {
+                list_append(liste,coord_pt->x,coord_pt->y);
+            }
+        }
+            return(liste);
 }
-*/
+
 
 /*Gen_Matrice(List_points_Trie : list_t*, Taille : Int)->Matrice_Adj : float** */
 float** Gen_Matrice(list_t* List_points_Trie, int taille){
