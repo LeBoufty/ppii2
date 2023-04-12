@@ -2,6 +2,7 @@
     "files.associations": {
         "stdlib.h": "c",
         "potagibus.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "potagibus_a_star.h": "c"
     }
 }

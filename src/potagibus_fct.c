@@ -138,10 +138,23 @@ float element_mat(float** mat, int i, int j){
         return 0;
     }
     if (i > j){
-        return mat[i][j];
+        return mat[i-1][j];
     }
     else{
-        return mat[j][i];
+        return mat[j-1][i];
+    }
+}
+
+// Enregistre la distance entre deux stations dans la matrice
+void set_element_mat(float** mat, int i, int j, float val){
+    if (i == j){
+        return;
+    }
+    if (i > j){
+        mat[i-1][j] = val;
+    }
+    else{
+        mat[j-1][i] = val;
     }
 }
 
@@ -154,25 +167,30 @@ void destroy_Matrice(float** mat, int n){
 }
 
 // Génération d'une matrice triangulaire supérieur avec sa taille incluse
-matrice_sup* create_Matrice_struc(int n){
-    matrice_sup* mat_st = (matrice_sup*) malloc(sizeof(matrice_sup));
+matrice_inf* create_Matrice_struc(int n){
+    matrice_inf* mat_st = (matrice_inf*) malloc(sizeof(matrice_inf));
     mat_st -> taille = n;
     mat_st -> mat = create_Matrice(n);
     return mat_st;
 }
 
 // Donne la distance entre deux stations en fonction de leur id (dans la matrice)
-float element_mat_struc(matrice_sup* mat_st, int i, int j){
+float element_mat_struc(matrice_inf* mat_st, int i, int j){
     return element_mat(mat_st->mat, i, j);
 }
 
+// Enregistre la distance entre deux stations dans la matrice
+void set_element_mat_struc(matrice_inf* mat_st, int i, int j, float val){
+    set_element_mat(mat_st->mat, i, j, val);
+}
+
 // Donne la taille de la matrice
-int taille_mat_struc(matrice_sup* mat_st){
+int taille_mat_struc(matrice_inf* mat_st){
     return mat_st->taille;
 }
 
 // Détruit la matrice
-void destroy_Matrice_struc(matrice_sup* mat_st){
+void destroy_Matrice_struc(matrice_inf* mat_st){
     destroy_Matrice(mat_st->mat, mat_st->taille);
     free(mat_st);
 }
@@ -187,6 +205,10 @@ float distance(coord* p1, coord* p2)/* Calcul de distance cf outils.py */{
     return 6371*acosf(A);
 }
 
+// Donne une distance euclidienne entre deux points
+float distance_euclid(coord* p1, coord* p2){
+    return sqrt(pow(p1->x - p2->x, 2) + pow(p1->y - p2->y, 2));
+}
 
 
 list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point)
@@ -256,25 +278,27 @@ float** Gen_Matrice(list_t* List_points_Trie, int taille){
         list_t* p2=p1->next;
         for (int j=0;j<taille-i-1;j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
             float a=distance(p1->element,p2->element);
-            mat[i][j]=a;
+            set_element_mat(mat,i,j,a);
             p2=p2->next;
         }
         p1=p1->next;
+        
     }
     return mat;
 }
 
 // Génère la matrice de distance entre les stations à partir d'une liste de coordonnées
-matrice_sup* Gen_Matrice_struc(list_t* List_points_Trie){
+matrice_inf* Gen_Matrice_struc(list_t* List_points_Trie){
     int taille = list_size(List_points_Trie);
-    matrice_sup* mat_st = create_Matrice_struc(taille);
+    matrice_inf* mat_st = create_Matrice_struc(taille);
     list_t* p1 = List_points_Trie;
 
     for (int i = 0; i < taille - 1; i++){
         list_t* p2 = p1 -> next;
         for (int j = 0; j < taille - i - 1; j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
-            float a = distance(p1 -> element, p2 -> element);
-            mat_st -> mat[i][j] = a;
+            float a = distance_euclid(p1 -> element, p2 -> element);
+            printf("", );
+            set_element_mat_struc(mat_st, i, j, a);
             p2 = p2 -> next;
         }
         p1 = p1 -> next;
@@ -297,7 +321,6 @@ list_t* list_create(){
 
 void list_destroy(list_t* one_list){
     list_t* list;
-    printf("free element");
     while (one_list != NULL){
         list = one_list;
         one_list = one_list -> next;
@@ -333,7 +356,7 @@ void list_append(list_t* one_list, float coord_x, float coord_y){
 }
 
 void element_print(coord* one_element){
-    printf("%f: %f",one_element->x,one_element->y);
+    printf("x:%f y:%f\n",one_element->x,one_element->y);
 }
 
 void list_print(list_t* one_list){
@@ -351,5 +374,5 @@ int list_size(list_t* one_list){
         size+=1;
         list=list->next;
     }
-    return(size);
+    return(size-1);
 }

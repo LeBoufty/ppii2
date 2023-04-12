@@ -20,11 +20,11 @@ struct _coord
     float y;
 };
 
-struct matrice_sup
+struct matrice_inf
 {
     int taille;
     float** mat;
-} typedef matrice_sup;
+} typedef matrice_inf;
 
 typedef struct _coord coord;
 
@@ -38,15 +38,19 @@ float** create_Matrice(int n);
 
 float element_mat(float** mat,int x, int y);
 
+void set_element_mat(float** mat, int x, int y, float val);
+
 void destroy_Matrice(float** mat, int n);
 
-matrice_sup* create_Matrice_struc(int n);
+matrice_inf* create_Matrice_struc(int n);
 
-float element_mat_struc(matrice_sup* mat_st, int i, int j);
+float element_mat_struc(matrice_inf* mat_st, int i, int j);
 
-int taille_mat_struc(matrice_sup* mat_st);
+int taille_mat_struc(matrice_inf* mat_st);
 
-void destroy_Matrice_struc(matrice_sup* mat_st);
+void set_element_mat_struc(matrice_inf* mat_st, int i, int j, float val);
+
+void destroy_Matrice_struc(matrice_inf* mat_st);
 
 float distance(coord* p1, coord* p2);
 
@@ -56,7 +60,7 @@ list_t* Selection_de_points_int(coord* depart, coord* arrivee, list_t* liste_poi
 
 float** Gen_Matrice(list_t* List_points_Trie, int taille);
 
-matrice_sup* Gen_Matrice_struc(list_t* List_points_Trie);
+matrice_inf* Gen_Matrice_struc(list_t* List_points_Trie);
 
 list_t *list_create();
 

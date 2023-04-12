@@ -41,7 +41,7 @@ int taille_chemin(chemin* c){
     return taille;
 }
 
-// Distance d'un chemin
+// Distance d'un chemin depuis le début
 float distance_chemin(chemin* c){ 
     // Si le chemin n'existe pas, retourne 0
     if (c == NULL){ 
@@ -251,7 +251,7 @@ void destroy_file(file* f){
 
 
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets
-int* a_star(matrice_sup* mat_st, int depart, int arrivee, float distance_max){
+int* a_star(matrice_inf* mat_st, int depart, int arrivee, float distance_max){
     // Création du chemin de départ
     chemin* chemin_base = create_chemin();
     chemin* chemin_initial = push_chemin(chemin_base, depart, 0);
@@ -264,7 +264,7 @@ int* a_star(matrice_sup* mat_st, int depart, int arrivee, float distance_max){
     // Création de la file de priorité triée par distance
     file* file_priorite = create_file();
     enqueue_file(file_priorite, chemin_initial, depart, 0);
-
+    
     // Création et initialisation du tableau des points visités
     int taille = taille_mat_struc(mat_st);
     bool* visite = malloc(sizeof(bool) * taille);
