@@ -64,7 +64,7 @@ int main(int argc, char** argv){
         }
         printf("\n");
     }
-    int* tab = a_star(M, 0, 3, 0);
+    int* tab = a_star(M, 0, 3, 5);
     printf("%p\n", (void*) tab);
     printf("lol\n");
     for (int i = 0; i < 2; i++){

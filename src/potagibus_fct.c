@@ -293,11 +293,10 @@ matrice_inf* Gen_Matrice_struc(list_t* List_points_Trie){
     matrice_inf* mat_st = create_Matrice_struc(taille);
     list_t* p1 = List_points_Trie;
 
-    for (int i = 0; i < taille - 1; i++){
+    for (int j = 0; j < taille -1 ; j++){
         list_t* p2 = p1 -> next;
-        for (int j = 0; j < taille - i - 1; j++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
+        for (int i = j + 1; i < taille; i++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
             float a = distance_euclid(p1 -> element, p2 -> element);
-            printf("", );
             set_element_mat_struc(mat_st, i, j, a);
             p2 = p2 -> next;
         }
