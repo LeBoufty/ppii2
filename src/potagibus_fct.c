@@ -216,12 +216,12 @@ list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point)
     int marge=1;
     list_t* liste;
     liste=Selection_de_points_int(depart, arrivee, liste_point, marge);
-    while((list_is_empty(liste))||marge<10)
+    while((liste->element==NULL) && marge<10)
     {
         marge+=1;
-        liste=Selection_de_points_int(depart, arrivee, liste_point, marge);        
+        liste=Selection_de_points_int(depart, arrivee, liste_point, marge);
     }
-    if(list_is_empty(liste))
+    if(liste==NULL)
     {
         return(NULL);
     }
@@ -241,32 +241,26 @@ list_t* Selection_de_points_int(coord* depart, coord* arrivee, list_t* liste_poi
     while(liste_temp->next!=NULL)
     {
         coord_pt=liste_temp->element;
-        if(excl_ovale(coord_pt,depart,arrivee,marge))
+        if(excl_ovale(coord_pt,depart,arrivee,marge)==1)
         {
-            if(liste->next==NULL)
-            {
-                liste->element=coord_pt;
-            }
-            else
-            {
-                list_append(liste,coord_pt->x,coord_pt->y);
-            }
+            list_append(liste,coord_pt->x,coord_pt->y);
         }
         liste_temp=liste_temp->next;
     }
     coord_pt=liste_temp->element;
     if(excl_ovale(coord_pt,depart,arrivee,marge))
         {
-            if(liste->next==NULL)
-            {
-                liste->element=coord_pt;
-            }
-            else
-            {
-                list_append(liste,coord_pt->x,coord_pt->y);
-            }
+            list_append(liste,coord_pt->x,coord_pt->y);
         }
-            return(liste);
+    if(liste->element==NULL)
+    {
+        list_destroy(liste);
+        return(NULL);
+    }
+    else
+    {
+        return(liste);
+    }
 }
 
 
@@ -311,22 +305,19 @@ matrice_inf* Gen_Matrice_struc(list_t* List_points_Trie){
 
 list_t* list_create(){
     list_t* list=malloc(sizeof(list_t));
-    coord* e1=calloc(1,sizeof(coord));
-    list->element=e1;
+    list->element=calloc(1,sizeof(coord));
     list->next=NULL;
     return list;
 }
 
 
 void list_destroy(list_t* one_list){
-    list_t* list;
-    while (one_list != NULL){
-        list = one_list;
-        one_list = one_list -> next;
-        
-        free(list -> element);
-        
-        free(list);
+    list_t* current=one_list;
+    while (current != NULL){
+        list_t* next= current->next;
+        free(current->element);
+        free(current);
+        current=next;
     }
 }
 
