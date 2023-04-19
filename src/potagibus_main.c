@@ -62,7 +62,7 @@ int main()
     list_destroy(listetriee);
     
 
-    struct Station* head = read_csv("../BD/stations.csv");
+    struct Station* head = read_csv("BD/stations.csv");
     if (!head) {
         printf("Erreur lors de la lecture du fichier\n");
         return -1;
