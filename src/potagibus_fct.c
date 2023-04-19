@@ -290,7 +290,7 @@ matrice_inf* Gen_Matrice_struc(list_t* List_points_Trie){
     for (int j = 0; j < taille -1 ; j++){
         list_t* p2 = p1 -> next;
         for (int i = j + 1; i < taille; i++){ /* Parcous en largeur du tableau sachant qu'on prend pas en compte la distance entre un point et lui même*/
-            float a = distance_euclid(p1 -> element, p2 -> element);
+            float a = distance(p1 -> element, p2 -> element);
             set_element_mat_struc(mat_st, i, j, a);
             p2 = p2 -> next;
         }
