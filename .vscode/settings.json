@@ -4,5 +4,6 @@
         "potagibus.h": "c",
         "stdio.h": "c",
         "potagibus_a_star.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

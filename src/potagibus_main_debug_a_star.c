@@ -41,7 +41,7 @@ int main(int argc, char** argv){
     list_append(l, 0, 1);    
     list_append(l, 0, 2);
     list_append(l, 0, 3);
-    list_append(l, 0, 5);
+    list_append(l, 0, 4);
     // list_append(l, 1, 2);
     // list_append(l, 2, 3);
     // list_append(l, 3, 4);
@@ -64,7 +64,7 @@ int main(int argc, char** argv){
         }
         printf("\n");
     }
-    int* tab = a_star(M, 0, 3, 5);
+    int* tab = a_star(M, 0, 3, 1.1);
     printf("%p\n", (void*) tab);
     printf("lol\n");
     for (int i = 0; i < 2; i++){
@@ -73,6 +73,7 @@ int main(int argc, char** argv){
     list_destroy(l);
     destroy_Matrice_struc(M);
     free(tab);
+    
 
     return 0;
 }

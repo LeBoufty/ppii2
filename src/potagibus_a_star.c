@@ -264,7 +264,7 @@ int* a_star(matrice_inf* mat_st, int depart, int arrivee, float distance_max){
     // Création de la file de priorité triée par distance
     file* file_priorite = create_file();
     enqueue_file(file_priorite, chemin_initial, depart, 0);
-    
+
     // Création et initialisation du tableau des points visités
     int taille = taille_mat_struc(mat_st);
     bool* visite = malloc(sizeof(bool) * taille);
