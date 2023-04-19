@@ -14,6 +14,7 @@ int main()
     coord* c=(coord*)malloc(sizeof(coord));
     coord* d=(coord*)malloc(sizeof(coord));
     coord* e=(coord*)malloc(sizeof(coord));
+    coord* z=(coord*)malloc(sizeof(coord));
 
     a->x=1;
     a->y=1;
@@ -30,6 +31,9 @@ int main()
     e->x=3;
     e->y=4;
 
+    z->x=100000;
+    z->y=100000;
+
     printf("test pour carré, avec c: %d\n", excl_carre(c, a, b, marge));
     printf("test pour ovale, avec c: %d\n", excl_ovale(c, a, b, marge));
     printf("test pour carré, avec d: %d\n", excl_carre(d, a, b, marge));
@@ -37,14 +41,25 @@ int main()
     printf("test pour carré, avec e: %d\n", excl_carre(e, a, b, marge));
     printf("test pour ovale, avec e: %d\n", excl_ovale(e, a, b, marge));
 
-    
+    list_t* listetest=list_create();
+    list_append(listetest,c->x,c->y);
+    list_append(listetest,c->x,c->y);
+    list_append(listetest,z->x,z->y);
+    list_append(listetest,e->x,e->y);
+    printf("listetext:\n");
+    list_print(listetest);
+
+    list_t* listetriee=Selection_de_points(a,b,listetest);
+    printf("listetriee:\n");
+    list_print(listetriee);
 
     free(a);
     free(b);
     free(c);
     free(d);
     free(e);
-
+    free(z);
+    list_destroy(listetriee);
     
 
     struct Station* head = read_csv("../BD/stations.csv");

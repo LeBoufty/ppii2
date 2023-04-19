@@ -48,14 +48,10 @@ class Station:
         else: return None
     
     def add_station(self, id:str, nb_pdc:int):
-        try:
-            if 'nbre_pdc' in self.val_id:
-                self.nb_pdc += int(nb_pdc)
-                self.values[self.indice('nbre_pdc')] = str(self.nb_pdc)
-            self.stations.append(id)
-        except ValueError: # Réaction disproportionnée à une inversion de paramètres que j'ai faite comme un con,
-                           # Mais autant y garder là au cas où...
-            print("ERREUR : La station", id, "n'a pas été ajoutée à", self.id)
+        if 'nbre_pdc' in self.val_id:
+            self.nb_pdc += nb_pdc
+            self.values[self.indice('nbre_pdc')] = str(self.nb_pdc)
+        self.stations.append(id)
     
     def __sub__(self, other):
         x, y = other.xy()
