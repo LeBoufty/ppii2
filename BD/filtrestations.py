@@ -4,16 +4,13 @@ from outils import *
 nomBD = 'BD/consolidation-etalab-schema-irve-statique-v-2.2.0-20230327.csv'
 
 print('Parsing...')
-data = monstre(open(nomBD, 'r').read())[1:]
+data = monstre(open(nomBD, 'r', encoding="utf-8").read())[1:]
 print('Parsing fini.')
 
-def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool = True, doublons:bool = False, nomsortie:str = 'stations'):
+def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool = True, doublons:bool = False, nomsortie:str = 'stations', watts:bool = True):
     # Màj du nom de la sortie : ne pas oublier de lancer le programme depuis la racine du projet !!
     nomsortie = 'BD/'+nomsortie+'.csv'
     print('Début du filtre, sortie sur', nomsortie)
-
-    # Définition des colonnes à garder
-    a_garder = indices(proprietes)
 
     # Remise à zéro de la BD
     sortie = open(nomsortie, 'w')
@@ -29,6 +26,9 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     stations_trouvees = []
     xy_trouves = []
 
+    # On vérifie que l'utilisateur a pas écrit n'importe quoi
+    watts = watts and ('puissance_nominale' in proprietes)
+
     for ligne in data:
         # Mise à jour du compteur
         i += 1
@@ -39,6 +39,7 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
         id = ligne[indice('id_station_itinerance')]
         acces = ligne[indice('condition_acces')]
         nbre_pdc = int(ligne[indice('nbre_pdc')])
+        puissance = float(ligne[indice('puissance_nominale')])
         stat = Station(x, y, id, proprietes, acces, nbre_pdc)
         # On ne garde que les propriétés demandées
         stat.scan(ligne)
@@ -53,6 +54,8 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
             if (x,y) in xy_trouves: drapo = False
         if distmin > 0 and drapo:
             if a_proximite(stat,stations_trouvees,distmin): drapo = False
+        if watts and puissance%1000 != 0:
+            stat.values[stat.indice('puissance_nominale')] = str(int(puissance*1000))
         if drapo:
             stations_trouvees.append(stat)
             xy_trouves.append(stat.xy()) # On garde xy_trouves pour éviter les doublons
@@ -64,4 +67,4 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     print('Fini !')
     sortie.close()
 
-filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc'])
+filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc', 'puissance_nominale'], distmin=0)
