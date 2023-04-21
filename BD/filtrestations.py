@@ -43,7 +43,17 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
         # On ne garde que les propriétés demandées
         stat.scan(ligne)
         # On ne garde que les stations qui respectent les conditions données
-        if (acces == "Accès libre" and libre) and ((x,y) not in xy_trouves and not doublons) and ("Non" not in id and concerne) and not a_proximite(stat,stations_trouvees,distmin):
+        drapo = True
+        # On fait tous les test 1 par 1 pour éviter les calculs inutiles
+        if concerne and drapo:
+            if "Non" in id: drapo = False
+        if libre and drapo:
+            if acces != "Accès libre": drapo = False
+        if not doublons and drapo:
+            if (x,y) in xy_trouves: drapo = False
+        if distmin > 0 and drapo:
+            if a_proximite(stat,stations_trouvees,distmin): drapo = False
+        if drapo:
             stations_trouvees.append(stat)
             xy_trouves.append(stat.xy()) # On garde xy_trouves pour éviter les doublons
     # Et si tout va bien ça n'a toujours pas planté.
@@ -54,4 +64,4 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     print('Fini !')
     sortie.close()
 
-filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc'], nomsortie='stations_test')
+filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc'])
