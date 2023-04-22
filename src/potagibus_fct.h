@@ -32,6 +32,15 @@ struct _list_t { coord* element;struct _list_t* next;};
 
 typedef struct _list_t list_t;
 
+struct _utilisateurs
+{
+    char voiture;
+    float x;
+    float y;
+};
+
+typedef struct _utilisateurs utilisateurs;
+
 struct Station* read_csv(const char* filename);
 
 float** create_Matrice(int n);
