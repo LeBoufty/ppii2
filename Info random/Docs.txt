@@ -16,3 +16,7 @@ Fonctions :
    Grâce à la matrice d'adjacence (et 2-3 fonctions parallèles) calcul le plus court chemin entre le point de départ et le point d'arrivée.
    En entrée, il nous faut la matrice d'adjacence, l'indice du point de départ et l'indice du point d'arrivée (Il faudra faire une réu de chantier pour
    les indices dans la matrice, ça va être un beau bordels) et en sortie la liste des points de passage (en indice ou autre).
+
+  -Utilisateurs_rdm(list_v : structvoiture*, list_s : Station*, n : int)-> liste_utilisateurs: utilisateurs*
+    Prend en paramètre la liste des voitures, des stations ainsi qu'un nombre d'utilisateurs n à générer.
+    Produit une liste chaîné faite avec la struct utilisateurs de n maillons avec un point de départ matérialisé avec les coordonnées x et y, ainsi qu'un modèle de voiture.

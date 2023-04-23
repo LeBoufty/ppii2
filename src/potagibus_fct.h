@@ -42,9 +42,16 @@ struct _list_t { coord* element;struct _list_t* next;};
 
 typedef struct _list_t list_t;
 
-int nb_ligne(const char* filename);
+struct _utilisateurs
+{
+    char voiture;
+    float x;
+    float y;
+};
 
-station_tab* read_csv_tab(const char* filename);
+typedef struct _utilisateurs utilisateurs;
+
+int nb_ligne(const char* filename);
 
 void destroy_station_tab(station_tab* tab_station);
 
