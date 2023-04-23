@@ -326,3 +326,9 @@ int* a_star(matrice_inf* mat_st, int depart, int arrivee, float distance_max){
 
     return chemin_final;
 }
+
+
+// Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets avancé
+// int* a_star_avance(matrice_inf* mat_st, int depart, int arrivee, tab_station* tab_st, int id_voiture, tab_voiture* tab_vt, float min_percent, float max_time_recharge){
+    
+// }

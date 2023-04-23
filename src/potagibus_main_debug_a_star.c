@@ -1,10 +1,16 @@
 #include "potagibus_a_star.h"
+#include "potagibus_fct.h"
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
 
 int main(int argc, char** argv){
     // Initialisation de la matrice d'adjacence
     argc = 0;
     argv = NULL;
-
+    
+    /*
     // Initialisation du chemin
     chemin* c = create_chemin();
     // Ajout d'éléments au chemin
@@ -72,8 +78,14 @@ int main(int argc, char** argv){
     }
     list_destroy(l);
     destroy_Matrice_struc(M);
-    free(tab);
-    
+    free(tab); */
+    int a = nb_ligne("BD/stations.csv");
+    printf("%d\n", a);
+
+    station_tab* tab_s = read_csv_tab("BD/stations.csv");
+    printf("%d\n", tab_s -> taille);
+    print_station(tab_s, 0);
+    destroy_station_tab(tab_s);
 
     return 0;
 }

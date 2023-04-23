@@ -5,14 +5,24 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#define LENGTH_ID 40
+#define BUFFER_SIZE 200
+ 
 
-struct Station {
-    char id[32];
+struct station {
+    char id[LENGTH_ID];
     float longitude;
     float latitude;
     int nbre_pdc;
-    struct Station* next;
-};
+    int nbre_pdc_dispo;
+    int puissance;
+} typedef station;
+
+struct station_tab
+{
+    int taille;
+    station* tab;
+} typedef station_tab;
 
 struct _coord
 {
@@ -32,7 +42,13 @@ struct _list_t { coord* element;struct _list_t* next;};
 
 typedef struct _list_t list_t;
 
-struct Station* read_csv(const char* filename);
+int nb_ligne(const char* filename);
+
+station_tab* read_csv_tab(const char* filename);
+
+void destroy_station_tab(station_tab* tab_station);
+
+void print_station(station_tab* tab_station, int i);
 
 float** create_Matrice(int n);
 
