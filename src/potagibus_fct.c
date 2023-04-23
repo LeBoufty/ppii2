@@ -57,7 +57,7 @@ int nb_ligne(const char* filename) {
 }
 
 // Lit un fichier csv et renvoie un tableau de station
-station_tab* read_csv_tab(const char* filename) {
+station_tab* read_csv_station_tab(const char* filename) {
     // Ouverture du fichier
     FILE* file = fopen(filename, "r"); 
     if (!file) { // Si le fichier n'existe pas
@@ -105,7 +105,7 @@ station_tab* read_csv_tab(const char* filename) {
 
         // On rempli la structure station
         strncpy(tab_s -> tab[i].id, id_str, LENGTH_ID - 1);
-        tab_s -> tab[i].id[31] = '\0';
+        tab_s -> tab[i].id[LENGTH_ID - 1] = '\0';
         tab_s -> tab[i].longitude = atof(lon_str);
         tab_s -> tab[i].latitude = atof(lat_str);
         tab_s -> tab[i].nbre_pdc = atoi(nb_pdc_str);
@@ -127,8 +127,82 @@ void destroy_station_tab(station_tab* tab_s) {
 }
 
 // Affiche une station du tableau de station
-void print_station(station_tab* tab_s, int i) {
+void print_station_tab(station_tab* tab_s, int i) {
     printf("Station %d : %s, %f, %f, %d, %d, %d\n", i, tab_s -> tab[i].id, tab_s -> tab[i].longitude, tab_s -> tab[i].latitude, tab_s -> tab[i].nbre_pdc, tab_s -> tab[i].nbre_pdc_dispo, tab_s -> tab[i].puissance);
+}
+
+// Lit un fichier csv et renvoie un tableau de voiture
+voiture_tab* read_csv_voiture_tab(const char* filename) {
+    // Ouverture du fichier
+    FILE* file = fopen(filename, "r"); 
+    if (!file) { // Si le fichier n'existe pas
+        printf("Impossible d'ouvrir le fichier %s\n", filename);
+        return NULL;
+    }
+
+    // Buffer de lecture
+    char buffer[BUFFER_SIZE];
+
+    // Allocation mémoire de la structure voiture
+    voiture_tab* tab_v = malloc(sizeof(voiture_tab));
+    if (!tab_v) { // Si l'allocation mémoire a échoué
+        printf("Erreur d'allocation mémoire\n");
+        return NULL;
+    }
+
+    // Initialisation du tableau de voiture
+    tab_v -> taille = nb_ligne(filename) - 1;
+    tab_v -> tab = malloc(tab_v -> taille * sizeof(voiture));
+    if (!tab_v -> tab) { // Si l'allocation mémoire a échoué
+        printf("Erreur d'allocation mémoire\n");
+        return NULL;
+    }
+
+    // Lecture du fichier et remplissage du tableau
+    int i = -1;
+    while (fgets(buffer, BUFFER_SIZE, file)) {
+        // On saute la première ligne
+        if (i == -1) {
+            i++;
+            continue;
+        }
+
+        // On récupère les informations de la voiture
+        char* name_str = strtok(buffer, ";");
+        char* range_str = strtok(NULL, ";");
+        char* acc_str = strtok(NULL, ";");
+        char* top_str = strtok(NULL, ";");
+        char* eff_str = strtok(NULL, ";");
+        char* fast_str = strtok(NULL, ";");
+        if (!name_str || !range_str || !acc_str || !top_str || !eff_str || !fast_str) { // Si le format du fichier est incorrect
+            printf("Format de fichier incorrect\n");
+            return NULL;
+        }
+
+        // On rempli la structure voiture
+        strncpy(tab_v -> tab[i].name, name_str, LENGTH_NAME - 1);
+        tab_v -> tab[i].name[LENGTH_NAME - 1] = '\0';
+        tab_v -> tab[i].range = atoi(range_str);
+        tab_v -> tab[i].efficiency = atoi(eff_str);
+        tab_v -> tab[i].fast_charge = atoi(fast_str);
+
+        // On passe à la voiture suivante
+        i++;        
+    }
+
+    fclose(file);
+    return tab_v;
+}
+
+// Détruit un tableau de voiture
+void destroy_voiture_tab(voiture_tab* tab_v) {
+    free(tab_v -> tab);
+    free(tab_v);
+}
+
+// Affiche une voiture du tableau de voiture
+void print_voiture_tab(voiture_tab* tab_v, int i) {
+    printf("Voiture %d : %s, %d, %d, %d\n", i, tab_v -> tab[i].name, tab_v -> tab[i].range, tab_v -> tab[i].efficiency, tab_v -> tab[i].fast_charge);
 }
 
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge)

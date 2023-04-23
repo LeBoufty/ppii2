@@ -6,6 +6,7 @@
 #include <math.h>
 #include <string.h>
 #define LENGTH_ID 40
+#define LENGTH_NAME 40
 #define BUFFER_SIZE 200
  
 
@@ -23,6 +24,19 @@ struct station_tab
     int taille;
     station* tab;
 } typedef station_tab;
+
+struct voiture {
+    char name[LENGTH_NAME];
+    int range; // en km
+    int efficiency; // en Wh/km
+    int fast_charge; // en km/h
+} typedef voiture;
+
+struct voiture_tab
+{
+    int taille;
+    voiture* tab;
+} typedef voiture_tab;
 
 struct _coord
 {
@@ -53,9 +67,17 @@ typedef struct _utilisateurs utilisateurs;
 
 int nb_ligne(const char* filename);
 
+station_tab* read_csv_station_tab(const char* filename);
+
 void destroy_station_tab(station_tab* tab_station);
 
-void print_station(station_tab* tab_station, int i);
+void print_station_tab(station_tab* tab_station, int i);
+
+voiture_tab* read_csv_voiture_tab(const char* filename);
+
+void destroy_voiture_tab(voiture_tab* tab_voiture);
+
+void print_voiture_tab(voiture_tab* tab_voiture, int i);
 
 float** create_Matrice(int n);
 

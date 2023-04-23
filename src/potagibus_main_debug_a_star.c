@@ -82,10 +82,15 @@ int main(int argc, char** argv){
     int a = nb_ligne("BD/stations.csv");
     printf("%d\n", a);
 
-    station_tab* tab_s = read_csv_tab("BD/stations.csv");
+    station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
     printf("%d\n", tab_s -> taille);
-    print_station(tab_s, 0);
+    print_station_tab(tab_s, 16603);
     destroy_station_tab(tab_s);
+
+    voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
+    printf("%d\n", tab_v -> taille);
+    print_voiture_tab(tab_v, 298);
+    destroy_voiture_tab(tab_v);
 
     return 0;
 }
