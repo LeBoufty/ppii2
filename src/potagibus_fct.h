@@ -59,13 +59,24 @@ typedef struct _list_t list_t;
 struct _utilisateurs
 {
     char voiture;
-    float x;
-    float y;
+    float lodepart; //lo=longitude, la=latitude
+    float ladepart;
+    float loarrivee;
+    float laarrivee;
+    utilisateurs* next;
 };
+
+
+
+
 
 typedef struct _utilisateurs utilisateurs;
 
 int nb_ligne(const char* filename);
+
+utilisateurs* utilisateurs_create();
+
+utilisateurs* utilisateurs_rdm(voiture_tab* list_v, station_tab* list_s,int n);
 
 station_tab* read_csv_station_tab(const char* filename);
 
