@@ -263,7 +263,7 @@ void print_voiture_tab(voiture_tab* tab_v, int i) {
 }
 
 // Donne la taille du tableau de voiture
-int get_voiture_tab_taille(voiture_tab* tab_v) {
+int taille_voiture_tab(voiture_tab* tab_v) {
     return tab_v -> taille;
 }
 
