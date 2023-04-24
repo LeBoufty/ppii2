@@ -14,8 +14,14 @@ potagibus_main_debug_a_star.exe: obj/potagibus_fct.o obj/potagibus_main_debug_a_
 #Fichiers objets
 
 
-obj/potagibus_fct.o: src/potagibus_fct.h src/potagibus_fct.c
+obj/potagibus_fct.o: src/potagibus_fct.h src/voiture.h src/station.h src/potagibus_fct.c
 	$(comp) src/potagibus_fct.c -o obj/potagibus_fct.o
+
+obj/voiture.o: src/voiture.h src/voiture.c
+	$(comp) src/voiture.c -o obj/voiture.o
+
+obj/station.o: src/station.h src/station.c
+	$(comp) src/station.c -o obj/station.o
 	
 obj/potagibus_main.o: src/potagibus_fct.h src/potagibus_main.c
 	$(comp) src/potagibus_main.c -o obj/potagibus_main.o

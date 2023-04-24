@@ -3,7 +3,10 @@
         "stdlib.h": "c",
         "potagibus.h": "c",
         "stdio.h": "c",
-        "potagibus_a_star.h": "c"
+        "potagibus_a_star.h": "c",
+        "potagibus_fct.h": "c",
+        "matrice.h": "c",
+        "stdbool.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
