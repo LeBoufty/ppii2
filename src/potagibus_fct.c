@@ -126,9 +126,66 @@ void destroy_station_tab(station_tab* tab_s) {
     free(tab_s);
 }
 
-// Affiche une station du tableau de station
+// Affiche une station du tableau de station | DEBUG
 void print_station_tab(station_tab* tab_s, int i) {
     printf("Station %d : %s, %f, %f, %d, %d, %d\n", i, tab_s -> tab[i].id, tab_s -> tab[i].longitude, tab_s -> tab[i].latitude, tab_s -> tab[i].nbre_pdc, tab_s -> tab[i].nbre_pdc_dispo, tab_s -> tab[i].puissance);
+}
+
+// Donne la taille du tableau de station
+int taille_station_tab(station_tab* tab_s) {
+    return tab_s -> taille;
+}
+
+// Donne la station d'indice i du tableau de station
+station* get_station_tab(station_tab* tab_s, int i) {
+    return &tab_s -> tab[i];
+}
+
+// Donne la longitude de la station d'indice i du tableau de station
+double get_station_tab_longitude(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].longitude;
+}
+
+// Donne la latitude de la station d'indice i du tableau de station
+double get_station_tab_latitude(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].latitude;
+}
+
+// Donne le nombre de place de la station d'indice i du tableau de station
+int get_station_tab_nbre_pdc(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].nbre_pdc;
+}
+
+// Donne le nombre de place disponible de la station d'indice i du tableau de station
+int get_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].nbre_pdc_dispo;
+}
+
+// Donne la puissance de la station d'indice i du tableau de station
+int get_station_tab_puissance(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].puissance;
+}
+
+// Donne l'identifiant de la station d'indice i du tableau de station
+char* get_station_tab_id(station_tab* tab_s, int i) {
+    return tab_s -> tab[i].id;
+}
+
+// Modifie le nombre de place disponible de la station d'indice i du tableau de station
+void set_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i, int nbre_pdc_dispo) {
+    // On vérifie que le nombre de place disponible est positif
+    if (nbre_pdc_dispo < 0) {
+        printf("Erreur : le nombre de place disponible ne peut pas être négatif\n");
+        return;
+    }
+
+    // On vérifie que le nombre de place disponible est inférieur ou égal au nombre de place
+    if (nbre_pdc_dispo > tab_s -> tab[i].nbre_pdc) {
+        printf("Erreur : le nombre de place disponible ne peut pas être supérieur au nombre de place\n");
+        return;
+    }
+
+    tab_s -> tab[i].nbre_pdc_dispo = nbre_pdc_dispo;
 }
 
 // Lit un fichier csv et renvoie un tableau de voiture
@@ -200,10 +257,41 @@ void destroy_voiture_tab(voiture_tab* tab_v) {
     free(tab_v);
 }
 
-// Affiche une voiture du tableau de voiture
+// Affiche une voiture du tableau de voiture | DEBUG
 void print_voiture_tab(voiture_tab* tab_v, int i) {
     printf("Voiture %d : %s, %d, %d, %d\n", i, tab_v -> tab[i].name, tab_v -> tab[i].range, tab_v -> tab[i].efficiency, tab_v -> tab[i].fast_charge);
 }
+
+// Donne la taille du tableau de voiture
+int get_voiture_tab_taille(voiture_tab* tab_v) {
+    return tab_v -> taille;
+}
+
+// Donne la voiture d'indice i du tableau de voiture
+voiture* get_voiture_tab(voiture_tab* tab_v, int i) {
+    return &tab_v -> tab[i];
+}
+
+// Donne le nom de la voiture d'indice i du tableau de voiture
+char* get_voiture_tab_name(voiture_tab* tab_v, int i) {
+    return tab_v -> tab[i].name;
+}
+
+// Donne la portée de la voiture d'indice i du tableau de voiture
+int get_voiture_tab_range(voiture_tab* tab_v, int i) {
+    return tab_v -> tab[i].range;
+}
+
+// Donne l'efficacité de la voiture d'indice i du tableau de voiture
+int get_voiture_tab_efficiency(voiture_tab* tab_v, int i) {
+    return tab_v -> tab[i].efficiency;
+}
+
+// Donne la capacité de charge rapide de la voiture d'indice i du tableau de voiture
+int get_voiture_tab_fast_charge(voiture_tab* tab_v, int i) {
+    return tab_v -> tab[i].fast_charge;
+}
+
 
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge)
 {

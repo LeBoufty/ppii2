@@ -12,8 +12,8 @@
 
 struct station {
     char id[LENGTH_ID];
-    float longitude;
-    float latitude;
+    double longitude;
+    double latitude;
     int nbre_pdc;
     int nbre_pdc_dispo;
     int puissance;
@@ -73,11 +73,41 @@ void destroy_station_tab(station_tab* tab_station);
 
 void print_station_tab(station_tab* tab_station, int i);
 
+int taille_station_tab(station_tab* tab_s);
+
+station* get_station_tab(station_tab* tab_s, int i);
+
+double get_station_tab_longitude(station_tab* tab_s, int i);
+
+double get_station_tab_latitude(station_tab* tab_s, int i);
+
+int get_station_tab_nbre_pdc(station_tab* tab_s, int i);
+
+int get_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i);
+
+int get_station_tab_puissance(station_tab* tab_s, int i);
+
+char* get_station_tab_id(station_tab* tab_s, int i);
+
+void set_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i, int nbre_pdc_dispo);
+
 voiture_tab* read_csv_voiture_tab(const char* filename);
 
 void destroy_voiture_tab(voiture_tab* tab_voiture);
 
 void print_voiture_tab(voiture_tab* tab_voiture, int i);
+
+int taille_voiture_tab(voiture_tab* tab_v);
+
+voiture* get_voiture_tab(voiture_tab* tab_v, int i);
+
+char* get_voiture_tab_name(voiture_tab* tab_v, int i);
+
+int get_voiture_tab_range(voiture_tab* tab_v, int i);
+
+int get_voiture_tab_efficiency(voiture_tab* tab_v, int i);
+
+int get_voiture_tab_fast_charge(voiture_tab* tab_v, int i);
 
 float** create_Matrice(int n);
 
