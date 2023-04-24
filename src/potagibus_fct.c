@@ -1,17 +1,6 @@
 #include "potagibus_fct.h"
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Sélectionne les points qui sont dans une zone définie par deux points
 station_tab* selec_point_struc(coord* depart, coord* arrivee, station_tab* tab_s)
 {
