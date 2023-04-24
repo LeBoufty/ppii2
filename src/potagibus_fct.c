@@ -427,12 +427,15 @@ float distance_euclid(coord* p1, coord* p2){
     return sqrt(pow(p1->x - p2->x, 2) + pow(p1->y - p2->y, 2));
 }
 
-
-list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point)
+// Sélectionne les points qui sont dans une zone définie par deux points
+station_tab* selec_point_struc(coord* depart, coord* arrivee, station_tab* tab_s)
 {
-    int marge=1;
-    list_t* liste;
-    liste=Selection_de_points_int(depart, arrivee, liste_point, marge);
+    // Marge de tolérance
+    int marge = 1;
+
+    // Création de la liste des points qui sont dans la zone
+    list_int* liste_point = selec_point_list(depart, arrivee, tab_s, marge);
+
     while((liste->element==NULL) && marge<10)
     {
         marge+=1;
@@ -449,10 +452,11 @@ list_t* Selection_de_points(coord* depart, coord* arrivee, list_t* liste_point)
     
 }
 
-list_t* Selection_de_points_int(coord* depart, coord* arrivee, list_t* liste_point, int marge)
-{
-    list_t* liste=list_create();
-    list_t* liste_temp=liste_point;
+
+// Renvoie une liste des points qui sont dans une zone définie par deux points
+list_t* selec_point_list(coord* depart, coord* arrivee, station_tab* tab_s, int marge) {
+    // On crée la liste des points
+    list_t* liste = list_create();
 
     coord* coord_pt;
     while(liste_temp->next!=NULL)
@@ -593,15 +597,6 @@ bool list_is_empty(list_t* one_list){
     return false;
 }
 
-void list_append_mauvais(list_t* one_list, float coord_x, float coord_y){
-    list_t* list=list_create();
-    list->element=one_list->element;
-    list->next=one_list->next;
-    one_list->element->x=coord_x;
-    one_list->element->y=coord_y;
-    one_list->next=list;
-}
-
 void list_append(list_t* one_list, float coord_x, float coord_y){
     list_t* list_suiv = list_create();
     list_suiv -> element -> x = one_list -> element -> x;
@@ -632,4 +627,74 @@ int list_size(list_t* one_list){
         list=list->next;
     }
     return(size-1);
+}
+
+// Fonction sur les listes de int
+// Création d'une liste de int
+list_int* list_int_create(){
+    list_int* list = malloc(sizeof(list_int));
+    list -> element = 0;
+    list -> next = NULL;
+    return list;
+}
+
+// Destruction d'une liste de int
+void list_int_destroy(list_int* one_list){
+    list_int* current = one_list;
+    while (current != NULL){
+        list_int* next = current -> next;
+        free(current);
+        current = next;
+    }
+}
+
+// Vérifie si une liste de int est vide
+bool list_int_is_empty(list_int* one_list){
+    if (one_list == NULL){
+        return true;
+    }
+    if (one_list -> next == NULL){
+        return true;
+    }
+    return false;
+}
+
+// Ajout d'un élément au début d'une liste de int
+void list_int_append(list_int* one_list, int element){
+    list_int* list_suiv = list_int_create();
+    list_suiv -> element = one_list -> element;
+    list_suiv -> next = one_list -> next;
+    one_list -> element = element;
+    one_list -> next = list_suiv;
+}
+
+// Taille d'une liste de int
+int list_int_size(list_int* one_list){
+    list_int* list = one_list;
+    int size = 0;
+    while (list != NULL){
+        size += 1;
+        list = list -> next;
+    }
+    return(size - 1);
+}
+
+// Suppression du premier élément d'une liste de int
+int list_int_pop(list_int* one_list){
+    // Si la liste est vide
+    if (one_list == NULL){
+        printf("ERREUR Liste inexistante\n");
+        return -1;
+    }
+    // Si la liste ne contient qu'un élément
+    if (one_list -> next == NULL){
+        printf("ERREUR La liste est vide\n");
+        return -1;
+    }
+    // Sinon
+    int element = one_list -> element;
+    one_list -> element = one_list -> next -> element;
+    one_list -> next = one_list -> next -> next;
+    free(one_list -> next);
+    return element;
 }

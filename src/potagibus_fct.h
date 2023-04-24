@@ -50,6 +50,13 @@ struct matrice_inf
     float** mat;
 } typedef matrice_inf;
 
+struct list_int
+{
+    int element;
+    struct list_int* next;
+} typedef list_int;
+
+
 typedef struct _coord coord;
 
 struct _list_t { coord* element;struct _list_t* next;};
@@ -165,5 +172,17 @@ int list_size(list_t* one_list);
 bool excl_carre(coord* point, coord* dep, coord* arr, int marge); 
 
 bool excl_ovale(coord* point, coord* dep, coord* arr, int marge);
+
+list_int* list_int_create();
+
+void list_int_destroy(list_int* one_list);
+
+bool list_int_is_empty(list_int* one_list);
+
+void list_int_append(list_int* one_list, int element);
+
+int list_int_size(list_int* one_list);
+
+int list_int_pop(list_int* one_list);
 
 #endif
