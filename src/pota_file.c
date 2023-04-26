@@ -59,8 +59,8 @@ station_tab* read_csv_station_tab(const char* filename) {
 
         // On rempli la structure station
         set_station_tab_id(tab_s, i, id_str);
-        set_station_tab_longitude(tab_s, i, atof(lon_str));
-        set_station_tab_latitude(tab_s, i, atof(lat_str));
+        set_station_tab_coord_x(tab_s, i, atof(lon_str));
+        set_station_tab_coord_y(tab_s, i, atof(lat_str));
         set_station_tab_nbre_pdc(tab_s, i, atoi(nb_pdc_str));
         set_station_tab_nbre_pdc_dispo(tab_s, i, atoi(nb_pdc_str));
         set_station_tab_puissance(tab_s, i, atoi(puis_str));

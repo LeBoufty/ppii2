@@ -1,5 +1,36 @@
 #include "coord.h"
 
+// Création d'un point
+coord* create_coord() {
+    coord* point = malloc(sizeof(coord));
+    return point;
+}
+
+// Libère la mémoire d'un point
+void destroy_coord(coord* point) {
+    free(point);
+}
+
+// Donne le x d'un point
+double get_coord_x(coord* point) {
+    return point -> x;
+}
+
+// Set le x d'un point
+void set_coord_x(coord* point, double x) {
+    point -> x = x;
+}
+
+// Donne le y d'un point
+double get_coord_y(coord* point) {
+    return point -> y;
+}
+
+// Set le y d'un point
+void set_coord_y(coord* point, double y) {
+    point -> y = y;
+}
+
 // Donne une distance selon la formule de Haversine entre deux points
 float distance(coord* p1, coord* p2) {
     float x1=(p1->x)*DEG_TO_RAD;float y1=(p1->y)*DEG_TO_RAD;
