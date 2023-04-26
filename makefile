@@ -1,37 +1,46 @@
+# Explication $(patsubst pattern,replacement,text) remplace pattern par replacement dans text
+# $@ nom de la cible (potagibus.exe dans le premier cas)
+# $^ liste des dépendances (obj/potagibus_fct.o obj/potagibus_main.o etc dans le premier cas)
+# $< première dépendance (src/potagibus_fct.c dans le premier cas)
+
 #Macros
-exec = clang -Wall -Wextra -pedantic -O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
-comp = clang -c -Wall -Wextra -pedantic -O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+FLAG = -Wall -Wextra -pedantic -O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+EXEC = clang $(FLAG)
+COMP = clang -c $(FLAG)
+
+SRC = src
+OBJ = obj
+EXE = exe
+
+COMPONENT = coord list_int list_t matrice potagibus_a_star potagibus_fct pota_file selection station utilitaire voiture
+
+# Liste des fichiers objets COMPONENT
+COMPONENT_OBJ = $(patsubst %, $(OBJ)/%.o, $(COMPONENT)) # Remplace chaque élément de COMPONENT par obj/element.o
 
 #--------
+
 #Executables
 
-potagibus.exe: obj/potagibus_fct.o obj/potagibus_main.o
-	$(exec) obj/potagibus_fct.o obj/potagibus_main.o -o exe/potagibus.exe
+potagibus.exe: $(COMPONENT_OBJ) $(OBJ)/potagibus_main.o
+	$(EXEC) $^ -o $(EXE)/$@
 
-potagibus_main_debug_a_star.exe: obj/potagibus_fct.o obj/potagibus_main_debug_a_star.o obj/potagibus_a_star.o
-	$(exec) obj/potagibus_fct.o obj/potagibus_main_debug_a_star.o obj/potagibus_a_star.o -o exe/potagibus_main_debug_a_star.exe
+pota_deb.exe: $(COMPONENT_OBJ) $(OBJ)/potagibus_debug.o
+	$(EXEC) $^ -o $(EXE)/$@
+
 
 #Fichiers objets
 
+$(OBJ)/%.o: $(SRC)/%.c
+	$(COMP) $< -o $@
 
-obj/potagibus_fct.o: src/potagibus_fct.h src/voiture.h src/station.h src/potagibus_fct.c
-	$(comp) src/potagibus_fct.c -o obj/potagibus_fct.o
+#--------
 
-obj/voiture.o: src/voiture.h src/voiture.c
-	$(comp) src/voiture.c -o obj/voiture.o
+#Nettoyage
 
-obj/station.o: src/station.h src/station.c
-	$(comp) src/station.c -o obj/station.o
-	
-obj/potagibus_main.o: src/potagibus_fct.h src/potagibus_main.c
-	$(comp) src/potagibus_main.c -o obj/potagibus_main.o
+clean_obj:
+	rm -f $(OBJ)/*.o
 
-obj/potagibus_main_debug_a_star.o: src/potagibus_fct.h src/potagibus_a_star.h src/potagibus_main_debug_a_star.c
-	$(comp) src/potagibus_main_debug_a_star.c -o obj/potagibus_main_debug_a_star.o
+clean_exe:
+	rm -f $(EXE)/*.exe
 
-obj/potagibus_a_star.o: src/potagibus_fct.h src/potagibus_a_star.h src/potagibus_a_star.c
-	$(comp) src/potagibus_a_star.c -o obj/potagibus_a_star.o
-
-#clean
-clean:
-	@rm -f obj/*.o exe/*
+clean: clean_obj clean_exe

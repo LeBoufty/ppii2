@@ -1,0 +1,61 @@
+#Macros
+exec = clang -Wall -Wextra -pedantic -O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+comp = clang -c -Wall -Wextra -pedantic -O0 -g3 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
+
+#--------
+#Executables
+
+potagibus.exe: obj/potagibus_fct.o obj/potagibus_main.o
+	$(exec) obj/potagibus_fct.o obj/potagibus_main.o -o exe/potagibus.exe
+
+potagibus_main_debug_a_star.exe: obj/potagibus_fct.o obj/potagibus_main_debug_a_star.o obj/potagibus_a_star.o
+	$(exec) obj/potagibus_fct.o obj/potagibus_main_debug_a_star.o obj/potagibus_a_star.o -o exe/potagibus_main_debug_a_star.exe
+
+#Fichiers objets
+
+
+obj/potagibus_fct.o: src/potagibus_fct.h src/voiture.h src/station.h src/potagibus_fct.c
+	$(comp) src/potagibus_fct.c -o obj/potagibus_fct.o
+
+obj/voiture.o: src/voiture.h src/voiture.c
+	$(comp) src/voiture.c -o obj/voiture.o
+
+obj/station.o: src/station.h src/coord.h src/station.c
+	$(comp) src/station.c -o obj/station.o
+
+obj/utilitaire.o: src/utilitaire.h src/utilitaire.c src/coord.h src/station.h src/voiture.h
+	$(comp) src/utilitaire.c -o obj/utilitaire.o
+
+obj/coord.o: src/coord.h src/coord.c
+	$(comp) src/coord.c -o obj/coord.o
+
+obj/selection.o: src/selection.h src/selection.c src/station.h src/coord.h src/list_int.h src/matrice.h
+	$(comp) src/selection.c -o obj/selection.o
+
+obj/pota_file.o: src/pota_file.h src/pota_file.c src/coord.h src/station.h src/voiture.h
+	$(comp) src/pota_file.c -o obj/pota_file.o
+
+obj/matrice.o: src/matrice.h src/matrice.c
+	$(comp) src/matrice.c -o obj/matrice.o
+
+obj/list_t.o: src/list_t.h src/list_t.c src/coord.h
+	$(comp) src/list_t.c -o obj/list_t.o
+
+obj/list_int.o: src/list_int.h src/list_int.c
+	$(comp) src/list_int.c -o obj/list_int.o
+
+obj/potagibus_debug.o: src/potagibus_fct.h src/potagibus_debug.c src/selection.h src/pota_file.h
+	$(comp) src/potagibus_debug.c -o obj/potagibus_debug.o
+
+obj/potagibus_main.o: src/potagibus_fct.h src/potagibus_main.c
+	$(comp) src/potagibus_main.c -o obj/potagibus_main.o
+
+obj/potagibus_main_debug_a_star.o: src/potagibus_fct.h src/potagibus_a_star.h src/potagibus_main_debug_a_star.c
+	$(comp) src/potagibus_main_debug_a_star.c -o obj/potagibus_main_debug_a_star.o
+
+obj/potagibus_a_star.o: src/potagibus_fct.h src/potagibus_a_star.h src/potagibus_a_star.c
+	$(comp) src/potagibus_a_star.c -o obj/potagibus_a_star.o
+
+#clean
+clean:
+	@rm -f obj/*.o exe/*
