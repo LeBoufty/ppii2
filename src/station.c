@@ -4,12 +4,18 @@
 station_tab* create_station_tab(int taille) {
     station_tab* tab_s = malloc(sizeof(station_tab));
     tab_s -> taille = taille;
-    tab_s -> tab = malloc(taille * sizeof(station)); 
+    tab_s -> tab = malloc(taille * sizeof(station));
+    for (int i = 0; i < taille; i++) {
+        tab_s -> tab[i].coord = create_coord();
+    } 
     return tab_s;
 }
 
 // Détruit un tableau de station
 void destroy_station_tab(station_tab* tab_s) {
+    for (int i = 0; i < tab_s -> taille; i++) {
+        destroy_coord(tab_s -> tab[i].coord);
+    }
     free(tab_s -> tab);
     free(tab_s);
 }
