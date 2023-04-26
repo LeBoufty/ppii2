@@ -14,7 +14,7 @@ struct list_t
 } typedef list_t;
 
 list_t* create_list_t();
-list_t* destroy_list_t(list_t* list);
+void destroy_list_t(list_t* list);
 bool is_empty_list_t(list_t* one_list);
 void append_list_t(list_t* list, double x, double y);
 void print_list_t(list_t* one_list);

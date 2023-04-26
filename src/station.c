@@ -16,7 +16,7 @@ void destroy_station_tab(station_tab* tab_s) {
 
 // Affiche une station du tableau de station | DEBUG
 void print_station_tab(station_tab* tab_s, int i) {
-    printf("Station %d : %s, %f, %f, %d, %d, %d\n", i, get_station_tab_id(tab_s, i), get_station_tab_coord_x(tab_s, i), get_station_tab_coord_y(tab_s, i), get_station_tab_nbre_pdc(tab_s, i), get_station_tab_pdc_dispo(tab_s, i), get_station_tab_pdc_dispo(tab_s, i));
+    printf("Station %d : %s, %f, %f, %d, %d, %d\n", i, get_station_tab_id(tab_s, i), get_station_tab_coord_x(tab_s, i), get_station_tab_coord_y(tab_s, i), get_station_tab_nbre_pdc(tab_s, i), get_station_tab_nbre_pdc_dispo(tab_s, i), get_station_tab_puissance(tab_s, i));
 }
 
 // Donne la taille du tableau de station
@@ -117,13 +117,13 @@ void set_station_tab_puissance(station_tab* tab_s, int i, int puissance) {
 corresp_station_tab* create_corresp_tab(int taille) {
     corresp_station_tab* tab_c = malloc(sizeof(corresp_station_tab));
     tab_c -> taille = taille;
-    tab_c -> tab = malloc(taille * sizeof(corresp_station)); 
+    tab_c -> tab_id = malloc(taille * sizeof(int)); 
     return tab_c;
 }
 
 // Détruit un tableau de correspondance entre les identifiants et les indices des stations
 void destroy_corresp_tab(corresp_station_tab* tab_c) {
-    free(tab_c -> tab);
+    free(tab_c -> tab_id);
     free(tab_c);
 }
 
@@ -132,22 +132,12 @@ int size_corresp_tab(corresp_station_tab* tab_c) {
     return tab_c -> taille;
 }
 
-// Donne la correspondance d'indice i du tableau de correspondance entre les identifiants et les indices des stations
-corresp_station* get_corresp_tab(corresp_station_tab* tab_c, int i) {
-    return &tab_c -> tab[i];
-}
-
-// Set la correspondance d'indice i du tableau de correspondance entre les identifiants et les indices des stations
-void set_corresp_tab(corresp_station_tab* tab_c, int i, corresp_station* c) {
-    tab_c -> tab[i] = *c;
-}
-
 // Donne l'identifiant de la correspondance d'indice i du tableau de correspondance entre les identifiants et les indices des stations
-char* get_corresp_tab_id(corresp_station_tab* tab_c, int i) {
-    return tab_c -> tab[i].id;
+int get_corresp_tab_id(corresp_station_tab* tab_c, int i) {
+    return tab_c -> tab_id[i];
 }
 
 // Set l'identifiant de la correspondance d'indice i du tableau de correspondance entre les identifiants et les indices des stations
 void set_corresp_tab_id(corresp_station_tab* tab_c, int i, int id) {
-    return tab_c -> tab[i].id;
+    tab_c -> tab_id[i] = id;
 }

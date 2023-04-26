@@ -31,7 +31,7 @@ bool is_empty_list_int(list_int* one_list){
 
 // Ajout d'un élément au début d'une liste de int
 void append_list_int(list_int* one_list, int element){
-    list_int* list_suiv = list_int_create();
+    list_int* list_suiv = create_list_int();
     list_suiv -> element = one_list -> element;
     list_suiv -> next = one_list -> next;
     one_list -> element = element;
@@ -39,7 +39,7 @@ void append_list_int(list_int* one_list, int element){
 }
 
 // Taille d'une liste de int
-int list_int_size(list_int* one_list){
+int size_list_int(list_int* one_list){
     list_int* list = one_list;
     int size = 0;
     while (list != NULL){

@@ -19,7 +19,7 @@ void destroy_matrice(float** mat, int n) {
 
 // Création de la structure d'une matrice strictement inférieure
 matrice_inf* create_matrice_struc(int n){
-    matrice_inf* mat = malloc(sizeof(matrice_inf));
+    matrice_inf* mat_s = malloc(sizeof(matrice_inf));
     mat_s -> mat = create_matrice(n);
     mat_s -> taille = n;
     return mat_s;
@@ -54,7 +54,7 @@ void set_element_matrice_struc(matrice_inf* mat_s, int i, int j, float val){
 
 // Destruction de la structure d'une matrice strictement inférieure
 void destroy_matrice_struc(matrice_inf* mat_s){
-    destroy_matrice(mat_s -> mat);
+    destroy_matrice(mat_s -> mat, mat_s -> taille);
     free(mat_s);
 }
 

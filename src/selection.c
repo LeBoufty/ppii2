@@ -28,12 +28,12 @@ corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_
     corresp_station_tab* corresp = create_corresp_tab(size_list_int(liste) + 2);
 
     // On ajoute les points de départ et d'arrivée
-    set_corresp_tab(corresp, 0, -1); // -1 correspond au point de départ
-    set_corresp_tab(corresp, 1, -2); // -2 correspond au point d'arrivée
+    set_corresp_tab_id(corresp, 0, -1); // -1 correspond au point de départ
+    set_corresp_tab_id(corresp, 1, -2); // -2 correspond au point d'arrivée
 
     // On remplit le tableau de correspondance
-    for (int i = 2; i < size_list_int(liste); i++) {
-        set_corresp_tab(corresp, i, get_list_int(liste, i));
+    for (int i = 2; i < size_corresp_tab(corresp); i++) {
+        set_corresp_tab_id(corresp, i, pop_list_int(liste));
     }
 
     // On détruit la liste
@@ -46,7 +46,7 @@ corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_
 // Génère la matrice de distance entre les points sélectionnés en ajoutant les points de départ et d'arrivée
 matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, coord* arrivee, station_tab* tab_s) {
     // On crée la matrice
-    matrice_inf* matrice = create_matrice_inf(size_corresp_tab(corresp));
+    matrice_inf* matrice = create_matrice_struc(size_corresp_tab(corresp));
 
     // Les points de départ et d'arrivée sont les deux premiers points de la matrice
 
@@ -71,8 +71,8 @@ matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, c
         // Si on a un point de la liste
         else {
             // On récupère le point dans le tableau de correspondance
-            set_coord_x(point_1, get_coord_x(get_station_tab_coord(tab_s, get_corresp_tab(corresp, i))));
-            set_coord_y(point_1, get_coord_y(get_station_tab_coord(tab_s, get_corresp_tab(corresp, i))));
+            set_coord_x(point_1, get_coord_x(get_station_tab_coord(tab_s, get_corresp_tab_id(corresp, i))));
+            set_coord_y(point_1, get_coord_y(get_station_tab_coord(tab_s, get_corresp_tab_id(corresp, i))));
         }
         
         for (int j = 0; j < i; j++) {
@@ -91,12 +91,12 @@ matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, c
             // Si on a un point de la liste
             else {
                 // On récupère le point dans le tableau de correspondance
-                set_coord_x(point_2, get_coord_x(get_station_tab_coord(tab_s, get_corresp_tab(corresp, j))));
-                set_coord_y(point_2, get_coord_y(get_station_tab_coord(tab_s, get_corresp_tab(corresp, j))));
+                set_coord_x(point_2, get_coord_x(get_station_tab_coord(tab_s, get_corresp_tab_id(corresp, j))));
+                set_coord_y(point_2, get_coord_y(get_station_tab_coord(tab_s, get_corresp_tab_id(corresp, j))));
             }
 
             // On calcule la distance entre les deux points
-            set_matrice_struc(matrice, i, j, distance(point_1, point_2));
+            set_element_matrice_struc(matrice, i, j, distance(point_1, point_2));
 
         }
     }

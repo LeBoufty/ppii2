@@ -27,16 +27,10 @@ struct station_tab
 
 
 // Structure de données pour les correspondances entre le tableau de stations et le tableau de stations trié
-struct corresp_station
-{
-    int id;
-    int id_station_tab;
-} typedef corresp_station;
-
 struct corresp_station_tab
 {
     int taille;
-    corresp_station* tab;
+    int* tab_id;
 } typedef corresp_station_tab;
 
 station_tab* create_station_tab(int taille);
@@ -64,8 +58,6 @@ corresp_station_tab* create_corresp_tab(int taille);
 void destroy_corresp_tab(corresp_station_tab* tab_c);
 int size_corresp_tab(corresp_station_tab* tab_c);
 
-corresp_station* get_corresp_tab(corresp_station_tab* tab_c, int i);
-void set_corresp_tab(corresp_station_tab* tab_c, int i, corresp_station* c);
 int get_corresp_tab_id(corresp_station_tab* tab_c, int i);
 void set_corresp_tab_id(corresp_station_tab* tab_c, int i, int id);
 
