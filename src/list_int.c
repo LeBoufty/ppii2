@@ -62,9 +62,10 @@ int pop_list_int(list_int* one_list){
         return -1;
     }
     // Sinon
-    int element = one_list -> element;
-    one_list -> element = one_list -> next -> element;
-    one_list -> next = one_list -> next -> next;
-    free(one_list -> next);
-    return element;
+    int element_r = one_list -> element;
+    list_int* list_suiv = one_list -> next;
+    one_list -> element = list_suiv -> element;
+    one_list -> next = list_suiv -> next;
+    free(list_suiv);
+    return element_r;
 }

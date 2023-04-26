@@ -26,7 +26,6 @@ corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_
 
     // On crée le tableau de correspondance
     corresp_station_tab* corresp = create_corresp_tab(size_list_int(liste) + 2);
-
     // On ajoute les points de départ et d'arrivée
     set_corresp_tab_id(corresp, 0, -1); // -1 correspond au point de départ
     set_corresp_tab_id(corresp, 1, -2); // -2 correspond au point d'arrivée

@@ -78,7 +78,7 @@ bool excl_carre(coord* point, coord* dep, coord* arr, int marge){
 }
 
 // Exclut un point si il est dans un ovale avec une marge
-bool excl_ovale(coord* point, coord* dep, coord* arr, int marge)
+bool excl_ovale(coord* point, coord* dep, coord* arr, double marge)
 {
     float distab,N,distac,distbc;
     distab=distance(dep,arr);
