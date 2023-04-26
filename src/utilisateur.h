@@ -9,14 +9,13 @@
 #include <time.h>
 #include "station.h"
 #include "voiture.h"
+#include "coord.h"
 
 struct utilisateur
 {
     char voiture;
-    float lodepart; //lo=longitude, la=latitude
-    float ladepart;
-    float loarrivee;
-    float laarrivee;
+    coord* depart; //lo=longitude, la=latitude
+    coord* arrivee;
     utilisateur* next;
 } typedef utilisateur;
 

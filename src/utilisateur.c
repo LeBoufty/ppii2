@@ -4,10 +4,8 @@
 utilisateur* create_utilisateur()
 {
     utilisateur* list_u=malloc(sizeof(utilisateur));
-    list_u->loarrivee=calloc(1,sizeof(float));
-    list_u->laarrivee=calloc(1,sizeof(float));
-    list_u->lodepart=calloc(1,sizeof(float));
-    list_u->ladepart=calloc(1,sizeof(float));
+    list_u->depart=calloc(1,sizeof(coord));
+    list_u->arrivee=calloc(1,sizeof(coord));
     list_u->voiture=calloc(1,sizeof(char));
     list_u->next=NULL;
     return(list_u);
@@ -36,15 +34,15 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
         voiture=get_voiture_tab_name(list_v,rdm_v);
 
         utilisateur* u_suiv = utilisateur_create();
-        u_suiv->laarrivee=list_u->laarrivee;
-        u_suiv->loarrivee=list_u->loarrivee;
-        u_suiv->ladepart=list_u->ladepart;
-        u_suiv->lodepart=list_u->lodepart;
+        u_suiv->depart->x=list_u->depart->x;
+        u_suiv->depart->y=list_u->depart->y;
+        u_suiv->arrivee->x=list_u->arrivee->x;
+        u_suiv->arrivee->y=list_u->arrivee->y;
         u_suiv->voiture=list_u->voiture;
-        list_u->laarrivee=laarr;
-        list_u->ladepart=ladep;
-        list_u->loarrivee=loarr;
-        list_u->lodepart=lodep;
+        list_u->arrivee->y=laarr;
+        list_u->depart->y=ladep;
+        list_u->arrivee->x=loarr;
+        list_u->depart->x=lodep;
         list_u->voiture=voiture;
         list_u->next=u_suiv;
     }
