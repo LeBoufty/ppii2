@@ -11,6 +11,24 @@ utilisateur* create_utilisateur()
     return(list_u);
 }
 
+utilisateurinfo* create_utilisateurinfo()
+{
+    utilisateurinfo* list_ui=malloc(sizeof(utilisateurinfo));
+    list_ui->distance_pro=calloc(1,sizeof(double));
+    list_ui->taux_charge=calloc(1,sizeof(double));
+    list_ui->chemin=calloc(1,sizeof(chemin));
+    list_ui->next=NULL;
+    return(list_ui);
+}
+
+utilisateurtrajet* create_utilisateurtrajet()
+{
+    utilisateurtrajet* list_ut=malloc(sizeof(utilisateurtrajet));
+    list_ut->info=calloc(1,sizeof(utilisateurinfo));
+    list_ut->next=NULL;
+    return(list_ut);
+}
+
 // Crée une liste d'utilisateur remplie aléatoirement
 utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     utilisateur* list_u=utilisateur_create();
@@ -48,3 +66,17 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     }
     return list_u;
 }
+
+utilisateurtrajet* trajets(utilisateur* list_u);
+{
+    station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
+    utilisateurtrajet* trajet=create_utilisateurtrajet();
+    while (list_u->next!=NULL)
+    {
+        chemin* chemin=create_chemin();
+        corresp_station_tab* corresp = select_point_struct(list_u->depart, list_u->arrivee, tab_s, 1);
+        matrice_inf* matrice = generate_adj_matrice(corresp, list_u->depart, list_u->arrivee, tab_s);
+        chemin=a_star(matrice,list_u->depart,list_u->arrivee,)
+    }
+}
+
