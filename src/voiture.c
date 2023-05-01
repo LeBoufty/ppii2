@@ -74,3 +74,13 @@ int get_voiture_tab_fast_charge(voiture_tab* v, int i){
 void set_voiture_tab_fast_charge(voiture_tab* v, int i, int fast_charge){
     v -> tab[i].fast_charge = fast_charge;
 }
+
+// Donne la capacité de la voiture d'indice i du tableau de voiture en Wh
+int get_voiture_tab_capacity(voiture_tab* v, int i){
+    return get_voiture_tab_range(v, i) * get_voiture_tab_efficiency(v, i);
+}
+
+// Donne la capacité de charge rapide de la voiture d'indice i du tableau de voiture en W
+int get_voiture_tab_fast_charge_W(voiture_tab* v, int i){
+    return get_voiture_tab_fast_charge(v, i) * get_voiture_tab_efficiency(v, i);
+}

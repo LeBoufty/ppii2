@@ -41,4 +41,7 @@ void set_voiture_tab_efficiency(voiture_tab* v, int i, int efficiency);
 int get_voiture_tab_fast_charge(voiture_tab* v, int i);
 void set_voiture_tab_fast_charge(voiture_tab* v, int i, int fast_charge);
 
+int get_voiture_tab_capacity(voiture_tab* v, int i);
+int get_voiture_tab_fast_charge_W(voiture_tab* v, int i, int distance);
+
 #endif
