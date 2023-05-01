@@ -31,12 +31,21 @@ void set_coord_y(coord* point, double y) {
     point -> y = y;
 }
 
+// Set les coordonnées d'un point
+void set_coord(coord* point, double x, double y) {
+    set_coord_y(point, x);
+    set_coord_x(point, y);
+}
+
 // Donne une distance selon la formule de Haversine entre deux points
-float distance(coord* p1, coord* p2) {
-    float x1=(p1->x)*DEG_TO_RAD;float y1=(p1->y)*DEG_TO_RAD;
-    float x2=(p2->x)*DEG_TO_RAD;float y2=(p2->y)*DEG_TO_RAD;
+double distance(coord* p1, coord* p2) {
+    double x1 = get_coord_x(p1)*DEG_TO_RAD;
+    double y1 = get_coord_y(p1)*DEG_TO_RAD;
+    double x2 = get_coord_x(p2)*DEG_TO_RAD;
+    double y2 = get_coord_y(p2)*DEG_TO_RAD;
+    
     if (x1==x2 && y1==y2){return 0;}
-    float A= sin(y1)*sin(y2) + cos(y1)*cos(y2)*cos(x2-x1);
+    double A= sin(y1)*sin(y2) + cos(y1)*cos(y2)*cos(x2-x1);
     if (A>1){A=1;}
     if (A<-1){A=-1;}
     return 6371*acosf(A);
@@ -80,11 +89,11 @@ bool excl_carre(coord* point, coord* dep, coord* arr, int marge){
 // Exclut un point si il est dans un ovale avec une marge
 bool excl_ovale(coord* point, coord* dep, coord* arr, double marge)
 {
-    float distab,N,distac,distbc;
+    double distab,N,distac,distbc;
     distab=distance(dep,arr);
     distac=distance(dep,point);
     distbc=distance(point,arr);
-    N=distab+marge/distab;
+    N=distab+distab/marge;
     if(distac+distbc<=N)
     {
         return(true);

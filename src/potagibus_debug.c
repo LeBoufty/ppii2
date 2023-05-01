@@ -7,12 +7,18 @@ int main(int argc, char** argv){
     argv = NULL;
 
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
-    coord* depart = create_coord(48.856614, 2.3522219);
-    coord* arrivee = create_coord(48.85, 2.35);
-    double marge = 1;
-
+    coord* depart = create_coord();
+    set_coord(depart, 48.89880886438817, 7.838002707088477);
+    coord* arrivee = create_coord();
+    set_coord(arrivee, 43.72682013364305, -0.9193429353112762);
+    double marge = 50;
+    printf("%d\n", size_station_tab(tab_s));
     corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, marge);
+    printf("%d\n", size_corresp_tab(corresp));
     matrice_inf* matrice = generate_adj_matrice(corresp, depart, arrivee, tab_s);
+
+    double dist = distance(depart, arrivee);
+    printf("%f\n", dist);
 
     destroy_coord(depart);
     destroy_coord(arrivee);
