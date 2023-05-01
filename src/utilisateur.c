@@ -67,16 +67,48 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     return list_u;
 }
 
-utilisateurtrajet* trajets(utilisateur* list_u);
+void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info)
+{
+    utilisateurtrajet* traj_suiv = create_utilisateurtrajet();
+    traj_suiv->info=trajet->info;
+    trajet->info=info;
+    trajet->next=traj_suiv;
+    
+}
+
+void utilisateur_info_append(utilisateurinfo* info, chemin_tab_struct* chemin, double distance, double taux_charge)
+{
+    utilisateurinfo* info_suiv=create_utilisateurinfo();
+    info_suiv->chemin=info->chemin;
+    info_suiv->distance_pro=info->distance_pro;
+    info_suiv->taux_charge=info->taux_charge;
+    info->chemin=chemin;
+    info->distance_pro=distance;
+    info->taux_charge=taux_charge;
+    info->next=info_suiv;
+}
+
+utilisateurtrajet* trajets(utilisateur* list_u)
 {
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
     utilisateurtrajet* trajet=create_utilisateurtrajet();
+    int i=0;
+    int size;
+    int vitesse=80;
     while (list_u->next!=NULL)
     {
-        chemin* chemin=create_chemin();
+        utilisateurinfo* info=create_utilisateurinfo();
         corresp_station_tab* corresp = select_point_struct(list_u->depart, list_u->arrivee, tab_s, 1);
         matrice_inf* matrice = generate_adj_matrice(corresp, list_u->depart, list_u->arrivee, tab_s);
-        chemin=a_star(matrice,list_u->depart,list_u->arrivee,)
+        chemin_tab_struct* chemin=a_star(matrice,list_u->depart,list_u->arrivee,50);
+        size=size_chemin_tab_struct(chemin);
+        for(i=0;i<size;i++)
+        {
+            utilisateur_info_append(info,chemin[(size-i-1):],get_chemin_tab_struct_distance_prochain(chemin,(size-i-1)),get_chemin_tab_struct_capacite_apres(chemin,(size-i-1)));
+        }
+        utilisateur_trajet_append(trajet,info);
+        list_u=list_u->next;
     }
+    return(trajet);
 }
 

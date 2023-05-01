@@ -13,6 +13,7 @@
 #include "potagibus_a_star.h"
 #include "selection.h"
 #include "pota_file.h"
+#include "chemin.h"
 
 struct utilisateur
 {
@@ -24,7 +25,7 @@ struct utilisateur
 
 struct utilisateurinfo
 {
-    chemin* chemin;
+    chemin_tab_struct* chemin;
     double distance_pro;
     double taux_charge;
     utilisateurinfo* next;
@@ -45,5 +46,9 @@ utilisateurinfo* create_utilisateurinfo();
 utilisateurtrajet* create_utilisateurtrajet();
 
 utilisateurtrajet* trajets(utilisateur* list_u);
+
+void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
+
+void utilisateur_info_append(utilisateurinfo* info, chemin_tab_struct* chemin, double distance, double taux_charge);
 
 #endif
