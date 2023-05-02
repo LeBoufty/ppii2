@@ -70,7 +70,7 @@ chemin* push_chemin(chemin* c, int id, double distance, double capacite_avant, d
     chemin* new = create_chemin(gc); 
     new -> id = id;
     new -> suivant = c;
-    new -> distance_totale = distance + c -> distance_total;
+    new -> distance_total = distance + c -> distance_total;
     new -> distance_prochain = distance;
     new -> capacite_avant = capacite_avant;
     new -> capacite_apres = capacite_apres;
@@ -95,17 +95,17 @@ int size_chemin(chemin* c){
 }
 
 // Distance totale d'un chemin depuis le début
-double get_distance_totale_chemin(chemin* c){ 
+double get_chemin_distance_totale(chemin* c){ 
     // Si le chemin n'existe pas, retourne 0
     if (c == NULL){ 
         return 0;
     }
 
-    return c -> distance;
+    return c -> distance_total;
 }
 
 // Distance du prochain élément du chemin
-double get_distance_prochain_chemin(chemin* c){ 
+double get_chemin_distance_prochain(chemin* c){ 
     // Si le chemin n'existe pas, retourne 0
     if (c == NULL){ 
         return 0;
@@ -115,7 +115,7 @@ double get_distance_prochain_chemin(chemin* c){
 }
 
 // Capacité avant le prochain élément du chemin
-double get_capacite_avant_chemin(chemin* c){ 
+double get_chemin_capacite_avant(chemin* c){ 
     // Si le chemin n'existe pas, retourne 0
     if (c == NULL){ 
         return 0;
@@ -125,13 +125,23 @@ double get_capacite_avant_chemin(chemin* c){
 }
 
 // Capacité après le prochain élément du chemin
-double get_capacite_apres_chemin(chemin* c){ 
+double get_chemin_capacite_apres(chemin* c){ 
     // Si le chemin n'existe pas, retourne 0
     if (c == NULL){ 
         return 0;
     }
 
     return c -> capacite_apres;
+}
+
+// ID du prochain élément du chemin
+int get_chemin_id(chemin* c){ 
+    // Si le chemin n'existe pas, retourne -1
+    if (c == NULL){ 
+        return -1;
+    }
+
+    return c -> id;
 }
 
 // Copie d'un chemin en un tableau d'entiers géré dynamiquement | Ancien code, non utilisé
@@ -176,7 +186,6 @@ void destroy_chemin(chemin* c){
 // Création d'une file de priorité triée par distance
 file* create_file(){ 
     file* f = malloc(sizeof(file));
-    f -> id = -1;
     f -> distance_approche = -1;
     // Les premiers éléments de la file sont toujours NULL
     f -> chemin = NULL; 
@@ -186,7 +195,7 @@ file* create_file(){
 }
 
 // Ajout d'un élément dans la file de priorité triée par distance
-void enqueue_file(file* f, chemin* c, int id, float distance_approche){ 
+void enqueue_file(file* f, chemin* c, double distance_approche){ 
     // Si la file n'existe pas, on ne fait rien
     if (f == NULL){ 
         return;
@@ -194,7 +203,6 @@ void enqueue_file(file* f, chemin* c, int id, float distance_approche){
 
     // Création d'un nouvel élément
     file* new = create_file(); 
-    new -> id = id;
     new -> distance_approche = distance_approche;
     new -> chemin = c;
 
@@ -217,22 +225,20 @@ void enqueue_file(file* f, chemin* c, int id, float distance_approche){
 }
 
 // Retire le premier élément de la file
-void dequeue(file* f, chemin** c, int* id, float* distance_approche){
+chemin* dequeue_file(file* f){
     // Si la file n'existe pas, on ne fait rien
     if (f == NULL){
-        return;
+        return NULL;
     }
 
     // Si la file est vide, on ne fait rien
     if (f -> suivant == NULL){ 
-        return;
+        return NULL;
     }
 
     // Récupération des informations du premier élément de la file
     file* tmp = f -> suivant; 
-    *c = tmp -> chemin; 
-    *id = tmp -> id;
-    *distance_approche = tmp -> distance_approche;
+    chemin* c = tmp -> chemin; 
 
     // Suppression du premier élément de la file
     f -> suivant = tmp -> suivant;
@@ -242,7 +248,7 @@ void dequeue(file* f, chemin** c, int* id, float* distance_approche){
     }
     free(tmp);
 
-    return;
+    return c;
 }
 
 // Retourne true si la file est vide, false sinon
@@ -268,8 +274,8 @@ bool is_next_file(file* f, int id){
         return false;
     }
 
- 
-    if (f -> suivant -> id == id){
+    
+    if (get_chemin_id(f -> suivant -> chemin) == id){
         return true;
     }
 
@@ -290,4 +296,57 @@ void destroy_file(file* f){
         f = f -> suivant;
         free(tmp);
     }
+}
+
+// Création du tableau visites
+visite_tab* create_visite_tab(int taille){
+    visite_tab* v = malloc(sizeof(visite_tab));
+    v -> taille = taille;
+    v -> tab = malloc(sizeof(int) * taille); // sizeof(bool) ne marche pas
+    for (int i = 0; i < taille; i++){
+        v -> tab[i] = false;
+    }
+    return v;
+}
+
+// Donne la valeur d'une case du tableau visites
+bool get_visite_tab(visite_tab* v, int id){
+    // Si le tableau n'existe pas, on retourne false
+    if (v == NULL){
+        return false;
+    }
+
+    // Si l'id est en dehors du tableau, on retourne false
+    if (id < 0 || id >= v -> taille){
+        return false;
+    }
+
+    return v -> tab[id];
+}
+
+// Met à jour la valeur d'une case du tableau visites
+void set_visite_tab(visite_tab* v, int id, bool value){
+    // Si le tableau n'existe pas, on ne fait rien
+    if (v == NULL){
+        return;
+    }
+
+    // Si l'id est en dehors du tableau, on ne fait rien
+    if (id < 0 || id >= v -> taille){
+        return;
+    }
+
+    v -> tab[id] = value;
+}
+
+// Destruction du tableau visites
+void destroy_visite_tab(visite_tab* v){
+    // Si le tableau n'existe pas, on ne fait rien
+    if (v == NULL){
+        return;
+    }
+
+    // Destruction du tableau
+    free(v -> tab);
+    free(v);
 }

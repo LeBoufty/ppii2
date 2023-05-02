@@ -29,8 +29,9 @@ int size_chemin_tab_struct(chemin_tab_struct* cts);
 double get_chemin_tab_struct_temps_recharge(chemin_tab_struct* cts, int i);
 double get_chemin_tab_struct_temps_prochain(chemin_tab_struct* cts, int i, int vitesse);
 
-void set_chemin_tab_struct_id(chemin_tab_struct* cts, int i, int id);
-int get_chemin_tab_struct_id(chemin_tab_struct* cts, int i);
+void set_chemin_tab_struct_id_station(chemin_tab_struct* cts, int i, int id);
+int get_chemin_tab_struct_id_station(chemin_tab_struct* cts, int i);
+int get_chemin_tab_struct_id_voiture(chemin_tab_struct* cts);
 void set_chemin_tab_struct_distance_prochain(chemin_tab_struct* cts, int i, double distance_prochain);
 double get_chemin_tab_struct_distance_prochain(chemin_tab_struct* cts, int i);
 void set_chemin_tab_struct_capacite_avant(chemin_tab_struct* cts, int i, double capacite_avant);

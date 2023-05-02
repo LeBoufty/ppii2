@@ -62,3 +62,13 @@ void destroy_matrice_struc(matrice_inf* mat_s){
 int size_matrice_struc(matrice_inf* mat_s){
     return mat_s -> taille;
 }
+
+// Print la matrice strictement inférieure | DEBUG
+void print_matrice_struc(matrice_inf* mat_s){
+    for (int i = 0; i < size_matrice_struc(mat_s); i++){
+        for (int j = 0; j < size_matrice_struc(mat_s); j++){
+            printf("%f ", get_element_matrice_struc(mat_s, i, j));
+        }
+        printf("\n");
+    }
+}

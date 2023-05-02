@@ -21,4 +21,6 @@ void set_element_matrice_struc(matrice_inf* mat_s, int i, int j, float val);
 void destroy_matrice_struc(matrice_inf* mat_s);
 int size_matrice_struc(matrice_inf* mat_s);
 
+void print_matrice_struc(matrice_inf* mat_s);
+
 #endif

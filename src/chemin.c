@@ -3,7 +3,7 @@
 // Création d'un chemin_tab_struct
 chemin_tab_struct* create_chemin_tab_struct(int taille, station_tab* tab_s, voiture_tab* tab_v, int id_v){
     chemin_tab_struct* cts = malloc(sizeof(chemin_tab_struct));
-    cts -> tab = malloc(sizeof(chemin_tab*) * taille);
+    cts -> tab = malloc(taille * sizeof(chemin_tab));
     cts -> taille = taille;
     cts -> s_tab = tab_s;
     cts -> v_tab = tab_v;
@@ -24,7 +24,7 @@ int size_chemin_tab_struct(chemin_tab_struct* cts){
 
 // Donne le temps de recharge de la station à l'indice i
 double get_chemin_tab_struct_temps_recharge(chemin_tab_struct* cts, int i){
-    return (double)(get_chemin_tab_struct_capacite_apres(cts, i) - get_chemin_tab_struct_capacite_avant(cts, i)) / (double)get_voiture_tab_fast_charge_W(cts -> v_tab, get_chemin_tab_struct_id(cts, i));
+    return (double)(get_chemin_tab_struct_capacite_apres(cts, i) - get_chemin_tab_struct_capacite_avant(cts, i)) / (double)get_voiture_tab_fast_charge_W(cts -> v_tab, get_chemin_tab_struct_id_voiture(cts));
 }
 
 // Donne le temps de trajet (en h) entre la station à l'indice i et la station à l'indice i + 1
@@ -33,17 +33,26 @@ double get_chemin_tab_struct_temps_prochain(chemin_tab_struct* cts, int i, int v
 }
 
 // Set l'id de la station à l'indice i
-void set_chemin_tab_struct_id(chemin_tab_struct* cts, int i, int id){
+void set_chemin_tab_struct_id_station(chemin_tab_struct* cts, int i, int id){
     cts -> tab[i].id = id;
 }
 
 // Get l'id de la station à l'indice i
-int get_chemin_tab_struct_id(chemin_tab_struct* cts, int i){
+int get_chemin_tab_struct_id_station(chemin_tab_struct* cts, int i){
     return cts -> tab[i].id;
+}
+
+// Get l'id de la voiture
+int get_chemin_tab_struct_id_voiture(chemin_tab_struct* cts){
+    return cts -> id_v;
 }
 
 // Set la distance à la prochaine station à l'indice i
 void set_chemin_tab_struct_distance_prochain(chemin_tab_struct* cts, int i, double distance_prochain){
+    if (i > size_chemin_tab_struct(cts) - 1 || i < 0){
+        printf("Erreur : set_chemin_tab_struct_distance_prochain : i invalide\n");
+        exit(1);
+    }
     cts -> tab[i].distance_prochain = distance_prochain;
 }
 
@@ -71,4 +80,5 @@ void set_chemin_tab_struct_capacite_apres(chemin_tab_struct* cts, int i, double 
 double get_chemin_tab_struct_capacite_apres(chemin_tab_struct* cts, int i){
     return cts -> tab[i].capacite_apres;
 }
+
 
