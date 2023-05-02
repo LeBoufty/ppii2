@@ -40,13 +40,13 @@ fin si nb utilisateurs = 0
     Utilité : Prend en paramètre la liste des voitures, des stations ainsi qu'un nombre d'utilisateurs n à générer. Génère de façon aléatoire n trajet associée à n voitures. 
     I/O : Produit une liste chaîné faite avec la struct utilisateurs de n maillons avec un point de départ matérialisé avec les coordonnées x et y, ainsi qu'un modèle de voiture.
 
-  -trajets(list_u: utilisateur*)->info: utilisateurinfo* 
+  -trajets(list_u: utilisateur*)->info: utilisateurtrajet* 
 	  Utilité : Pour chaque utilisateur calcule le chemin entre le point de départ et d'arriver (partie 1). /!\ Penser aux id_stations relatives.
 	  I/O Entrée : list_u liste d'utilisateur à qui il faut calculer la trajet
 		    Sortie : Liste chainée de trajets/distance_de_borne/taux_de_charge 
 	  Info supp : on peut juste faire une liste chainée et suppr le chainon(list_u et la sortie) quand c'est fini   
 
-i -traitement(info: utilisateurinfo*)->Etat_reseau int* (Grosse fonction)
+  -traitement(trajet: utilisateurtrajet*)->Etat_reseau int* (Grosse fonction)
 	  Utilité : Parcours la liste chainée pour trouver les utilisateur à une distance_de_borne=0, gère les différents cas (Lance le rechargement, file d'attente ou fin de trajet.), gère le rechargement et gère le prochain tick. En gros, elle gère tout le tick de 10min en faisant 1 seul parcours de la liste.
 	  I/O 	Entrée : list_truc la liste des trajets avec leur distance_de_borne
 		      Sortie : retourne l'état du réseau à l'instant n 
