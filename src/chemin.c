@@ -11,6 +11,25 @@ chemin_tab_struct* create_chemin_tab_struct(int taille, station_tab* tab_s, voit
     return cts;
 }
 
+// Affichage d'un chemin_tab_struct
+void print_chemin_tab_struct(chemin_tab_struct* cts){
+    printf("chemin_tab_struct:\n");
+    printf("taille: %d\n", cts -> taille);
+    printf("id_voiture: %d\n", cts -> id_v);
+    for (int i = 0; i < cts -> taille; i++){
+        printf("chemin_tab %d:\n", i);
+        print_chemin_tab(cts -> tab[i]);
+    }
+}
+
+// Affiche chemin_tab
+void print_chemin_tab(chemin_tab ct){
+    printf("id_station: %d\n", ct.id);
+    printf("capacite_avant: %f\n", ct.capacite_avant);
+    printf("capacite_apres: %f\n", ct.capacite_apres);
+    printf("temps_prochain: %f\n", ct.distance_prochain);
+}
+
 // Destruction d'un chemin_tab_struct
 void destroy_chemin_tab_struct(chemin_tab_struct* cts){
     free(cts -> tab);

@@ -2,6 +2,7 @@
 #include "pota_file.h"
 #include "chemin.h"
 #include "a_star.h"
+#include <time.h>
 
 int main(int argc, char** argv){
     // Suppression des warnings
@@ -11,10 +12,10 @@ int main(int argc, char** argv){
     voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
     coord* depart = create_coord();
-    set_coord(depart, 48.692393357435655, 6.1835824482039214);
+    set_coord(depart, 43.15797922487215, -1.120695982008584);
     coord* arrivee = create_coord();
-    set_coord(arrivee, 49.119026828027536, 6.240734936284884);
-    double marge = 50;
+    set_coord(arrivee, 51.048093402957015, 2.4417101732651956);
+    double marge = 1;
     printf("%d\n", size_station_tab(tab_s));
     corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, marge);
     printf("%d\n", size_corresp_tab(corresp));
@@ -22,11 +23,19 @@ int main(int argc, char** argv){
 
     double dist = distance(depart, arrivee);
     printf("%f\n", dist);
-    
-    //print_matrice_struc(matrice);
-    chemin_tab_struct* chemin = a_star(matrice, corresp, tab_s, tab_v, 0, 1, 5, -1);
-    destroy_chemin_tab_struct(chemin);
+    printf("caca\n");
+    // print_matrice_struc(matrice);
 
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+    chemin_tab_struct* chemin = a_star(matrice, corresp, tab_s, tab_v, 298, 0.05, 80, -1);
+    destroy_chemin_tab_struct(chemin);
+    end = clock();
+
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("Temps d'exécution : %f\n", cpu_time_used);
     destroy_coord(depart);
     destroy_coord(arrivee);
 
@@ -35,16 +44,5 @@ int main(int argc, char** argv){
 
     destroy_station_tab(tab_s);
     destroy_voiture_tab(tab_v);
-
-    coord* a = create_coord();
-    coord* b = create_coord();
-
-    set_coord(a, 48.684557, 6.188514);
-    set_coord(b, 48.689762, 6.173022);
-    
-    printf("%f\n", distance(a, b));
-
-    destroy_coord(a);
-    destroy_coord(b);    
 
 }

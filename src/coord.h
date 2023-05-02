@@ -8,6 +8,7 @@
 #include <math.h>
 
 #define DEG_TO_RAD 0.0174532925
+#define EARTH_RADIUS 6378.137
 
 struct coord
 {

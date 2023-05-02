@@ -95,9 +95,6 @@ matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, c
             }
 
             // On calcule la distance entre les deux points
-            printf("Distance entre %d et %d : %f\n", i, j, distance(point_1, point_2));
-            printf("Point 1 : %f %f\n", get_coord_x(point_1), get_coord_y(point_1));
-            printf("Point 2 : %f %f\n", get_coord_x(point_2), get_coord_y(point_2));
             set_element_matrice_struc(matrice, i, j, distance(point_1, point_2));
 
         }
