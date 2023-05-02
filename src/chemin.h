@@ -25,6 +25,8 @@ struct chemin_tab_struct
 
 chemin_tab_struct* create_chemin_tab_struct(int taille, station_tab* tab_s, voiture_tab* tab_v, int id_v);
 void destroy_chemin_tab_struct(chemin_tab_struct* cts);
+void print_chemin_tab_struct(chemin_tab_struct* cts);
+void print_chemin_tab(chemin_tab ct);
 int size_chemin_tab_struct(chemin_tab_struct* cts);
 double get_chemin_tab_struct_temps_recharge(chemin_tab_struct* cts, int i);
 double get_chemin_tab_struct_temps_prochain(chemin_tab_struct* cts, int i, int vitesse);
