@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 # Test rapide avec Pyplot pour visualiser les données
 
-with open('tests\stations.csv', 'r') as f:
+with open('informations\stations.csv', 'r') as f:
     lines = f.readlines()[1:-1]
 
 names = []
