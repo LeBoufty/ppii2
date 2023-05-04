@@ -23,6 +23,9 @@ int* traitement(utilisateurtrajet* trajet){
                 //Changer la distance_pro (-1 car c'est un tick)
                 }
             }
+            else{//Mettre à jour la liste d'attente
+
+            }
         }
         else {//Si il n'est pas à une borne 
             currenttrajet->info->distance_pro=currenttrajet->info->distance_pro-1;
@@ -36,6 +39,9 @@ int* traitement(utilisateurtrajet* trajet){
 	  I/O 	Entrée : list_truc la liste des trajets avec leur distance_de_borne
 		      Sortie : retourne l'état du réseau à l'instant n 
 
+
+Mettre à jour la doc !
+
 Chemin ?
 
 Peut-être faire un taux de charge comme : km_restant; km_total; vitesse_de_rechragement(en km/tick)
@@ -43,4 +49,7 @@ Peut-être faire un taux de charge comme : km_restant; km_total; vitesse_de_rech
 Liste d'attente ? Liste des files d'attentes /stations ? Liste de tableau des stations ? 
 
 Prochaine étape ? cf chemin à emprunter
+
+Faire une struct stations, parcours%
+ 
 */
