@@ -32,6 +32,7 @@ Cherche les utilisateurs à distance_de_borne=0.
 Lance le rechargement, file d'attente ou fin de trajet.
 Cherche les voitures chargées pour commencer le nouveau trajet.
 Baisse distance_de_borne de 1 et le taux_de_charge (pour distance_de_borne!=0) et augmente le taux_de_charge pour les autres.
+Change le nombre de point de charge disponible.
 
 fin si nb utilisateurs = 0 
 
@@ -40,13 +41,13 @@ fin si nb utilisateurs = 0
     Utilité : Prend en paramètre la liste des voitures, des stations ainsi qu'un nombre d'utilisateurs n à générer. Génère de façon aléatoire n trajet associée à n voitures. 
     I/O : Produit une liste chaîné faite avec la struct utilisateurs de n maillons avec un point de départ matérialisé avec les coordonnées x et y, ainsi qu'un modèle de voiture.
 
-  -trajets(list_u: utilisateur*)->info: utilisateurtrajet* 
-	  Utilité : Pour chaque utilisateur calcule le chemin entre le point de départ et d'arriver (partie 1). /!\ Penser aux id_stations relatives.
-	  I/O Entrée : list_u liste d'utilisateur à qui il faut calculer la trajet
-		    Sortie : Liste chainée de trajets/distance_de_borne/taux_de_charge 
-	  Info supp : on peut juste faire une liste chainée et suppr le chainon(list_u et la sortie) quand c'est fini   
+  -trajets(list_u: utilisateur*)->trajet: utilisateurtrajet* 
+	  Utilité : Pour chaque utilisateur calcule le chemin entre le point de départ et d'arriver (partie 1). Et prépare le traitement.
+	  I/O Entrée : list_u liste d'utilisateur à qui il faut calculer la trajet.
+		    Sortie : Liste chainée d'utilisateur ayant chemin/id_courant(Vaut la longueur du trajet-1)/nb_ticks_attente(Temps de parcours du premier arc en ticks).   
 
-  -traitement(trajet: utilisateurtrajet*)->Etat_reseau int* (Grosse fonction)
-	  Utilité : Parcours la liste chainée pour trouver les utilisateur à une distance_de_borne=0, gère les différents cas (Lance le rechargement, file d'attente ou fin de trajet.), gère le rechargement et gère le prochain tick. En gros, elle gère tout le tick de 10min en faisant 1 seul parcours de la liste.
-	  I/O 	Entrée : list_truc la liste des trajets avec leur distance_de_borne
-		      Sortie : retourne l'état du réseau à l'instant n 
+  -traitement(trajet: utilisateurtrajet*, tab_s: station_tab*)->void (Grosse fonction)
+	  Utilité : -Parcours la liste chainée pour trouver les utilisateur à une distance_de_borne=0, gère les différents cas (Lance le rechargement, file d'attente ou fin de trajet.), gère le rechargement et gère le prochain tick. En gros, elle gère tout le tick de 10min en faisant 1 seul parcours de la liste.
+              -Modifie le tableau tab_s en changeant le nombre de points de charge dispo.
+	  I/O 	Entrée : Liste chainée d'utilisateur ayant chemin/id_courant/nb_ticks_attente et la liste des stations.
+		      Sortie : Rien.
