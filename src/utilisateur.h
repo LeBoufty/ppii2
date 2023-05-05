@@ -25,10 +25,9 @@ struct utilisateur
 
 struct utilisateurinfo
 {
+    int ID_courrant;
+    int Nb_ticks_attente;
     chemin_tab_struct* chemin;
-    double distance_pro;
-    double taux_charge;
-    utilisateurinfo* next;
 } typedef utilisateurinfo;
 
 struct utilisateurtrajet

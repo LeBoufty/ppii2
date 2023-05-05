@@ -1,4 +1,6 @@
 #include "utilisateur.h"
+#define vitesse 80
+#define tiksparh 6
 
 // Crée une liste d'utilisateur vide
 utilisateur* create_utilisateur()
@@ -14,9 +16,9 @@ utilisateur* create_utilisateur()
 utilisateurinfo* create_utilisateurinfo()
 {
     utilisateurinfo* list_ui=malloc(sizeof(utilisateurinfo));
-    list_ui->distance_pro=calloc(1,sizeof(double));
-    list_ui->taux_charge=calloc(1,sizeof(double));
-    list_ui->chemin=calloc(1,sizeof(chemin));
+    list_ui->Nb_ticks_attente=calloc(1,sizeof(int));
+    list_ui->ID_courrant=calloc(1,sizeof(int));
+    list_ui->chemin=calloc(1,sizeof(chemin_tab_struct));
     list_ui->next=NULL;
     return(list_ui);
 }
@@ -76,15 +78,15 @@ void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info)
     
 }
 
-void utilisateur_info_append(utilisateurinfo* info, chemin_tab_struct* chemin, double distance, double taux_charge)
+void utilisateur_info_append(utilisateurinfo* info, chemin_tab_struct* chemin, int ID, int tic)
 {
     utilisateurinfo* info_suiv=create_utilisateurinfo();
     info_suiv->chemin=info->chemin;
-    info_suiv->distance_pro=info->distance_pro;
-    info_suiv->taux_charge=info->taux_charge;
+    info_suiv->ID_courrant=info->ID_courrant;
+    info_suiv->Nb_ticks_attente=info->Nb_ticks_attente;
     info->chemin=chemin;
-    info->distance_pro=distance;
-    info->taux_charge=taux_charge;
+    info->ID_courrant=ID;
+    info->Nb_ticks_attente=tic;
     info->next=info_suiv;
 }
 
@@ -94,7 +96,6 @@ utilisateurtrajet* trajets(utilisateur* list_u)
     utilisateurtrajet* trajet=create_utilisateurtrajet();
     int i=0;
     int size;
-    int vitesse=80;
     while (list_u->next!=NULL)
     {
         utilisateurinfo* info=create_utilisateurinfo();
@@ -102,10 +103,7 @@ utilisateurtrajet* trajets(utilisateur* list_u)
         matrice_inf* matrice = generate_adj_matrice(corresp, list_u->depart, list_u->arrivee, tab_s);
         chemin_tab_struct* chemin=a_star(matrice,list_u->depart,list_u->arrivee,50);
         size=size_chemin_tab_struct(chemin);
-        for(i=0;i<size;i++)
-        {
-            utilisateur_info_append(info,chemin[(size-i-1):],get_chemin_tab_struct_distance_prochain(chemin,(size-i-1)),get_chemin_tab_struct_capacite_apres(chemin,(size-i-1)));
-        }
+        utilisateur_info_append(info,chemin[1:],get_chemin_tab_struct_id_station(chemin,0),get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/tiksparh);
         utilisateur_trajet_append(trajet,info);
         list_u=list_u->next;
     }
