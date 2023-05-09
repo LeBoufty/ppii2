@@ -14,6 +14,9 @@
 #include "selection.h"
 #include "pota_file.h"
 #include "chemin.h"
+#define vitesse 80
+#define ticksparh 6
+
 
 struct utilisateur
 {

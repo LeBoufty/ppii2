@@ -1,6 +1,5 @@
 #include "utilisateur.h"
-#define vitesse 80
-#define tiksparh 6
+
 
 // Crée une liste d'utilisateur vide
 utilisateur* create_utilisateur()
@@ -99,7 +98,7 @@ utilisateurtrajet* trajets(utilisateur* list_u)
         chemin_tab_struct* chemin=a_star(matrice,list_u->depart,list_u->arrivee);
         size=size_chemin_tab_struct(chemin);
         
-        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/tiksparh);
+        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/ticksparh);
         utilisateur_trajet_append(trajet,info);
         list_u=list_u->next;
     }
