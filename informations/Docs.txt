@@ -46,8 +46,8 @@ fin si nb utilisateurs = 0
 	  I/O Entrée : list_u liste d'utilisateur à qui il faut calculer la trajet.
 		    Sortie : Liste chainée d'utilisateur ayant chemin/id_courant(Vaut la longueur du trajet-1)/nb_ticks_attente(Temps de parcours du premier arc en ticks).   
 
-  -traitement(trajet: utilisateurtrajet*, tab_s: station_tab*)->void (Grosse fonction)
+  -traitement(trajet: utilisateurtrajet*)->void (Grosse fonction)
 	  Utilité : -Parcours la liste chainée pour trouver les utilisateur à une distance_de_borne=0, gère les différents cas (Lance le rechargement, file d'attente ou fin de trajet.), gère le rechargement et gère le prochain tick. En gros, elle gère tout le tick de 10min en faisant 1 seul parcours de la liste.
               -Modifie le tableau tab_s en changeant le nombre de points de charge dispo.
-	  I/O 	Entrée : Liste chainée d'utilisateur ayant chemin/id_courant/nb_ticks_attente et la liste des stations.
+	  I/O 	Entrée : Liste chainée d'utilisateur ayant chemin/id_courant/nb_ticks_attente.
 		      Sortie : Rien.
