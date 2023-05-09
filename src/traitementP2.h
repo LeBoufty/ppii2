@@ -3,6 +3,6 @@
 #include "utilisateur.h"
 
 //Fonction qui passe le réseau à l'instant n+1
-int* traitement(utilisateurtrajet* trajet);
+void traitement(utilisateurtrajet* trajet);
 
 #endif // traitementP2_h
