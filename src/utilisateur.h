@@ -10,17 +10,17 @@
 #include "station.h"
 #include "voiture.h"
 #include "coord.h"
-#include "potagibus_a_star.h"
+#include "a_star.h"
 #include "selection.h"
 #include "pota_file.h"
 #include "chemin.h"
 
 struct utilisateur
 {
-    char voiture;
+    char* voiture;
     coord* depart; //lo=longitude, la=latitude
     coord* arrivee;
-    utilisateur* next;
+    struct utilisateur* next;
 } typedef utilisateur;
 
 struct utilisateurinfo
@@ -33,7 +33,7 @@ struct utilisateurinfo
 struct utilisateurtrajet
 {
     utilisateurinfo* info;
-    utilisateurtrajet* next;
+    struct utilisateurtrajet* next;
 } typedef utilisateurtrajet;
 
 utilisateur* create_utilisateur();
@@ -48,6 +48,6 @@ utilisateurtrajet* trajets(utilisateur* list_u);
 
 void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
 
-void utilisateur_info_append(utilisateurinfo* info, chemin_tab_struct* chemin, double distance, double taux_charge);
+void utilisateur_info_change(utilisateurinfo* info, chemin_tab_struct* chemin, int ID, int tic);
 
 #endif
