@@ -54,6 +54,8 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
             if (x,y) in xy_trouves: drapo = False
         if distmin > 0 and drapo:
             if a_proximite(stat,stations_trouvees,distmin): drapo = False
+        if 'puissance_nominale' in proprietes and drapo:
+            if puissance == 0: drapo = False
         if watts and puissance%1000 != 0:
             stat.values[stat.indice('puissance_nominale')] = str(int(puissance*1000))
         if drapo:
