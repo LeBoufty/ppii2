@@ -100,4 +100,7 @@ double get_chemin_tab_struct_capacite_apres(chemin_tab_struct* cts, int i){
     return cts -> tab[i].capacite_apres;
 }
 
-
+// Add une valeur à la capacité de la voiture à la station d'indice i
+void add_chemin_tab_struct_nbre_pdc_dispo(chemin_tab_struct* cts, int i, int nbre_pdc_dispo){
+    add_station_tab_nbre_pdc_dispo(cts -> s_tab, get_chemin_tab_struct_id_station(cts, i), nbre_pdc_dispo);
+}

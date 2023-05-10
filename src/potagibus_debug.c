@@ -12,9 +12,9 @@ int main(int argc, char** argv){
     voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
     coord* depart = create_coord();
-    set_coord(depart, 43.15797922487215, -1.120695982008584);
+    set_coord(depart, 51.01853808578892, 2.454941222555289);
     coord* arrivee = create_coord();
-    set_coord(arrivee, 51.048093402957015, 2.4417101732651956);
+    set_coord(arrivee, 42.664455244199644, 2.8839045447890412);
     double marge = 1;
     printf("%d\n", size_station_tab(tab_s));
     corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, marge);
@@ -29,7 +29,8 @@ int main(int argc, char** argv){
     clock_t start, end;
     double cpu_time_used;
     start = clock();
-    chemin_tab_struct* chemin = a_star(matrice, corresp, tab_s, tab_v, 298, 0.05, 80, -1);
+    chemin_tab_struct* chemin = a_star(matrice, corresp, tab_s, tab_v, 298, 0.33, 30, -1);
+    print_chemin_tab_struct(chemin);
     destroy_chemin_tab_struct(chemin);
     end = clock();
 
