@@ -41,4 +41,6 @@ double get_chemin_tab_struct_capacite_avant(chemin_tab_struct* cts, int i);
 void set_chemin_tab_struct_capacite_apres(chemin_tab_struct* cts, int i, double capacite_apres);
 double get_chemin_tab_struct_capacite_apres(chemin_tab_struct* cts, int i);
 
+void add_chemin_tab_struct_nbre_pdc_dispo(chemin_tab_struct* cts, int i, int nbre_pdc_dispo);
+
 #endif

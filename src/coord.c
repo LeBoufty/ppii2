@@ -39,15 +39,15 @@ void set_coord(coord* point, double x, double y) {
 
 // Donne une distance selon la formule de Haversine entre deux points
 double distance(coord* p1, coord* p2) {
-    double lon1 = get_coord_x(p1)*DEG_TO_RAD;
-    double lat1 = get_coord_y(p1)*DEG_TO_RAD;
-    double lon2 = get_coord_x(p2)*DEG_TO_RAD;
-    double lat2 = get_coord_y(p2)*DEG_TO_RAD;
+    double lon1 = get_coord_x(p1) * DEG_TO_RAD;
+    double lat1 = get_coord_y(p1) * DEG_TO_RAD;
+    double lon2 = get_coord_x(p2) * DEG_TO_RAD;
+    double lat2 = get_coord_y(p2) * DEG_TO_RAD;
 
     double dlon = lon2 - lon1;
     double dlat = lat2 - lat1;
 
-    double a = pow(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon/2), 2);
+    double a = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
     double c = 2 * asin(sqrt(a));
 
     return EARTH_RADIUS * c; 

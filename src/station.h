@@ -51,6 +51,7 @@ int get_station_tab_nbre_pdc(station_tab* tab_s, int i);
 void set_station_tab_nbre_pdc(station_tab* tab_s, int i, int nbre_pdc);
 int get_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i);
 void set_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i, int nbre_pdc_dispo);
+void add_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i, int valeur_nbre_pdc_dispo);
 int get_station_tab_puissance(station_tab* tab_s, int i);
 void set_station_tab_puissance(station_tab* tab_s, int i, int puissance);
 
