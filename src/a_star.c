@@ -25,7 +25,10 @@ chemin_tab_struct* chemin_to_chemin_tab_struct(chemin* chemin, corresp_station_t
 }
 
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets, en utilisant la structure chemin, en utilisant la puissance nominale des bornes et sans correspondance de station
-chemin_tab_struct* a_star_puiss(matrice_inf* mat_st, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
+chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
+    // Crée le tableau de correspondance
+    corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, MARGE);
+
     // Récupération de la capacité de la voiture si elle n'est pas donnée
     if (capacite_depart == -1 || capacite_depart == 0){
         capacite_depart = get_voiture_tab_capacity(tab_v, id_voiture);
@@ -113,8 +116,8 @@ chemin_tab_struct* a_star_puiss(matrice_inf* mat_st, station_tab* tab_s, voiture
 }
 
 
-// ANCIEN | Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets, en utilisant la structure chemin_tab_struct
-chemin_tab_struct* a_star(matrice_inf* mat_st, corresp_station_tab* corresp, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
+// ANCIEN Ne marche plus | Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets, en utilisant la structure chemin_tab_struct
+chemin_tab_struct* a_star_anc(matrice_inf* mat_st, corresp_station_tab* corresp, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
     // Récupération de la capacité de la voiture si elle n'est pas donnée
     if (capacite_depart == -1 || capacite_depart == 0){
         capacite_depart = get_voiture_tab_capacity(tab_v, id_voiture);

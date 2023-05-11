@@ -43,7 +43,7 @@ corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_
 }
 
 // Génère la matrice de distance entre les points sélectionnés en ajoutant les points de départ et d'arrivée
-matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, coord* arrivee, station_tab* tab_s) {
+matrice_inf* generate_adj_matrice_corresp(corresp_station_tab* corresp, coord* depart, coord* arrivee, station_tab* tab_s) {
     // On crée la matrice
     matrice_inf* matrice = create_matrice_struc(size_corresp_tab(corresp));
 
@@ -108,3 +108,38 @@ matrice_inf* generate_adj_matrice(corresp_station_tab* corresp, coord* depart, c
     return matrice;
 }
 
+// Génère la matrice de distance entre les points sélectionnés en ajoutant les points de départ et d'arrivée
+matrice_inf* generate_adj_matrice(station_tab* tab_s) {
+    // On crée la matrice
+    matrice_inf* matrice = create_matrice_struc(size_station_tab(tab_s));
+
+    // Les points de départ et d'arrivée sont les deux premiers points de la matrice
+
+    // On crée des points temporaires
+    coord* point_1 = create_coord();
+    coord* point_2 = create_coord();
+
+    // On remplit la matrice
+    for (int i = 0; i < size_matrice_struc(matrice); i++) {
+
+        set_coord_x(point_1, get_coord_x(get_station_tab_coord(tab_s, i)));
+        set_coord_y(point_1, get_coord_y(get_station_tab_coord(tab_s, i)));
+        
+        for (int j = 0; j < i; j++) {
+
+            set_coord_x(point_2, get_coord_x(get_station_tab_coord(tab_s, j)));
+            set_coord_y(point_2, get_coord_y(get_station_tab_coord(tab_s, j)));
+
+            // On calcule la distance entre les deux points
+            set_element_matrice_struc(matrice, i, j, distance(point_1, point_2));
+
+        }
+    }
+
+    // On détruit les points temporaires
+    destroy_coord(point_1);
+    destroy_coord(point_2);
+
+    // On renvoie la matrice
+    return matrice;
+}
