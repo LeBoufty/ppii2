@@ -1,6 +1,6 @@
 from folium import *
 from random import random, randint
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template
 
 ### Variables globales
 out = "static/out"
@@ -46,7 +46,7 @@ def genere_map():
 @app.route('/')
 def index():
     genere_map().save(carte)
-    return open(carte,'r').read()
+    return render_template("map.html")
 
 @app.route('/random')
 def aleatoire():
