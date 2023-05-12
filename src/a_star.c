@@ -1,4 +1,5 @@
 #include "a_star.h"
+#include <time.h>
 
 // Fonction min
 double min(double a, double b){
@@ -27,6 +28,7 @@ chemin_tab_struct* chemin_to_chemin_tab_struct(chemin* chemin, corresp_station_t
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets, en utilisant la structure chemin, en utilisant la puissance nominale des bornes et sans correspondance de station
 chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
     // Crée le tableau de correspondance
+    
     corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, MARGE);
 
     // Récupération de la capacité de la voiture si elle n'est pas donnée
@@ -46,7 +48,7 @@ chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, st
     enqueue_file(file_priorite, chemin_initial, 0);
 
     // Création du tableau des points visités
-    visite_tab* visite = create_visite_tab(size_matrice_struc(mat_st));
+    visite_tab* visite = create_visite_tab(size_corresp_tab(corresp));
 
     // Création des constantes de parcours
     double capacite_min = ((double) get_voiture_tab_capacity(tab_v, id_voiture)) * minimum_percent_battery / 100.0;
@@ -68,25 +70,31 @@ chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, st
         double distance_max = (get_chemin_capacite_apres(chemin_courant) - capacite_min) / ((double) get_voiture_tab_efficiency(tab_v, id_voiture));
 
         // On ajoute tous les points adjacents au point actuel dans la file
-        for (int i = 0; i < size_matrice_struc(mat_st); i++) {
+        for (int i = 0; i < size_corresp_tab(corresp); i++) {
             // Si le point est déjà visité ou est le point courant, on ne le traite pas
             if (get_visite_tab(visite, i) || i == id_station_courant){
                 continue;
             }
 
-            double distance_i = get_element_matrice_struc(mat_st, id_station_courant, i);
+            double distance_i = get_element_matrice_struc_a_star(mat_st, get_corresp_tab_id(corresp, id_station_courant), get_corresp_tab_id(corresp, i), depart, arrivee, tab_s);
 
             // Si la distance est inférieure à la distance maximale que l'on peut parcourir, on ajoute le point dans la file
             if (distance_i <= distance_max) {
+
+                double station_puissance = 3000000;
+                if (i != 1) {
+                    station_puissance = get_station_tab_puissance(tab_s, get_corresp_tab_id(corresp, i));
+                }
+
                 // Calcul des variables pour le chemin
                 double capacite_avant = get_chemin_capacite_apres(chemin_courant) - distance_i * ((double) get_voiture_tab_efficiency(tab_v, id_voiture));
-                double capacite_apres = min(get_voiture_tab_capacity(tab_v, id_voiture), capacite_avant + temps_recharge_max * ((double) get_voiture_tab_fast_charge_W(tab_v, id_voiture)) * ((double)get_station_tab_puissance(tab_s, i )) / 300000.0);
+                double capacite_apres = min(get_voiture_tab_capacity(tab_v, id_voiture), capacite_avant + temps_recharge_max * ((double) get_voiture_tab_fast_charge_W(tab_v, id_voiture)) * station_puissance / 300000.0);
 
                 chemin* chemin_courant_for = push_chemin(chemin_courant, i, distance_i, capacite_avant, capacite_apres, garbage_collector);
 
                 double distance_recharge = (capacite_apres - capacite_avant) / get_voiture_tab_efficiency(tab_v, id_voiture);
 
-                double distance_approche = distance_courant + distance_i + LAMBDA * get_element_matrice_struc(mat_st, i, 1) - distance_recharge;
+                double distance_approche = distance_courant + distance_i + LAMBDA * get_element_matrice_struc_a_star(mat_st, get_corresp_tab_id(corresp, i), get_corresp_tab_id(corresp, 1), depart, arrivee, tab_s) - distance_recharge;
 
                 enqueue_file(file_priorite, chemin_courant_for, distance_approche);
             }
@@ -94,7 +102,7 @@ chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, st
         }
 
     }
-    
+
     // Si la file est vide, on retourne NULL
     if (is_empty_file(file_priorite)){
         destroy_garbage_chemin(garbage_collector);
@@ -108,6 +116,7 @@ chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, st
     chemin_tab_struct* cts = chemin_to_chemin_tab_struct(chemin_final, corresp, tab_s, tab_v, id_voiture);
 
     // On détruit les structures
+    destroy_corresp_tab(corresp);
     destroy_garbage_chemin(garbage_collector);
     destroy_file(file_priorite);
     destroy_visite_tab(visite);

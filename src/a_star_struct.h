@@ -6,6 +6,9 @@
 #include <string.h>
 #include <math.h>
 #include <stdbool.h>
+#include "matrice.h"
+#include "coord.h"
+#include "station.h"
 
 #define INITIAL_SIZE_GARBAGE 50 // Taille initiale de la liste de garbage
 
@@ -69,5 +72,7 @@ visite_tab* create_visite_tab(int taille);
 bool get_visite_tab(visite_tab* v, int i);
 void set_visite_tab(visite_tab* v, int i, bool value);
 void destroy_visite_tab(visite_tab* v);
+
+double get_element_matrice_struc_a_star(matrice_inf* mat, int i, int j, coord* depart, coord* arrivee, station_tab* tab_s );
 
 #endif

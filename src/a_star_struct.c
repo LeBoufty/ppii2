@@ -350,3 +350,30 @@ void destroy_visite_tab(visite_tab* v){
     free(v -> tab);
     free(v);
 }
+
+// Fonction pour récupérer un élément de la matrice en incluant les coordonnées de début et de fin
+double get_element_matrice_struc_a_star(matrice_inf* mat, int i, int j, coord* depart, coord* arrivee, station_tab* tab_s) {
+    if (i != -1 && i != -2  && j != -1 && j != -2) {
+        return get_element_matrice_struc(mat, i, j);
+    }
+
+    // Cas spéciaux
+    if (i == j) {
+        return 0;
+    }
+    if ((i == -1 && j == -2) || (i == -2 && j == -1)) {
+        return distance(depart, arrivee);
+    }
+    if (i == -1) {
+        return distance(depart, get_station_tab_coord(tab_s, j));
+    }
+    if (j == -1) {
+        return distance(depart, get_station_tab_coord(tab_s, i));
+    }
+    if (i == -2) {
+        return distance(arrivee, get_station_tab_coord(tab_s, j));
+    }
+    if (j == -2) {
+        return distance(arrivee, get_station_tab_coord(tab_s, i));
+    }
+}

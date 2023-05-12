@@ -113,8 +113,6 @@ matrice_inf* generate_adj_matrice(station_tab* tab_s) {
     // On crée la matrice
     matrice_inf* matrice = create_matrice_struc(size_station_tab(tab_s));
 
-    // Les points de départ et d'arrivée sont les deux premiers points de la matrice
-
     // On crée des points temporaires
     coord* point_1 = create_coord();
     coord* point_2 = create_coord();
