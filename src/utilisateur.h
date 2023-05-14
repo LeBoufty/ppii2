@@ -53,4 +53,8 @@ void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info)
 
 void utilisateur_info_change(utilisateurinfo* info, chemin_tab_struct* chemin, int ID, int tic);
 
+void destroy_utilisateur_trajet(utilisateurtrajet* trajet);
+
+void destroy_utilisateur_info(utilisateurinfo* info);
+
 #endif
