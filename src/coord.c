@@ -33,8 +33,8 @@ void set_coord_y(coord* point, double y) {
 
 // Set les coordonnées d'un point
 void set_coord(coord* point, double x, double y) {
-    set_coord_y(point, x);
-    set_coord_x(point, y);
+    set_coord_x(point, x);
+    set_coord_y(point, y);
 }
 
 // Donne une distance selon la formule de Haversine entre deux points

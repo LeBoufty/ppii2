@@ -376,4 +376,5 @@ double get_element_matrice_struc_a_star(matrice_inf* mat, int i, int j, coord* d
     if (j == -2) {
         return distance(arrivee, get_station_tab_coord(tab_s, i));
     }
+    return get_element_matrice_struc(mat, i, j);
 }

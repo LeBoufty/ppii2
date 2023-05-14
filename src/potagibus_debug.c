@@ -13,9 +13,10 @@ int main(int argc, char** argv){
     voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
     coord* depart = create_coord();
-    set_coord(depart, 51.01853808578892, 2.454941222555289);
+    set_coord(depart, 51.01853808578892, 2.454941222555289); // A inverser
     coord* arrivee = create_coord();
-    set_coord(arrivee, 42.664455244199644, 2.8839045447890412);
+    set_coord(arrivee, 42.664455244199644, 2.8839045447890412); // A inverser
+    printf("Coordonnées à inverser\n");
 
     matrice_inf* matrice = generate_adj_matrice(tab_s);
     double dist = distance(depart, arrivee);

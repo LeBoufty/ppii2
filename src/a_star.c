@@ -26,10 +26,10 @@ chemin_tab_struct* chemin_to_chemin_tab_struct(chemin* chemin, corresp_station_t
 }
 
 // Algorithme A* pour trouver l'un des chemins les plus courts entre deux sommets, en utilisant la structure chemin, en utilisant la puissance nominale des bornes et sans correspondance de station
-chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart){
+chemin_tab_struct* a_star_marge(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart, double marge){
     // Crée le tableau de correspondance
     
-    corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, MARGE);
+    corresp_station_tab* corresp = select_point_struct(depart, arrivee, tab_s, marge);
 
     // Récupération de la capacité de la voiture si elle n'est pas donnée
     if (capacite_depart == -1 || capacite_depart == 0){
@@ -105,9 +105,16 @@ chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, st
 
     // Si la file est vide, on retourne NULL
     if (is_empty_file(file_priorite)){
+        destroy_corresp_tab(corresp);
         destroy_garbage_chemin(garbage_collector);
         destroy_file(file_priorite);
         destroy_visite_tab(visite);
+
+        // Si on a pas trouvé de chemin, on prend beaucoup plus de stations en diminuant la marge
+        if (marge == MARGE_BASE) {
+            return a_star_marge(mat_st, depart, arrivee, tab_s, tab_v, id_voiture, temps_recharge_max, minimum_percent_battery, capacite_depart, 0.001);
+        }
+
         return NULL;
     }
 
@@ -209,5 +216,9 @@ chemin_tab_struct* a_star_anc(matrice_inf* mat_st, corresp_station_tab* corresp,
     destroy_visite_tab(visite);
 
     return cts;
+}
+
+chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart) {
+    return a_star_marge(mat_st, depart, arrivee, tab_s, tab_v, id_voiture, temps_recharge_max, minimum_percent_battery, capacite_depart, MARGE_BASE);
 }
 

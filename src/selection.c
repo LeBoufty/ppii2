@@ -1,10 +1,10 @@
 #include "selection.h"
 
 // Renvoie une liste des points qui sont dans une zone définie par deux points
-list_int* select_point_list(coord* depart, coord* arrivee, station_tab* tab_s, int marge) {
+list_int* select_point_list(coord* depart, coord* arrivee, station_tab* tab_s, double marge) {
     // On crée la liste des points
     list_int* liste = create_list_int();
-
+    
     // On parcourt la liste des stations
     for (int i = 0; i < size_station_tab(tab_s); i++) {
         
@@ -20,7 +20,7 @@ list_int* select_point_list(coord* depart, coord* arrivee, station_tab* tab_s, i
 }
 
 // Renvoie un tableau de correspondance entre les indices de la liste et les indices de la matrice, utilise la liste des points en ajoutant les points de départ et d'arrivée
-corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_tab* tab_s, int marge) {
+corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_tab* tab_s, double marge) {
     // On récupère la liste des points
     list_int* liste = select_point_list(depart, arrivee, tab_s, marge);
 
