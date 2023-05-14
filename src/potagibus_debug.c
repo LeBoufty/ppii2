@@ -3,6 +3,7 @@
 #include "chemin.h"
 #include "a_star.h"
 #include <time.h>
+#include "coord.h"
 
 int main(int argc, char** argv){
     // Suppression des warnings
@@ -27,7 +28,10 @@ int main(int argc, char** argv){
     start = clock();
     chemin_tab_struct* chemin = a_star(matrice, depart, arrivee, tab_s, tab_v, 0 , 0.50, 20, -1);
     printf("taille chemin : %d\n", size_chemin_tab_struct(chemin));
+    print_chemin_tab_struct(chemin);
     destroy_chemin_tab_struct(chemin);
+    double distan = distance(depart, arrivee);
+    printf("distance : %f\n", distan);
     end = clock();
 
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;

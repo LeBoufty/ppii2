@@ -11,7 +11,7 @@
 
 #define BUFFER_SIZE 200
 
-int nb_ligne(const char *filename);
+// int nb_ligne(const char *filename); // Seulement pour pota_file.c
 station_tab* read_csv_station_tab(const char* filename);
 voiture_tab* read_csv_voiture_tab(const char* filename);
 

@@ -12,8 +12,8 @@ struct matrice_inf
     float** mat;
 } typedef matrice_inf;
 
-float** create_matrice(int n);
-void destroy_matrice(float** mat, int n);
+//float** create_matrice(int n); // Seulement dans le module matrice.c
+//void destroy_matrice(float** mat, int n); // Seulement dans le module matrice.c
 
 matrice_inf* create_matrice_struc(int n);
 float get_element_matrice_struc(matrice_inf* mat_s, int i, int j);

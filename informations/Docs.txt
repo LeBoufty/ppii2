@@ -1,21 +1,92 @@
-Fonctions :
- -selection_de_points(List_points :List, Départ : coord*, Arrive : coord*)->List_points_Trie : list_t*, IDepart : Int, IArrivee : Int, taille : Int
-   La sélection de points prend en entrée la liste des stations et fait du preprocessing, en gros elle enlève tous les points qui sont trop loin de nos
-   points.
-   Donc, en entrée, on a la liste des stations, les coordonnées du départ et de l'arrivée. Et en sortie la liste (chaînée possiblement) des points
-   qui nous sont utiles. Et l'index du point de départ, d'arrivée et la longueur de la liste.
+a_star_struc : Code relatif aux structures utilisé pour la fonction a_star. Cela veut dire la structure chemin, garbage_chemin, file et visite_tab. CES FONCTIONS/STRUCTURES NE SONT UTILES QUE POUR LE FICHIER A_STAR.C
+- chemin est une structure de type liste chaînée contenant id de la station, distance totale, distance à la prochaine station, la capacité avant rechargement sur la station, la capacité après rechargement sur station.
+- garbage_chemin est une structure de type liste tableau (un tableau qui s'aggrandit quand on en a besoin). Il permet de stocker les adresses des chemins à supprimer
+- file est une liste triée des chemins à visiter. Elle est triée en fonction de distance_approche de manière croissante
+- visite_tab est un tableau statique comportant de la taille du nombre de station et de type int (0 non visité, 1 visité)
+Il ne faut que utiliser les fonctions donnés pour modifier les données dans ces structures
 
-      Info complémentaire : Il faudra peut-être avoir une fonction qui donne le nom d'une station en fonction de son indice dans liste de sortie.
 
- -gen_Matrice(List_points_Trie : list_t*, Taille : Int)->Matrice_Adj : float**
-   Cette fonction génère la matrice d'adjacence à l'aide de la liste des points de la fonction Selection_de_points. Et elle fait en même temps la réduction
-   des arcs inutiles grâce à l'autonomie.
-   Donc, en entrée, on a la liste de points, l'autonomie et la taille de liste(C'est pour éviter d'avoir à la recalculer). Et en sortie donne la matrice d'adjacence.
+a_star : Comporte les fonctions pour appliquer un algorithme a_star. L'unique fonction a utiliser est a_star
+chemin_tab_struct* a_star(matrice_inf* mat_st, coord* depart, coord* arrivee, station_tab* tab_s, voiture_tab* tab_v, int id_voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart)
+  - mat_st est une matrice inférieur de TOUTES les stations
+  - depart et arrivee sont des coordonnées des points de départs et arrivée
+  - tab_s est le tableau de TOUTES les stations
+  - tab_v est le tableau de TOUTES les voitures
+  - id_voiture est l'identifiant de la voiture pour le trajet
+  - temps_recharge_max est le temps maximum en heure (30 min -> 0.5) qu'une voiture peut passer sur une station à se recharger
+  - minimum_percent_battery est le pourcentage (30% -> 30) minimum à laquelle la voiture peut descendre
+  - capacite_depart est la capacite de la batterie au début. Pour prendre la capacite maximale au départ de la voiture mettre 0 ou -1
+  - La sortie est un tableau de type chemin_tab_struct du trajet des stations. Le tableau est crée et il faudra le destroy. L'indice 0 correspont à l'arrivée, et le dernier indice au départ. POUR PLUS D'INFORMATION SUR LA SORTIE voir chemin.h
+  - Retourne NULL si aucun chemin
 
- -plus_courts_chemin(Matrice_Adj : float**, IDepart : Int, IArrive : Int, Autonomie : Int)-> Chemin: List
-   Grâce à la matrice d'adjacence (et 2-3 fonctions parallèles) calcul le plus court chemin entre le point de départ et le point d'arrivée.
-   En entrée, il nous faut la matrice d'adjacence, l'indice du point de départ et l'indice du point d'arrivée (Il faudra faire une réu de chantier pour
-   les indices dans la matrice, ça va être un beau bordels) et en sortie la liste des points de passage (en indice ou autre).
+
+chemin : Comporte les structure de données pour les chemins en général (sortie du A_star) NE PAS CHANGER OU CHERCHER LES VALEURS DANS LES STRUCTURES, UTILISER LES FONCTIONS
+- chemin_tab : Une simple structure pour stocker l'identifiant d'une station, la distance à la prochaine station, la capacité avant rechargement à la station et après rechargement à la station. N'EST PAS UTILE TEL QUEL
+- chemin_tab_struc : Une structure qui est un tableau de chemin_tab. Comporte la taille du tableau, l'identifiant de la voiture, et des liens vers le tableau de TOUTES les stations et de TOUTES les voitures
+  - chemin_tab_struct* create_chemin_tab_struct(int taille, station_tab* tab_s, voiture_tab* tab_v, int id_v) permet de créer le tableau de chemin
+  - void destroy_chemin_tab_struct(chemin_tab_struct* cts); permet de le détruire
+  - possède des setters et des getters et un add pour récupérer les informations du chemin, i est considéré comme l'identifiant du chemin dans le tableau de chemin
+
+
+coord : Structure et fonction sur les coordonnées
+coord est une structure avec 2 variables doubles, x et y
+x est la longitude et y la lattitude
+/!\ En général, les systèmes de coordonnées utilisent comme ordre la lattitude puis la longitude 
+- coord* create_coord() Crée une coordonnées vierge
+- void set_coord(coord* point, double x, double y) Met les coordonnées dans le point
+- void destroy_coord(coord* point) Détruit la coordonnée
+- double get_coord_x(coord* point) & double get_coord_y(coord* point) Donne la coord x ou get_coord_y
+- double distance(coord* p1, coord* p2) Donne la distance sur un globe entre p1 et p2
+- bool excl_ovale(coord* point, coord* dep, coord* arr, double marge) Renvoie true si le point est dans un ovale de foyer dep et arr. Lorsque l'on augmente marge (entre 20 et 100) l'ovale s'applatit. Si on met marge a 1, on a un cercle normalement
+
+
+list_int : structure d'une liste chaînée de int avec ses fonctions
+
+
+list_t : structure d'une liste chainée de coordonnée avec ses fonctions, n'est plus utilisé
+
+
+matrice : structure d'une matrice inférieur statique /!\ Les indices dans la matrice sont gérés de manière comme si la structure était complète. On peut accéder aux indices (0,0) (n-1,n-1) (n-1,0) (0,n-1). Cependant, la matrice est stocké autrement pour conserver de l'espace donc un calcul d'indice est fait dans le module.
+- matrice_inf est une structure comportant la taille de la matrice et sa matrice en float**
+- matrice_inf create_matrice_struc(int n) Crée une matrice inférieur de taille n
+- void destroy_matrice_struc(matrice_inf* mat_s) Détruit la matrice inférieur
+- size_matrice_struc(matrice_inf* mat_s) Donne la taille de la matrice
+- float get_element_matrice_struc(matrice_inf* mat_s, int i, int j) Donne l'élément de la matrice à la ligne i et colonne j, cette fonction marche avec tous les indices
+- void set_element_matrice_struc(matrice_inf* mat_s, int i, int j, float val) Met l'élément de la matrice à la ligne i et colonne j à la valeur val, cette fonction marche avec tous les indices mais applique une erreur si i = j
+
+
+pota_file : fonctions permettant de lire les fichiers de bases de données sur les stations et les voitures
+- station_tab* read_csv_station_tab(const char* filename) Lit le fichier csv de stations et renvoie un tableau de station_tab, la BD des stations est dans ce format : id_station_itinerance,consolidated_longitude,consolidated_latitude,nbre_pdc,puissance_nominale
+- voiture_tab* read_csv_voiture_tab(const char* filename) Lit le fichier csv de voitures et renvoie un tableau de voiture_tab, la BD des voitures est dans ce format : Model Name;Range (km);Acceleration (0-100 in x sec);Top Speed;Efficiency (Wh/km);Fast Charge (km/h);Brand
+
+
+selection : Fonction permettant la sélection de points ou la génération de matrice
+- corresp_station_tab* select_point_struct(coord* depart, coord* arrivee, station_tab* tab_s, int marge) Crée un tableau de correspondance de station en fonction des coordonnées de départ et d'arrivée. Plus la marge est grande moins on prend de points dans l'ellispe de points.
+- matrice_inf* generate_adj_matrice(station_tab* tab_s) Renvoie la matrice d'adjacence de toutes les stations, une matrice inférieur, la matrice est de taille la taille du tableau de stations. Le temps de calcul pour la BD est de 10-15 secondes
+
+
+station : Structure et fonction sur les stations
+station est une structure avec 5 variables : l'identifiant en string, les coordonnées, le nombre de points de charge, la puissance nominale et le nombre de points de charge disponible. Cette structure ne doit pas être manipulée sans utiliser le tableau.
+station_tab est un tableau statique de la structure station
+corresp_station_tab est un tableau statique de int, il permet de faire la correspondance entre l'indice dans le tableau de station et l'identifiant de la station
+Il faut penser à destroy les structures station_tab et corresp_station_tab après utilisation
+Il y a a des getters et des setters pour chaque variable des structures
+
+
+voiture : Structure et fonction sur les voitures
+voiture est une structure avec 4 variables : l'identifiant en string, la range en km, l'Efficiency en Wh/km et la Fast Charge en km/h. Cette structure ne doit pas être manipulée sans utiliser le tableau.
+voiture_tab est un tableau statique de la structure voiture
+Il faut penser à destroy la structure voiture_tab après utilisation
+Il y a a des getters et des setters pour chaque variable des structures
+
+
+Mode d'emploi pour la partie 1 :
+  - Lire et/ou créer les coordonnées de départ et d'arrivée (create_coord, set_coord, destroy_coord, get_coord_x, get_coord_y)
+  - Lire et stocker les données des fichiers csv dans des tableaux de structures (voiture_tab et station_tab avec read_csv_station_tab et read_csv_voiture_tab)
+  - Créer une matrice d'adjacence avec les stations (generate_adj_matrice)
+  - Récupérer le chemin le plus court avec a_star en renseignant les paramètres (voir la partie a_star)
+  - Afficher le chemin avec print_chemin_tab_struct()
+  - Détruire les structures chemin, coordonnées départ et arrivée, matrice d'adjacence, tableau de stations et tableau de voitures
 
 Partie 2 :
 

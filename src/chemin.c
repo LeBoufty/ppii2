@@ -27,7 +27,7 @@ void print_chemin_tab(chemin_tab ct){
     printf("id_station: %d\n", ct.id);
     printf("capacite_avant: %f\n", ct.capacite_avant);
     printf("capacite_apres: %f\n", ct.capacite_apres);
-    printf("temps_prochain: %f\n", ct.distance_prochain);
+    printf("distance_prochain: %f\n", ct.distance_prochain);
 }
 
 // Destruction d'un chemin_tab_struct

@@ -29,8 +29,8 @@ void destroy_voiture_tab(voiture_tab* v);
 void print_voiture_tab(voiture_tab* v, int i);
 int size_voiture_tab(voiture_tab* v);
 
-voiture* get_voiture_tab(voiture_tab* v, int i);
-void set_voiture_tab(voiture_tab* v, int i, voiture* s);
+// voiture* get_voiture_tab(voiture_tab* v, int i); // N'est pas utilisable en dehors de voiture.c
+// void set_voiture_tab(voiture_tab* v, int i, voiture* s); // N'est pas utilisable en dehors de voiture.c
 
 char* get_voiture_tab_name(voiture_tab* v, int i);
 void set_voiture_tab_name(voiture_tab* v, int i, char* name);
