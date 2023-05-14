@@ -105,3 +105,24 @@ utilisateurtrajet* trajets(utilisateur* list_u)
     return(trajet);
 }
 
+void destroy_utilisateur_trajet(utilisateurtrajet* trajet)
+{
+    utilisateurtrajet* traj_next=trajet->next;
+    while (traj_next!=NULL)
+    {
+        destroy_utilisateur_info(trajet->info);
+        free(trajet);
+        trajet=traj_next;
+        traj_next=traj_next->next;
+    }
+    destroy_utilisateur_info(trajet->info);
+    free(trajet);
+
+}
+
+void destroy_utilisateur_info(utilisateurinfo* info)
+{
+    destroy_chemin_tab_struct(info->chemin);
+    free(info);
+}
+
