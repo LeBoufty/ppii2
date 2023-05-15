@@ -87,6 +87,7 @@ void utilisateur_info_change(utilisateurinfo* info, chemin_tab_struct* chemin, i
 utilisateurtrajet* trajets(utilisateur* list_u)
 {
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
+    voiture_tab* tab_v = read_csv_voiture_tab("BD/voitures.csv");
     utilisateurtrajet* trajet=create_utilisateurtrajet();
     int i=0;
     int size;
@@ -95,7 +96,7 @@ utilisateurtrajet* trajets(utilisateur* list_u)
         utilisateurinfo* info=create_utilisateurinfo();
         corresp_station_tab* corresp = select_point_struct(list_u->depart, list_u->arrivee, tab_s, 1);
         matrice_inf* matrice = generate_adj_matrice(corresp, list_u->depart, list_u->arrivee, tab_s);
-        chemin_tab_struct* chemin=a_star(matrice,list_u->depart,list_u->arrivee);
+        chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->voiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart);
         size=size_chemin_tab_struct(chemin);
         
         utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/ticksparh);
