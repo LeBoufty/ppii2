@@ -5,8 +5,8 @@
 
 
 void createStationFile(int N,  station_tab* list_s) {
-    char filename[17];
-    sprintf(filename, "stations/%d.txt", N);
+    char filename[30];
+    sprintf(filename, "web/static/stations/%d.txt", N);
     FILE* file = fopen(filename, "a");
     for (int i=0;i<list_s->taille;i++){
         double a=get_station_tab_nbre_pdc_dispo(list_s,i)/get_station_tab_nbre_pdc(list_s,i);
@@ -15,7 +15,7 @@ void createStationFile(int N,  station_tab* list_s) {
     fclose(file);  
 }
 
-void createCoordFile(station* list_s){
+void createCoordFile(station_tab* list_s){
     FILE* file=fopen("web/static/stations/coordonees","a");
     for (int i=0;i<list_s->taille;i++){
         fprintf(file, "%f,%f;",get_station_tab_coord_x(list_s,i),get_station_tab_coord_y(list_s,i));
@@ -37,10 +37,13 @@ int main(int argc, char** argv){
     //Initialisation des utilisateurs
     int N=atoi(argv[1]);
     utilisateur* list_u=rdm_utilisateur(tab_v,tab_s,N);
-    utilisateurtrajet* trajet=trajets(list_u)
+    utilisateurtrajet* trajet=trajets(list_u);
     
-    for (int i=1;i<=N;i++){
-        createStationFile(i, station_tab* list_s);
+    int i=0;
+    while (trajet!=NULL){ //tant qu'il y a des utilisateurs qui ont un trajet
+        createStationFile(i,tab_s);
+        traitement(trajet);
+        i++;
     }
     return 0;
 }
