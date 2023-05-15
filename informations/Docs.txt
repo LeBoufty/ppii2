@@ -108,7 +108,7 @@ Change le nombre de point de charge disponible.
 fin si nb utilisateurs = 0 
 
 
-  -utilisateur_rdm(list_v : voiture_tab*, list_s : station_tab*, n : int)-> liste_utilisateurs: utilisateurs*
+  -rdm_utilisateur(list_v : voiture_tab*, list_s : station_tab*, n : int)-> liste_utilisateurs: utilisateurs*
     Utilité : Prend en paramètre la liste des voitures, des stations ainsi qu'un nombre d'utilisateurs n à générer. Génère de façon aléatoire n trajet associée à n voitures. 
     I/O : Produit une liste chaîné faite avec la struct utilisateurs de n maillons avec un point de départ matérialisé avec les coordonnées x et y, ainsi qu'un modèle de voiture.
 
