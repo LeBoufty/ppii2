@@ -5,8 +5,8 @@
 utilisateur* create_utilisateur()
 {
     utilisateur* list_u=malloc(sizeof(utilisateur));
-    list_u->depart=calloc(1,sizeof(coord));
-    list_u->arrivee=calloc(1,sizeof(coord));
+    list_u->depart=create_coord();
+    list_u->arrivee=create_coord();
     list_u->IDvoiture=0;
     list_u->next=NULL;
     return(list_u);
@@ -17,14 +17,14 @@ utilisateurinfo* create_utilisateurinfo()
     utilisateurinfo* list_ui=malloc(sizeof(utilisateurinfo));
     list_ui->Nb_ticks_attente=0;
     list_ui->ID_courrant=0;
-    list_ui->chemin=calloc(1,sizeof(chemin_tab_struct));
+    list_ui->chemin=NULL;
     return(list_ui);
 }
 
 utilisateurtrajet* create_utilisateurtrajet()
 {
     utilisateurtrajet* list_ut=malloc(sizeof(utilisateurtrajet));
-    list_ut->info=calloc(1,sizeof(utilisateurinfo));
+    list_ut->info=NULL;
     list_ut->next=NULL;
     return(list_ut);
 }
@@ -33,8 +33,8 @@ utilisateurtrajet* create_utilisateurtrajet()
 utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     utilisateur* list_u=create_utilisateur();
     float lodep, loarr, ladep, laarr;
-    int taille_v=list_v->taille;
-    int taille_s=list_s->taille;
+    int taille_v=size_voiture_tab(list_v);
+    int taille_s=size_station_tab(list_s);
     int rdm_v=0;
     int rdm_s_dep=0;
     int rdm_s_arr=0;
@@ -84,21 +84,16 @@ void utilisateur_info_change(utilisateurinfo* info, chemin_tab_struct* chemin, i
 
 }
 
-utilisateurtrajet* trajets(utilisateur* list_u)
+utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab* tab_v)
 {
-    station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
-    voiture_tab* tab_v = read_csv_voiture_tab("BD/voitures.csv");
     utilisateurtrajet* trajet=create_utilisateurtrajet();
-    int i=0;
     int size;
     matrice_inf* matrice = generate_adj_matrice(tab_s);
     while (list_u->next!=NULL)
     {
         utilisateurinfo* info=create_utilisateurinfo();
-        corresp_station_tab* corresp = select_point_struct(list_u->depart, list_u->arrivee, tab_s, 1);
         chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture, temps_recharge_max, minimum_percent_battery, capacite_depart );
         size=size_chemin_tab_struct(chemin);
-        
         utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/ticksparh);
         utilisateur_trajet_append(trajet,info);
         list_u=list_u->next;
@@ -127,3 +122,19 @@ void destroy_utilisateur_info(utilisateurinfo* info)
     free(info);
 }
 
+
+void destroy_utilisateur(utilisateur* utilisateurs)
+{
+    utilisateur* u_next=utilisateurs->next;
+    while (u_next!=NULL)
+    {
+        destroy_coord(utilisateurs->depart);
+        destroy_coord(utilisateurs->arrivee);
+        free(utilisateurs);
+        utilisateurs=u_next;
+        u_next=u_next->next;
+    }
+    destroy_coord(utilisateurs->depart);
+    destroy_coord(utilisateurs->arrivee);
+    free(utilisateurs);
+}

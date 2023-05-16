@@ -16,9 +16,9 @@
 #include "chemin.h"
 #define vitesse 80
 #define ticksparh 6
-#define temps_recharge_max 0.33;
-#define minimum_percent_battery 1;
-#define capacite_depart 0;
+#define temps_recharge_max 0.33
+#define minimum_percent_battery 1
+#define capacite_depart 0
 
 
 struct utilisateur
@@ -50,7 +50,7 @@ utilisateurinfo* create_utilisateurinfo();
 
 utilisateurtrajet* create_utilisateurtrajet();
 
-utilisateurtrajet* trajets(utilisateur* list_u);
+utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab* tab_v);
 
 void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
 
@@ -60,4 +60,7 @@ void destroy_utilisateur_trajet(utilisateurtrajet* trajet);
 
 void destroy_utilisateur_info(utilisateurinfo* info);
 
+void destroy_utilisateur(utilisateur* utilisateur);
+
 #endif
+

@@ -5,3 +5,5 @@ En rentrant le point de départ, le point d'arrivée et le modèle de la voiture
 Potagibus est également capable de simuler du traffic routier via des automobilistes générés aléatoirement.
 
 Ces automobilistes seront représentés en temps réel via une page html. Le passage du temps sera modélisé par un slider sur cette même page.
+
+Vous pouvez récupérer le dossier sur gitlab via la commande "git clone" suivi du lien du Gitlab.
