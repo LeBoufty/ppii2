@@ -53,6 +53,8 @@ utilisateurtrajet* create_utilisateurtrajet();
 
 utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab* tab_v);
 
+utilisateurtrajet* destroy_utlisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet);//supprime le chainon et renvoie le trajet suivant
+
 void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
 
 void utilisateur_info_change(utilisateurinfo* info, chemin_tab_struct* chemin, int ID, int tic);

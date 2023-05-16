@@ -153,3 +153,18 @@ void destroy_utilisateur(utilisateur* utilisateurs)
     destroy_coord(utilisateurs->arrivee);
     free(utilisateurs);
 }
+
+//supprime le chainon et renvoie le trajet suivant
+utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet){
+    if (pasttrajet!=NULL){
+        currenttrajet=currenttrajet->next;
+        destroy_utilisateur_trajet(pasttrajet->next);
+        pasttrajet->next=currenttrajet;
+        return currenttrajet;
+    }
+    else{
+        pasttrajet=currenttrajet->next;
+        destroy_utilisateur_trajet(currenttrajet);
+        return pasttrajet;
+    }
+}
