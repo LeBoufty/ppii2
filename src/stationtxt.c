@@ -1,6 +1,7 @@
 #include "station.h"
 
-void createStationFile(int N,  station_tab* list_s) {
+void createStationFile(int N,  station_tab* list_s){
+    printf("createStationFile\n");
     char filename[30];
     sprintf(filename, "web/static/stations/%d.txt", N);
     FILE* file = fopen(filename, "a");
@@ -9,12 +10,15 @@ void createStationFile(int N,  station_tab* list_s) {
         fprintf(file, "%f;", a);
     }
     fclose(file);  
+    printf("createStationFile FIN\n");
 }
 
 void createCoordFile(station_tab* list_s){
-    FILE* file=fopen("web/static/stations/coordonees","a");
+    printf("createCoordFile\n");
+    FILE* file=fopen("web/static/stations/coordonees","w");
     for (int i=0;i<list_s->taille;i++){
-        fprintf(file, "%f,%f;",get_station_tab_coord_x(list_s,i),get_station_tab_coord_y(list_s,i));
+        fprintf(file, "%f,%f;",get_station_tab_coord_x(list_s,i),get_station_tab_coord_y(list_s,i));    
     }
     fclose(file);
+    printf("createCoordFile FIN\n");
 }
