@@ -52,15 +52,16 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
         IDvoiture=rdm_v;
 
         utilisateur* u_suiv = create_utilisateur();
-        u_suiv->depart->x=list_u->depart->x;
-        u_suiv->depart->y=list_u->depart->y;
-        u_suiv->arrivee->x=list_u->arrivee->x;
-        u_suiv->arrivee->y=list_u->arrivee->y;
+        set_coord_x(u_suiv->depart,get_coord_x(list_u->depart));
+        set_coord_y(u_suiv->depart,get_coord_y(list_u->depart));
+        set_coord_x(u_suiv->arrivee,get_coord_x(list_u->arrivee));
+        set_coord_y(u_suiv->arrivee,get_coord_y(list_u->arrivee));
+
         u_suiv->IDvoiture=list_u->IDvoiture;
-        list_u->arrivee->y=laarr;
-        list_u->depart->y=ladep;
-        list_u->arrivee->x=loarr;
-        list_u->depart->x=lodep;
+        set_coord_y(list_u->arrivee,laarr);
+        set_coord_y(list_u->depart,ladep);
+        set_coord_x(list_u->arrivee,loarr);
+        set_coord_x(list_u->depart,lodep);
         list_u->IDvoiture=IDvoiture;
         list_u->next=u_suiv;
     }
@@ -103,6 +104,10 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
 
 void destroy_utilisateur_trajet(utilisateurtrajet* trajet)
 {
+    if(trajet==NULL)
+    {
+        return;
+    }
     utilisateurtrajet* traj_next=trajet->next;
     while (traj_next!=NULL)
     {
@@ -118,6 +123,10 @@ void destroy_utilisateur_trajet(utilisateurtrajet* trajet)
 
 void destroy_utilisateur_info(utilisateurinfo* info)
 {
+    if(info==NULL)
+    {
+        return;
+    }
     destroy_chemin_tab_struct(info->chemin);
     free(info);
 }
@@ -125,6 +134,10 @@ void destroy_utilisateur_info(utilisateurinfo* info)
 
 void destroy_utilisateur(utilisateur* utilisateurs)
 {
+    if(utilisateurs==NULL)
+    {
+        return;
+    }
     utilisateur* u_next=utilisateurs->next;
     while (u_next!=NULL)
     {
