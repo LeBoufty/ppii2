@@ -12,7 +12,7 @@ SRC = src
 OBJ = obj
 EXE = exe
 
-COMPONENT = a_star_struct a_star chemin coord list_int list_t matrice potagibus_fct pota_file selection station voiture #utilisateur
+COMPONENT = a_star_struct a_star chemin coord list_int list_t matrice pota_file selection station voiture utilisateur traitementP2
 COMPONENT_P1 = a_star_struct a_star chemin coord list_int list_t matrice pota_file selection station voiture
 
 # Liste des fichiers objets COMPONENT
@@ -24,6 +24,9 @@ COMPONENT_OBJ_P1 = $(patsubst %, $(OBJ)/%.o, $(COMPONENT_P1)) # Remplace chaque 
 #Executables
 
 potagibus.exe: $(COMPONENT_OBJ) $(OBJ)/potagibus_main.o
+	$(EXEC) $^ -o $(EXE)/$@
+
+sim_debug.exe: $(COMPONENT_OBJ) $(OBJ)/sim_debug.o
 	$(EXEC) $^ -o $(EXE)/$@
 
 pota_deb.exe: $(COMPONENT_OBJ) $(OBJ)/potagibus_debug.o
