@@ -12,7 +12,7 @@ SRC = src
 OBJ = obj
 EXE = exe
 
-COMPONENT = a_star_struct a_star chemin coord list_int list_t matrice pota_file selection station voiture utilisateur traitementP2
+COMPONENT = a_star_struct a_star chemin coord list_int list_t matrice pota_file selection station voiture #utilisateur traitementP2
 COMPONENT_P1 = a_star_struct a_star chemin coord list_int list_t matrice pota_file selection station voiture
 
 # Liste des fichiers objets COMPONENT
