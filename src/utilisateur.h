@@ -16,6 +16,9 @@
 #include "chemin.h"
 #define vitesse 80
 #define ticksparh 6
+#define temps_recharge_max 0.33;
+#define minimum_percent_battery 1;
+#define capacite_depart 0;
 
 
 struct utilisateur
