@@ -14,11 +14,12 @@
 #include "selection.h"
 #include "pota_file.h"
 #include "chemin.h"
-#define vitesse 80
-#define ticksparh 6
-#define temps_recharge_max 0.33
-#define minimum_percent_battery 1
-#define capacite_depart 0
+#include "matrice.h"
+#define VITESSE 80
+#define TICKSPARH 6
+#define TEMPS_RECHARGE_MAX 0.33
+#define MINIMUM_PERCENT_BATTERY 1
+#define CAPACITE_DEPART 0
 
 
 struct utilisateur

@@ -56,8 +56,8 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
         set_coord_y(u_suiv->depart,get_coord_y(list_u->depart));
         set_coord_x(u_suiv->arrivee,get_coord_x(list_u->arrivee));
         set_coord_y(u_suiv->arrivee,get_coord_y(list_u->arrivee));
-
         u_suiv->IDvoiture=list_u->IDvoiture;
+        u_suiv->next=list_u->next;
         set_coord_y(list_u->arrivee,laarr);
         set_coord_y(list_u->depart,ladep);
         set_coord_x(list_u->arrivee,loarr);
@@ -73,6 +73,7 @@ void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info)
     utilisateurtrajet* traj_suiv = create_utilisateurtrajet();
     traj_suiv->info=trajet->info;
     trajet->info=info;
+    traj_suiv->next=trajet->next;
     trajet->next=traj_suiv;
     
 }
@@ -93,12 +94,13 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
     while (list_u->next!=NULL)
     {
         utilisateurinfo* info=create_utilisateurinfo();
-        chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture, temps_recharge_max, minimum_percent_battery, capacite_depart );
+        chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture,TEMPS_RECHARGE_MAX,MINIMUM_PERCENT_BATTERY, CAPACITE_DEPART);
         size=size_chemin_tab_struct(chemin);
-        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/ticksparh);
+        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*VITESSE/TICKSPARH);
         utilisateur_trajet_append(trajet,info);
         list_u=list_u->next;
     }
+    destroy_matrice_struc(matrice);
     return(trajet);
 }
 
