@@ -20,7 +20,7 @@
 
 struct utilisateur
 {
-    char* voiture;
+    int IDvoiture;
     coord* depart; //lo=longitude, la=latitude
     coord* arrivee;
     struct utilisateur* next;
