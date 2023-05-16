@@ -1,5 +1,5 @@
 #include "traitementP2.h"
-#include "Stationtxt.h"
+#include "stationtxt.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +19,7 @@ int main(int argc, char** argv){
     //Initialisation des utilisateurs
     int N=atoi(argv[1]);
     utilisateur* list_u=rdm_utilisateur(tab_v,tab_s,N);
-    utilisateurtrajet* trajet=trajets(list_u);
+    utilisateurtrajet* trajet=trajets(list_u,tab_s,tab_v);
     
     int i=0;
     while (trajet!=NULL){ //tant qu'il y a des utilisateurs qui ont un trajet
