@@ -17,7 +17,7 @@
 #include "matrice.h"
 #define VITESSE 80
 #define TICKSPARH 6
-#define TEMPS_RECHARGE_MAX 0.33
+#define TEMPS_RECHARGE_MAX 2
 #define MINIMUM_PERCENT_BATTERY 1
 #define CAPACITE_DEPART 0
 
