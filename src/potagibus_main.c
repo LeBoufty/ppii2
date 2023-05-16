@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include "potagibus_fct.h"
+#include "coord.h"
 
 int main()
 {

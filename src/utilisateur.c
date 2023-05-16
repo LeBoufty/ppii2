@@ -96,7 +96,7 @@ utilisateurtrajet* trajets(utilisateur* list_u)
     {
         utilisateurinfo* info=create_utilisateurinfo();
         corresp_station_tab* corresp = select_point_struct(list_u->depart, list_u->arrivee, tab_s, 1);
-        chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture, double temps_recharge_max, double minimum_percent_battery, double capacite_depart);
+        chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture, temps_recharge_max, minimum_percent_battery, capacite_depart );
         size=size_chemin_tab_struct(chemin);
         
         utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)*vitesse/ticksparh);
