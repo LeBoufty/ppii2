@@ -7,7 +7,9 @@ void traitement(utilisateurtrajet* trajet){
     while (currenttrajet->next!=NULL){//Parcours tous les utilisateurs
         if (currenttrajet->info->Nb_ticks_attente<=0){//Si l'utilisateur est à une borne
             if (currenttrajet->info->ID_courrant==0){//Si l'utilisateur est à la fin du trajet
+                printf("Utilisateur arrivé à destination\n");
                 destroy_utilisateur_trajet(currenttrajet);
+                printf("Utilisateur %p détruit\n",currenttrajet);
                 add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant), 1);//EUHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
             }
             else{//Si sa station n'est pas la dernière
