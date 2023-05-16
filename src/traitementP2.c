@@ -4,15 +4,17 @@
 //Fonction qui passe le réseau à l'instant n+1
 void traitement(utilisateurtrajet* trajet){
     utilisateurtrajet* currenttrajet=trajet;//Liste des utilisateurs
-    while (currenttrajet->next!=NULL){//Parcours tous les utilisateurs
+    utilisateurtrajet* lasttrajet=NULL;
+    while (currenttrajet!=NULL){//Parcours tous les utilisateurs
         if (currenttrajet->info->Nb_ticks_attente<=0){//Si l'utilisateur est à une borne
             if (currenttrajet->info->ID_courrant==0){//Si l'utilisateur est à la fin du trajet
                 printf("Utilisateur arrivé à destination\n");
-                destroy_utilisateur_trajet(currenttrajet);
-                printf("Utilisateur %p détruit\n",currenttrajet);
-                add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant), 1);//EUHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant), 1);//Libère la place dans la station
+                currenttrajet=destroy_utilisateur_trajet_chainon(currenttrajet,lasttrajet);//Supprime l'utilisateur
+                continue;
             }
             else{//Si sa station n'est pas la dernière
+                printf("Utilisateur à une station\n");
                 if (currenttrajet->info->Nb_ticks_attente<0){//Si la voiture n'est pas chargée                                                                                                                      
                     currenttrajet->info->Nb_ticks_attente+=1;//Recharge la voiture 
                 }
@@ -30,6 +32,7 @@ void traitement(utilisateurtrajet* trajet){
                 }
         }
         else currenttrajet->info->Nb_ticks_attente-=1;//Si à une distance>1 d'une station
+    lasttrajet=currenttrajet;//Utilisé pour supprimer un utilisateur
     currenttrajet=currenttrajet->next;//Prochain utilisateur
     }
 }
