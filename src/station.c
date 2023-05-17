@@ -117,12 +117,12 @@ void add_station_tab_nbre_pdc_dispo(station_tab* tab_s, int i, int valeur_nbre_p
     }
 
     // On vérifie que le nombre de place disponible est inférieur ou égal au nombre de place
-    if (tab_s -> tab[i].nbre_pdc_dispo + valeur_nbre_pdc_dispo > tab_s -> tab[i].nbre_pdc) {
+    if (get_station_tab_nbre_pdc_dispo(tab_s, i) + valeur_nbre_pdc_dispo > get_station_tab_nbre_pdc(tab_s, i)) {
         printf("Erreur : le nombre de place disponible ne peut pas être supérieur au nombre de place\n");
         return;
     }
 
-    tab_s -> tab[i].nbre_pdc_dispo += valeur_nbre_pdc_dispo;
+    set_station_tab_nbre_pdc_dispo(tab_s, i, get_station_tab_nbre_pdc_dispo(tab_s, i) + valeur_nbre_pdc_dispo);
 }
 
 // Donne la puissance de la station d'indice i du tableau de station
