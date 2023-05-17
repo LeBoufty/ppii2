@@ -14,7 +14,7 @@ int main(int argc, char** argv){
 
     voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
-    createCoordFile(tab_s); //Juque là, c'est bon
+    //createCoordFile(tab_s); //Juque là, c'est bon
 
     //Initialisation des utilisateurs
     int N=atoi(argv[1]);
