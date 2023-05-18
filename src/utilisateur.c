@@ -174,6 +174,7 @@ utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* current
         currenttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(pasttrajet->next);
         pasttrajet->next=currenttrajet;
+        header->size--;
         return currenttrajet;
     }
     else{
@@ -181,6 +182,7 @@ utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* current
         pasttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(currenttrajet);
         header->first=pasttrajet;
+        header->size--;
         return pasttrajet;
     }
 }
@@ -188,5 +190,15 @@ utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* current
 utilisateurtrajet_header* create_utlisateurtrajet_header(utilisateurtrajet* trajet){
     utilisateurtrajet_header* header=malloc(sizeof(utilisateurtrajet_header));
     header->first=trajet;
+    header->size=get_size_utilisateurtrajet(trajet);
     return header;
+}
+
+int get_size_utilisateurtrajet(utilisateurtrajet* trajet){
+    int size=-1;
+    while (trajet!=NULL){
+        size++;
+        trajet=trajet->next;
+    }
+    return size;
 }

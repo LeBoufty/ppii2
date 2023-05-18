@@ -21,16 +21,20 @@ int main(int argc, char** argv){
     utilisateur* list_u=rdm_utilisateur(tab_v,tab_s,N);
     printf("Utilisateurs initialisés\n");
     utilisateurtrajet* trajet=trajets(list_u,tab_s,tab_v);
+    utilisateurtrajet_header* trajet_header=create_utlisateurtrajet_header(trajet);
     printf("Trajets initialisés\n--------------\n");
     
     int i=0;
-    while (trajet!=NULL){ //tant qu'il y a des utilisateurs qui ont un trajet
-        printf("i=%d\n",i);
+    while (trajet_header->size!=0 ){ //tant qu'il y a des utilisateurs qui ont un trajet
+        printf("--------------------\ni=%d\n",i);
         createStationFile(i,tab_s);
-        traitement(trajet);     
+        traitement(trajet_header);
+        trajet=trajet_header->first;
+        printf("trajet_header->size=%d\n",trajet_header->size);   
         i++;
     }
     createStationFile(i,tab_s);
+    printf("FIN\n");
     return 0;
 }
 //43.16477486861467,-1.1408199587551673,6

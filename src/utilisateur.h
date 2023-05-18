@@ -46,6 +46,7 @@ struct utilisateurtrajet
 struct utilisateurtrajet_header
 {
     utilisateurtrajet* first;
+    int size;
 }typedef utilisateurtrajet_header;
 
 utilisateur* create_utilisateur();
@@ -62,6 +63,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
 
 utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet, utilisateurtrajet_header* header);//supprime le chainon et renvoie le trajet suivant
 
+int get_size_utilisateurtrajet(utilisateurtrajet* trajet);
 
 void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
 
