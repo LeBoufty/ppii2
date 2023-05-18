@@ -1,7 +1,6 @@
 #include "station.h"
 
 void createStationFile(int N,  station_tab* list_s){
-    printf("createStationFile\n");
     char filename[30];
     sprintf(filename, "web/static/stations/%d.txt", N);
     FILE* file = fopen(filename, "w");
@@ -12,7 +11,7 @@ void createStationFile(int N,  station_tab* list_s){
         }
     }
     fclose(file);  
-    printf("createStationFile FIN\n");
+    printf("Fichier de l'état du réseau créé %d\n",N);
 }
 
 void createCoordFile(station_tab* list_s){

@@ -75,5 +75,7 @@ void destroy_utilisateur_info(utilisateurinfo* info);
 
 void destroy_utilisateur(utilisateur* utilisateur);
 
+void destroy_utilisateur_trajet_header(utilisateurtrajet_header* header);
+
 #endif
 

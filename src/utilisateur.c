@@ -170,7 +170,6 @@ void destroy_utilisateur(utilisateur* utilisateurs)
 //supprime le chainon et renvoie le trajet suivant
 utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet, utilisateurtrajet_header* header){
     if (pasttrajet!=NULL){
-        printf("Destroy not first trajet\n");
         currenttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(pasttrajet->next);
         pasttrajet->next=currenttrajet;
@@ -178,7 +177,6 @@ utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* current
         return currenttrajet;
     }
     else{
-        printf("Destroy first trajet\n");
         pasttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(currenttrajet);
         header->first=pasttrajet;
@@ -195,6 +193,9 @@ utilisateurtrajet_header* create_utlisateurtrajet_header(utilisateurtrajet* traj
 }
 
 int get_size_utilisateurtrajet(utilisateurtrajet* trajet){
+    if (trajet == NULL){ 
+        return 0;
+    }
     int size=-1;
     while (trajet!=NULL){
         size++;
@@ -202,3 +203,9 @@ int get_size_utilisateurtrajet(utilisateurtrajet* trajet){
     }
     return size;
 }
+
+void destroy_utilisateur_trajet_header(utilisateurtrajet_header* header){
+    destroy_utilisateur_trajet_list(header->first);
+    free(header);
+}
+

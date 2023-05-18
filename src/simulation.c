@@ -29,13 +29,15 @@ int main(int argc, char** argv){
         printf("--------------------\ni=%d\n",i);
         createStationFile(i,tab_s);
         traitement(trajet_header);
-        trajet=trajet_header->first;
-        printf("trajet_header->size=%d\n",trajet_header->size);   
+        trajet=trajet_header->first; 
         i++;
+        printf("Nombre d'utilisateurs : %d\n",trajet_header->size);
     }
     createStationFile(i,tab_s);
     destroy_voiture_tab(tab_v);
     destroy_station_tab(tab_s);
+    destroy_utilisateur_trajet_header(trajet_header);
+    destroy_utilisateur(list_u);
     printf("FIN\n");
     return 0;
 }
