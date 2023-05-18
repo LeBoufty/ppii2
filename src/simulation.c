@@ -18,6 +18,7 @@ int main(int argc, char** argv){
 
     //Initialisation des utilisateurs
     int N=atoi(argv[1]);
+    printf("Nombre d'utilisateurs : %d\n",N);
     utilisateur* list_u=rdm_utilisateur(tab_v,tab_s,N);
     printf("Utilisateurs initialisés\n");
     utilisateurtrajet* trajet=trajets(list_u,tab_s,tab_v);

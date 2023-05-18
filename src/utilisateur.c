@@ -97,9 +97,10 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
         utilisateurinfo* info=create_utilisateurinfo();
         chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture,TEMPS_RECHARGE_MAX,MINIMUM_PERCENT_BATTERY, CAPACITE_DEPART);
         size=size_chemin_tab_struct(chemin);
-        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)/TICKSPARH);//*VITESSE
+        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)/VITESSE*TICKSPARH);
+        printf("Distance prochain : %f\n",get_chemin_tab_struct_distance_prochain(chemin,0));
         utilisateur_trajet_append(trajet,info);
-        printf("trajet ajouté\n");
+        printf("Trajet ajouté\n");
         list_u=list_u->next;
     }
     destroy_matrice_struc(matrice);

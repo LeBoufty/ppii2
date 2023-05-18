@@ -27,7 +27,7 @@ void traitement(utilisateurtrajet_header* trajet_header){
                 continue;
             }
             else if (get_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1))>0){//Regarde si il y a de la place dans la station
-                currenttrajet->info->Nb_ticks_attente=-ceil(get_chemin_tab_struct_temps_recharge(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1)/TICKSPARH)+1;//Initialise le rechargement
+                currenttrajet->info->Nb_ticks_attente=-ceil(get_chemin_tab_struct_temps_recharge(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1)*TICKSPARH)+1;//Initialise le rechargement
                 add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1), -1);//Réserve sa place dans la station
                 }
         }
