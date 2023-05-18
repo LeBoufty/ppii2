@@ -5,9 +5,10 @@ void createStationFile(int N,  station_tab* list_s){
     sprintf(filename, "web/static/stations/%d.txt", N);
     FILE* file = fopen(filename, "w");
     for (int i=0;i<list_s->taille;i++){
-        double a=get_station_tab_nbre_pdc_dispo(list_s,i)/get_station_tab_nbre_pdc(list_s,i);
-        if (a!=1){
-            fprintf(file, "%f,%f,%f;",get_station_tab_coord_x(list_s,i),get_station_tab_coord_y(list_s,i), a);
+        int b=get_station_tab_nbre_pdc(list_s,i);
+        int c=get_station_tab_nbre_pdc_dispo(list_s,i);
+        if (c/b!=1.0){
+            fprintf(file, "%f,%f,%f;",get_station_tab_coord_x(list_s,i),get_station_tab_coord_y(list_s,i), (float)c/b);
         }
     }
     fclose(file);  
