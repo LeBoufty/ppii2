@@ -91,6 +91,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
     utilisateurtrajet* trajet=create_utilisateurtrajet();
     int size;
     matrice_inf* matrice = generate_adj_matrice(tab_s);
+    printf("matrice generee\n");
     while (list_u->next!=NULL)
     {
         utilisateurinfo* info=create_utilisateurinfo();
@@ -98,6 +99,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
         size=size_chemin_tab_struct(chemin);
         utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)/TICKSPARH);//*VITESSE
         utilisateur_trajet_append(trajet,info);
+        printf("trajet ajouté\n");
         list_u=list_u->next;
     }
     destroy_matrice_struc(matrice);
@@ -110,18 +112,29 @@ void destroy_utilisateur_trajet(utilisateurtrajet* trajet)
     {
         return;
     }
+    destroy_utilisateur_info(trajet->info);
+    free(trajet);
+
+}
+
+void destroy_utilisateur_trajet_list(utilisateurtrajet* trajet)
+{
+    if(trajet==NULL)
+    {
+        return;
+    }
     utilisateurtrajet* traj_next=trajet->next;
     while (traj_next!=NULL)
     {
-        destroy_utilisateur_info(trajet->info);
+        destroy_utilisateur_trajet(trajet);
         free(trajet);
         trajet=traj_next;
         traj_next=traj_next->next;
     }
     destroy_utilisateur_info(trajet->info);
     free(trajet);
-
 }
+
 
 void destroy_utilisateur_info(utilisateurinfo* info)
 {
@@ -155,16 +168,25 @@ void destroy_utilisateur(utilisateur* utilisateurs)
 }
 
 //supprime le chainon et renvoie le trajet suivant
-utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet){
+utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet, utilisateurtrajet_header* header){
     if (pasttrajet!=NULL){
+        printf("Destroy not first trajet\n");
         currenttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(pasttrajet->next);
         pasttrajet->next=currenttrajet;
         return currenttrajet;
     }
     else{
+        printf("Destroy first trajet\n");
         pasttrajet=currenttrajet->next;
         destroy_utilisateur_trajet(currenttrajet);
+        header->first=pasttrajet;
         return pasttrajet;
     }
+}
+
+utilisateurtrajet_header* create_utlisateurtrajet_header(utilisateurtrajet* trajet){
+    utilisateurtrajet_header* header=malloc(sizeof(utilisateurtrajet_header));
+    header->first=trajet;
+    return header;
 }

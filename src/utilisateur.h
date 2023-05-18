@@ -43,6 +43,11 @@ struct utilisateurtrajet
     struct utilisateurtrajet* next;
 } typedef utilisateurtrajet;
 
+struct utilisateurtrajet_header
+{
+    utilisateurtrajet* first;
+}typedef utilisateurtrajet_header;
+
 utilisateur* create_utilisateur();
 
 utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n);
@@ -51,9 +56,12 @@ utilisateurinfo* create_utilisateurinfo();
 
 utilisateurtrajet* create_utilisateurtrajet();
 
+utilisateurtrajet_header* create_utlisateurtrajet_header(utilisateurtrajet* trajet);
+
 utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab* tab_v);
 
-utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet);//supprime le chainon et renvoie le trajet suivant
+utilisateurtrajet* destroy_utilisateur_trajet_chainon(utilisateurtrajet* currenttrajet, utilisateurtrajet* pasttrajet, utilisateurtrajet_header* header);//supprime le chainon et renvoie le trajet suivant
+
 
 void utilisateur_trajet_append(utilisateurtrajet* trajet, utilisateurinfo* info);
 
