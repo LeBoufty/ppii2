@@ -25,7 +25,7 @@ int main(int argc, char** argv){
     printf("Trajets initialisés\n--------------\n");
     
     int i=0;
-    while (trajet_header->size!=0 ){ //tant qu'il y a des utilisateurs qui ont un trajet
+    while (trajet_header->size!=0){ //tant qu'il y a des utilisateurs qui ont un trajet
         printf("--------------------\ni=%d\n",i);
         createStationFile(i,tab_s);
         traitement(trajet_header);
@@ -34,6 +34,8 @@ int main(int argc, char** argv){
         i++;
     }
     createStationFile(i,tab_s);
+    destroy_voiture_tab(tab_v);
+    destroy_station_tab(tab_s);
     printf("FIN\n");
     return 0;
 }
