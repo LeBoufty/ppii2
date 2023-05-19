@@ -107,7 +107,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
             continue;
         }
         size=size_chemin_tab_struct(chemin);
-        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,size-1)/VITESSE*TICKSPARH+1);
+        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,size-1)/VITESSE*TICKSPARH);
         utilisateur_trajet_append(trajet,info);
         printf("Trajet ajouté %d\n",i);
         i++;
