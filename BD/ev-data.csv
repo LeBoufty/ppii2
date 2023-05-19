@@ -78,7 +78,6 @@ Subaru Solterra AWD;320;6.9;160;200;480;Subaru
 Polestar 2 Long Range Single Motor;440;6.2;205;177;680;Polestar
 Renault Zoe ZE50 R135;310;9.5;140;168;230;Renault
 Audi Q4 e-tron 35;285;9.0;160;182;360;Audi
-Renault Twingo Electric;130;12.6;135;164;-;Renault
 Mercedes EQE 300;515;7.6;210;173;650;Mercedes
 "Citroen e-C4 ";265;9.7;150;170;420;Citroen
 Hyundai IONIQ 5 Standard Range 2WD;295;8.5;185;183;720;Hyundai
@@ -118,7 +117,6 @@ NIO ET7 75 kWh;400;3.8;200;176;540;NIO
 Fisker Ocean Ultra;505;4.2;200;198;730;Fisker
 Mercedes EQS SUV 580 4MATIC;485;4.6;210;224;630;Mercedes
 NIO ET5 100 kWh;495;4.0;200;182;520;NIO
-Smart EQ fortwo coupe;100;11.6;130;167;-;Smart
 MG ZS EV Standard Range;270;8.6;175;181;260;MG
 Lexus UX 300e;235;7.5;160;191;150;Lexus
 MG Marvel R Performance;330;4.9;200;197;390;MG
@@ -210,7 +208,6 @@ Audi Q4 Sportback e-tron 50 quattro;400;6.2;180;192;500;Audi
 Audi Q8 e-tron Sportback 50 quattro;440;6.0;200;202;610;Audi
 Porsche Taycan Turbo;415;3.2;260;202;1020;Porsche
 Citroen e-Berlingo M 50 kWh;200;11.7;135;225;320;Citroen
-Smart EQ fortwo cabrio;95;11.9;130;176;-;Smart
 "Seres 3 ";260;8.9;155;196;240;Seres
 CUPRA Born 170 kW - 58 kWh;345;6.6;160;168;460;CUPRA
 Mercedes EQS SUV 500 4MATIC;485;5.2;210;224;630;Mercedes

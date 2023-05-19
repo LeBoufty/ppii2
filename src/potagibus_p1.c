@@ -34,7 +34,7 @@ int main(int argc, char** argv){
 
     // Génération de la matrice d'adjacence
     matrice_inf* matrice = generate_adj_matrice(tab_s);
-
+    
     // Recherche du chemin
     chemin_tab_struct* chemin = a_star(matrice, depart, arrivee, tab_s, tab_v, id_voiture, temps_recharge_maximal, pourcentage_minimal_batterie, -1);
 

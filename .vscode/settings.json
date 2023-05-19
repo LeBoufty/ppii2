@@ -9,7 +9,8 @@
         "stdbool.h": "c",
         "pota_file.h": "c",
         "a_star_struct.h": "c",
-        "selection.h": "c"
+        "selection.h": "c",
+        "chemin.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
