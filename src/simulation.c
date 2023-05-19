@@ -3,9 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 
 int main(int argc, char** argv){
+    clock_t start, end;
+    double Time;
+
+    start = clock(); //Début du chrono
+
     // Test du nombre d'arguments
     if(argc != 2){
         printf("Erreur : nombre d'arguments incorrect\n./simulation <Nb_utilisateurs>\n");
@@ -38,6 +44,12 @@ int main(int argc, char** argv){
     destroy_utilisateur_trajet_header(trajet_header);
     destroy_utilisateur(list_u);
     printf("FIN\n");
+
+    end = clock(); // Stop the clock
+
+    Time = ((double) (end - start)) / CLOCKS_PER_SEC; // Calculate the CPU time used
+
+    printf("Execution Time: %f seconds\n", Time);
     return 0;
 }
 //43.16477486861467,-1.1408199587551673,6
