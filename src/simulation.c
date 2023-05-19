@@ -18,6 +18,11 @@ int main(int argc, char** argv){
         return 1;
     }
 
+    if (atoi(argv[1])<1){
+        printf("Erreur : nombre d'utilisateurs incorrect\n");
+        return 1;
+    }
+
     voiture_tab* tab_v = read_csv_voiture_tab("BD/ev-data.csv");
     station_tab* tab_s = read_csv_station_tab("BD/stations.csv");
 
@@ -45,11 +50,11 @@ int main(int argc, char** argv){
     destroy_utilisateur(list_u);
     printf("FIN\n");
 
-    end = clock(); // Stop the clock
+    end = clock(); //Arrêt du chrono
 
-    Time = ((double) (end - start)) / CLOCKS_PER_SEC; // Calculate the CPU time used
+    Time = ((double) (end - start)) / CLOCKS_PER_SEC; // Calcul du temps d'exécution
 
-    printf("Execution Time: %f seconds\n", Time);
+    printf("Temps de calculs: %f secondes pour %d utilisateurs.\n Soit %f secondes par utilisateurs \n", Time,N,(double)Time/N);
     return 0;
 }
 //43.16477486861467,-1.1408199587551673,6
