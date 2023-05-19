@@ -8,9 +8,13 @@ void traitement(utilisateurtrajet_header* trajet_header){
     utilisateurtrajet* lasttrajet=NULL;
     printf("Traitement\n");
     while (currenttrajet->next!=NULL){//Parcours tous les utilisateurs
+        printf("ID courrant %d\n",currenttrajet->info->ID_courrant);
+        printf("Nb_ticks_attente %d\n",currenttrajet->info->Nb_ticks_attente);
+        printf("-\n");
         if (currenttrajet->info->chemin==NULL){
             printf("Utilisateur sans chemin\n");
             currenttrajet=destroy_utilisateur_trajet_chainon(currenttrajet,lasttrajet,trajet_header);//Supprime l'utilisateur
+            printf("Utilisateur supprimé\n");
             if (currenttrajet==NULL)//Si il n'y a plus d'utilisateurs
                 break;
             continue;
@@ -20,12 +24,18 @@ void traitement(utilisateurtrajet_header* trajet_header){
                 currenttrajet->info->Nb_ticks_attente+=1;//Recharge la voiture 
             }
             else if (currenttrajet->info->Nb_ticks_attente==0){//Si la voiture est chargée
-                add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1), 1);//Libère la place dans la station
+                printf("Voiture chargée\n");
+                if (currenttrajet->info->ID_courrant!=size_chemin_tab_struct(currenttrajet->info->chemin)-1 && currenttrajet->info->ID_courrant!=0) {//Si l'utilisateur n'est pas à la fin du trajet ou au début
+                    add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant), 1);//Libère la place dans la station
+                    printf("Place libérée\n");
+                }
                 currenttrajet->info->ID_courrant-=1;//Change de destination
-                currenttrajet->info->Nb_ticks_attente=get_chemin_tab_struct_distance_prochain(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1)/TICKSPARH-1;//Se déplace vers sa destination
+                currenttrajet->info->Nb_ticks_attente=get_chemin_tab_struct_distance_prochain(currenttrajet->info->chemin,currenttrajet->info->ID_courrant)/TICKSPARH-1;//Se déplace vers sa destination
+                printf("Utilisateur en déplacement\n");
             }
         }
         else if (currenttrajet->info->Nb_ticks_attente==1){//Si il arrive à une station
+            printf("Utilisateur arrivé à une station\n");
             if (currenttrajet->info->ID_courrant==1){//Si l'utilisateur est à la fin du trajet
                 printf("Utilisateur arrivé à destination\n");
                 currenttrajet=destroy_utilisateur_trajet_chainon(currenttrajet,lasttrajet,trajet_header);//Supprime l'utilisateur
@@ -34,6 +44,7 @@ void traitement(utilisateurtrajet_header* trajet_header){
                 continue;
             }
             else if (get_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1))>0){//Regarde si il y a de la place dans la station
+                printf("Utilisateur en attente\n");
                 currenttrajet->info->Nb_ticks_attente=-ceil(get_chemin_tab_struct_temps_recharge(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1)*TICKSPARH)+1;//Initialise le rechargement
                 add_station_tab_nbre_pdc_dispo(currenttrajet->info->chemin->s_tab,get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant-1), -1);//Réserve sa place dans la station
                 }

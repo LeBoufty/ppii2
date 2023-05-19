@@ -90,6 +90,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
 {
     utilisateurtrajet* trajet=create_utilisateurtrajet();
     int size;
+    int i=0;
     matrice_inf* matrice = generate_adj_matrice(tab_s);
     printf("matrice generee\n");
     while (list_u->next!=NULL)
@@ -98,16 +99,18 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
         chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture,TEMPS_RECHARGE_MAX,MINIMUM_PERCENT_BATTERY, CAPACITE_DEPART);
         if (chemin==NULL)
         {
-            printf("Pas de chemin trouvé\n");
+            printf("Pas de chemin trouvé %d\n",i);
             utilisateur_info_change(info,NULL,0,0);
             utilisateur_trajet_append(trajet,info);
+            i++;
             list_u=list_u->next;
             continue;
         }
         size=size_chemin_tab_struct(chemin);
-        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)/VITESSE*TICKSPARH);
+        utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,size-1)/VITESSE*TICKSPARH+1);
         utilisateur_trajet_append(trajet,info);
-        printf("Trajet ajouté\n");
+        printf("Trajet ajouté %d\n",i);
+        i++;
         list_u=list_u->next;
     }
     destroy_matrice_struc(matrice);
