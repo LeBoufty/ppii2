@@ -45,11 +45,13 @@ def get_donnees_all():
         for i in l:
             xy = (i[0], i[1])
             if xy not in xy_trouves:
-                donnees.append(i + [n])
+                donnees.append(i + [str(n)])
                 xy_trouves.append(xy)
             else:
-                for j in l:
-                    if j[0] == i[0] and j[1] == i[1]: j[2] = max(j[2], i[2])
+                for j in donnees:
+                    if j[0] == i[0] and j[1] == i[1]:
+                        j[2] = max(j[2], i[2])
+                        j[3] += ', ' + str(n)
     return donnees
 
 def genere_map(n:int):
