@@ -45,7 +45,7 @@ def get_donnees_all():
         for i in l:
             xy = (i[0], i[1])
             if xy not in xy_trouves:
-                donnees.append(i)
+                donnees.append(i + [n])
                 xy_trouves.append(xy)
             else:
                 for j in l:
@@ -65,7 +65,7 @@ def genere_map_depuis(data:list):
     m = Map([48,2], zoom_start=6)
     for i in f:
         couleur = get_couleur(i[2])
-        Marker(i[:2], icon=Icon(color=couleur)).add_to(m)
+        Marker(i[:2], icon=Icon(color=couleur), popup="Tick N°"+str(i[3])).add_to(m)
     return m
 
 def nombre_ticks() -> int:
