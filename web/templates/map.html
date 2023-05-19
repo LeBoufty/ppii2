@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="../static/style.css">
+        <script src="../static/shownumber.js"></script>
         <title>
             Pota'Gibus : Carte
         </title>
@@ -9,7 +11,30 @@
         <h1>
             Carte
         </h1>
-        <iframe src="static/carte.html" width="1200px" height="700px"></iframe>
-        <a href="/random">Nouveaux Points</a>
+        <div class="mapcontainer">
+            <iframe src="../static/carte.html" class="map"></iframe>
+            {% if not all %}
+            <form class="slidemebox" method="get">
+                <input type="range" min="0" max="{{nbt}}" value="{{actuel}}" id="tick" name="tick" class="slider">
+                <p>
+                    Tick N° <span id="lenombre"></span>
+                    <input type="submit" value="Go !"/>
+                </p>
+            </form>
+            <a href="/carte/all">Afficher tous les ticks</a>
+            {% else %}
+            <a href="/carte">Afficher un seul tick</a>
+            {% endif %}
+        </div>
+
+        <script>
+            var slider = document.getElementById("tick");
+            var output = document.getElementById("lenombre");
+            output.innerHTML = slider.ariaValueMax;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
     </body>
 </html>
