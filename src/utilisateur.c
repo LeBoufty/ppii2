@@ -40,8 +40,8 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     int rdm_s_arr=0;
     int i=0;
     int IDvoiture;
-    for (i=0;i<n;i++)
-    {
+    for (i=0;i<n;i++){
+
         rdm_v=rand()%taille_v;
         rdm_s_dep=rand()%taille_s;
         rdm_s_arr=rand()%taille_s;
@@ -96,6 +96,13 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
     {
         utilisateurinfo* info=create_utilisateurinfo();
         chemin_tab_struct* chemin=a_star(matrice, list_u->depart, list_u->arrivee, tab_s, tab_v, list_u->IDvoiture,TEMPS_RECHARGE_MAX,MINIMUM_PERCENT_BATTERY, CAPACITE_DEPART);
+        if (chemin==NULL)
+        {
+            printf("Pas de chemin trouvé\n");
+            utilisateur_info_change(info,NULL,0,0);
+            list_u=list_u->next;
+            continue;
+        }
         size=size_chemin_tab_struct(chemin);
         utilisateur_info_change(info,chemin,size_chemin_tab_struct(chemin)-1,get_chemin_tab_struct_distance_prochain(chemin,0)/VITESSE*TICKSPARH);
         utilisateur_trajet_append(trajet,info);
@@ -138,6 +145,7 @@ void destroy_utilisateur_trajet_list(utilisateurtrajet* trajet)
 
 void destroy_utilisateur_info(utilisateurinfo* info)
 {
+    printf("info %p\n",(void*)info);
     if(info==NULL)
     {
         return;

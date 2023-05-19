@@ -8,6 +8,13 @@ void traitement(utilisateurtrajet_header* trajet_header){
     utilisateurtrajet* lasttrajet=NULL;
     printf("Traitement\n");
     while (currenttrajet->next!=NULL){//Parcours tous les utilisateurs
+        if (currenttrajet->info->chemin==NULL){
+            printf("Utilisateur sans chemin\n");
+            currenttrajet=destroy_utilisateur_trajet_chainon(currenttrajet,lasttrajet,trajet_header);//Supprime l'utilisateur
+            if (currenttrajet==NULL)//Si il n'y a plus d'utilisateurs
+                break;
+            continue;
+        }
         if (currenttrajet->info->Nb_ticks_attente<=0){//Si l'utilisateur est à une borne
             if (currenttrajet->info->Nb_ticks_attente<0){//Si la voiture n'est pas chargée                                                                                                                     
                 currenttrajet->info->Nb_ticks_attente+=1;//Recharge la voiture 
