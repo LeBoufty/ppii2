@@ -34,7 +34,7 @@ def get_donnees(n:int) -> list:
         return []
     f = f.split(";")[:-1]
     f = [i.split(',') for i in f]
-    for i in f: i[0], i[1], i[2] = float(i[0]), float(i[1]), float(i[2])
+    for i in f: i[0], i[1], i[2] = float(i[1]), float(i[0]), float(i[2])
     return f
 
 def genere_map(n:int):
