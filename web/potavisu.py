@@ -37,8 +37,31 @@ def get_donnees(n:int) -> list:
     for i in f: i[0], i[1], i[2] = float(i[1]), float(i[0]), float(i[2])
     return f
 
+def get_donnees_all():
+    xy_trouves = []
+    donnees = []
+    for n in range(nombre_ticks()):
+        l = get_donnees(n)
+        for i in l:
+            xy = (i[0], i[1])
+            if xy not in xy_trouves:
+                donnees.append(i)
+                xy_trouves.append(xy)
+            else:
+                for j in l:
+                    if j[0] == i[0] and j[1] == i[1]: j[2] = max(j[2], i[2])
+    return donnees
+
 def genere_map(n:int):
     f = get_donnees(n)
+    m = Map([48,2], zoom_start=6)
+    for i in f:
+        couleur = get_couleur(i[2])
+        Marker(i[:2], icon=Icon(color=couleur)).add_to(m)
+    return m
+
+def genere_map_depuis(data:list):
+    f = data
     m = Map([48,2], zoom_start=6)
     for i in f:
         couleur = get_couleur(i[2])
@@ -73,4 +96,9 @@ def simuler():
 def carte0():
     n = request.args.get("tick", default=0, type=int)
     genere_map(n).save(carte)
-    return render_template("map.html", nbt=nombre_ticks()-1, actuel=n)
+    return render_template("map.html", nbt=nombre_ticks()-1, actuel=n, all=False)
+
+@app.route('/carte/all')
+def carteall():
+    genere_map_depuis(get_donnees_all()).save(carte)
+    return render_template("map.html", nbt=nombre_ticks()-1, all=True)
