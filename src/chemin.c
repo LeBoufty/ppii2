@@ -32,6 +32,11 @@ void print_chemin_tab(chemin_tab ct){
 
 // Destruction d'un chemin_tab_struct
 void destroy_chemin_tab_struct(chemin_tab_struct* cts){
+    if (cts==NULL)
+    {
+        free(cts);
+        return;
+    }
     free(cts -> tab);
     free(cts);
 }

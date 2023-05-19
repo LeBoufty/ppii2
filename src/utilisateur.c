@@ -100,6 +100,7 @@ utilisateurtrajet* trajets(utilisateur* list_u, station_tab* tab_s, voiture_tab*
         {
             printf("Pas de chemin trouvé\n");
             utilisateur_info_change(info,NULL,0,0);
+            utilisateur_trajet_append(trajet,info);
             list_u=list_u->next;
             continue;
         }
@@ -145,7 +146,6 @@ void destroy_utilisateur_trajet_list(utilisateurtrajet* trajet)
 
 void destroy_utilisateur_info(utilisateurinfo* info)
 {
-    printf("info %p\n",(void*)info);
     if(info==NULL)
     {
         return;
