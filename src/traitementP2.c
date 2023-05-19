@@ -17,10 +17,6 @@ void traitement(utilisateurtrajet_header* trajet_header){
             continue;
         }
         int id_station=get_chemin_tab_struct_id_station(currenttrajet->info->chemin,currenttrajet->info->ID_courrant);   
-        printf("ID courrant %d\n",currenttrajet->info->ID_courrant);
-        printf("Nb_ticks_attente %d\n",currenttrajet->info->Nb_ticks_attente);
-        printf("ID station %d\n",id_station);
-        printf("-\n");
         if (currenttrajet->info->Nb_ticks_attente<=0){//Si l'utilisateur est à une borne
             if (currenttrajet->info->Nb_ticks_attente<0){//Si la voiture n'est pas chargée                                                                                                                     
                 currenttrajet->info->Nb_ticks_attente+=1;//Recharge la voiture 
