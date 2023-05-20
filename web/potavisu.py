@@ -2,10 +2,12 @@ from folium import *
 from random import random, randint
 from flask import Flask, redirect, render_template, request
 import logging
+import os
 
 ### Variables globales
-out = "static/stations/" # dossier sortie
+out = "static/stations10k/" # dossier sortie
 carte = "static/carte.html"
+exe = "../exe/"
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
@@ -81,6 +83,9 @@ def nombre_ticks() -> int:
         except OSError: drapo = False
     return n
 
+def simulation(n:int):
+    return os.spawnv(os.P_WAIT, exe+'simulation.exe', str(n))
+
 ### Routes
 @app.route('/')
 def hello():
@@ -90,9 +95,13 @@ def hello():
 def index():
     return render_template('index.html')
 
-@app.route('/simuler')
+@app.route('/simuler', methods=['GET', 'POST'])
 def simuler():
-    return render_template('simuler.html')
+    if request.method == 'GET': return render_template('simuler.html')
+    else:
+        n = request.form['nbu']
+        simulation(n)
+        return redirect('/carte')
 
 @app.route('/carte')
 def carte0():
