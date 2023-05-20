@@ -24,6 +24,7 @@ def genere_aleatoires(n=100):
     sortie.close()
 
 def get_couleur(n:float) -> str:
+    n = 1-n
     if n == 0: return "darkgreen"
     if n <= 0.2: return "green"
     if n <= 0.4: return "orange"
