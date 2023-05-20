@@ -13,7 +13,7 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     print('Début du filtre, sortie sur', nomsortie)
 
     # Remise à zéro de la BD
-    sortie = open(nomsortie, 'w')
+    sortie = open(nomsortie, 'w', encoding='utf-8')
     sortie.write(','.join(proprietes) + '\n')
     sortie.close()
     sortie = open(nomsortie, 'a')
@@ -69,4 +69,4 @@ def filtre(proprietes:list, distmin:float = 1, concerne:bool = True, libre:bool 
     print('Fini !')
     sortie.close()
 
-filtre(['id_station_itinerance', 'consolidated_longitude', 'consolidated_latitude', 'nbre_pdc', 'puissance_nominale'], distmin=0)
+filtre(['consolidated_commune', 'consolidated_longitude', 'consolidated_latitude'], distmin=2, nomsortie='villes')

@@ -5,9 +5,10 @@ import logging
 import os
 
 ### Variables globales
-out = "static/stations10k/" # dossier sortie
+out = "static/stations/" # dossier sortie
 outparcours = "static/parcours/parcours.txt"
 carte = "static/carte.html"
+villescsv = "static/villes.csv"
 exe = "../exe/"
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -59,6 +60,7 @@ def get_donnees_all():
 
 def get_parcours():
     f = open(outparcours, 'r', encoding='utf-8').read()
+    if 'Erreur : chemin non trouvé' in f: return []
     f = f.split(';')[:-1]
     f = [i.split(',') for i in f]
     f = [[(float(i[1]), float(i[0])), float(i[2])] for i in f]
@@ -100,8 +102,31 @@ def nombre_ticks() -> int:
         except OSError: drapo = False
     return n
 
+def get_coord_ville(ville:str):
+    f = open(villescsv, 'r').read().split('\n')
+    f = [i.split(',') for i in f]
+    ville = ville.lower().replace('-', ' ')
+    x,y = 0,0
+    for i in f:
+        if i[0] == ville:
+            app.logger.info(i)
+            x,y = float(i[1]), float(i[2])
+    return x,y
+
 def simulation(n:int):
-    return os.spawnv(os.P_WAIT, exe+'simulation.exe', str(n))
+    cmd = 'cd .. && ./exe/simulation.exe '+str(n)
+    return os.system(cmd)
+
+def calculer_itineraire(depart, arrivee, idvoit, pcmin, attmax):
+    xd, yd = get_coord_ville(depart)
+    xa, ya = get_coord_ville(arrivee)
+    xd, yd, xa, ya = str(xd), str(yd), str(xa), str(ya)
+    idvoit = str(idvoit)
+    pcmin = str(pcmin)
+    attmax = str(attmax)
+    cmd = 'cd .. && ./exe/pota_p1.exe '+' '.join([xd, yd, xa, ya, idvoit, pcmin, attmax])
+    app.logger.info(cmd)
+    return os.system(cmd)
 
 ### Routes
 @app.route('/')
@@ -136,3 +161,14 @@ def itineraire():
     genere_map_itineraire(get_parcours()).save(carte)
     return render_template("map.html", simu=False)
 
+@app.route('/calcitineraire', methods=['GET', 'POST'])
+def calcitineraire():
+    if request.method == 'GET': return render_template("itineraire.html")
+    else:
+        vildepar = request.form['depart']
+        vilarriv = request.form['arrivee']
+        idvoit = 4 # TODO : Mettre une sélection de voiture (<select>)
+        pcmin = int(request.form['pcmin'])
+        attmax = int(request.form['attmax']) / 60
+        calculer_itineraire(vildepar, vilarriv, idvoit, pcmin, attmax)
+        return redirect('/itineraire')

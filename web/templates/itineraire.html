@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Simuler : Pota'Gibus
+        </title>
+    </head>
+    <body>
+        <h1>Simulation</h1>
+        <h2><a href="/simuler">Générer des utilisateurs</a></h2>
+        <hr>
+        <h2>Calculer un itinéraire</h2>
+        <form method="post">
+            <table>
+                <tr>
+                <td>Départ</td>
+                <td><input type="text" id="depart" name="depart"/></td>
+                </tr>
+                <tr>
+                    <td>Arrivée</td>
+                    <td><input type="text" id="arrivee" name="arrivee"/></td>
+                </tr>
+                <tr>
+                    <td>% min batterie</td>
+                    <td><input type="number" id="pcmin" name="pcmin"/></td>
+                </tr>
+                <tr>
+                    <td>Attente max (minutes)</td>
+                    <td><input type="number" id="attmax" name="attmax"/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Go !"/></td>
+                </tr>
+            </table>
+        </form>
+        <a href="/index">Retour à l'accueil</a>
+    </body>
+</html>
