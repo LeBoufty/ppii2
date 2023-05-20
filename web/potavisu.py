@@ -6,6 +6,7 @@ import os
 
 ### Variables globales
 out = "static/stations10k/" # dossier sortie
+outparcours = "static/parcours/parcours.txt"
 carte = "static/carte.html"
 exe = "../exe/"
 app = Flask(__name__)
@@ -56,6 +57,13 @@ def get_donnees_all():
                         j[3] += ', ' + str(n)
     return donnees
 
+def get_parcours():
+    f = open(outparcours, 'r', encoding='utf-8').read()
+    f = f.split(';')[:-1]
+    f = [i.split(',') for i in f]
+    f = [[(float(i[1]), float(i[0])), float(i[2])] for i in f]
+    return f
+
 def genere_map(n:int):
     f = get_donnees(n)
     m = Map([48,2], zoom_start=6)
@@ -70,6 +78,15 @@ def genere_map_depuis(data:list):
     for i in f:
         couleur = get_couleur(i[2])
         Marker(i[:2], icon=Icon(color=couleur), popup="Tick N°"+str(i[3])).add_to(m)
+    return m
+
+def genere_map_itineraire(data:list):
+    traj = [i[0] for i in data]
+    m = Map([48,2], zoom_start=6)
+    PolyLine(traj, tooltip="Itinéraire").add_to(m)
+    for i in data:
+        if i[1] != 0:
+            Marker(i[0], icon=Icon(color="blue"), popup="Arrêt pour "+str(int(i[1]*60))+" minutes").add_to(m)
     return m
 
 def nombre_ticks() -> int:
@@ -107,9 +124,15 @@ def simuler():
 def carte0():
     n = request.args.get("tick", default=0, type=int)
     genere_map(n).save(carte)
-    return render_template("map.html", nbt=nombre_ticks()-1, actuel=n, all=False)
+    return render_template("map.html", nbt=nombre_ticks()-1, actuel=n, all=False, simu=True)
 
 @app.route('/carte/all')
 def carteall():
     genere_map_depuis(get_donnees_all()).save(carte)
-    return render_template("map.html", nbt=nombre_ticks()-1, all=True)
+    return render_template("map.html", nbt=nombre_ticks()-1, all=True, simu=True)
+
+@app.route('/itineraire')
+def itineraire():
+    genere_map_itineraire(get_parcours()).save(carte)
+    return render_template("map.html", simu=False)
+

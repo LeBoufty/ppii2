@@ -13,6 +13,7 @@
         </h1>
         <div class="mapcontainer">
             <iframe src="../static/carte.html" class="map"></iframe>
+            {% if simu %}
             {% if not all %}
             <form class="slidemebox" method="get">
                 <input type="range" min="0" max="{{nbt}}" value="{{actuel}}" id="tick" name="tick" class="slider">
@@ -24,6 +25,7 @@
             <a href="/carte/all">Afficher tous les ticks</a>
             {% else %}
             <a href="/carte">Afficher un seul tick</a>
+            {% endif %}
             {% endif %}
         </div>
 
