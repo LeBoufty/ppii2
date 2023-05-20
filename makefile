@@ -23,6 +23,8 @@ COMPONENT_OBJ_P1 = $(patsubst %, $(OBJ)/%.o, $(COMPONENT_P1)) # Remplace chaque 
 
 #Executables
 
+all : essential pota_p1.exe simulation.exe
+
 simulation.exe: $(COMPONENT_OBJ) $(OBJ)/simulation.o
 	$(EXEC) $^ -o $(EXE)/$@
 
