@@ -84,3 +84,13 @@ int get_voiture_tab_capacity(voiture_tab* v, int i){
 int get_voiture_tab_fast_charge_W(voiture_tab* v, int i){
     return get_voiture_tab_fast_charge(v, i) * get_voiture_tab_efficiency(v, i);
 }
+
+// Donne l'id de la voiture selon son nom
+int get_voiture_tab_id(voiture_tab* v, char* name){
+    for (int i = 0; i < size_voiture_tab(v); i++){
+        if (strcmp(get_voiture_tab_name(v, i), name) == 0){
+            return i;
+        }
+    }
+    return -1;
+}

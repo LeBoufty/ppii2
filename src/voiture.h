@@ -44,4 +44,6 @@ void set_voiture_tab_fast_charge(voiture_tab* v, int i, int fast_charge);
 int get_voiture_tab_capacity(voiture_tab* v, int i);
 int get_voiture_tab_fast_charge_W(voiture_tab* v, int i);
 
+int get_voiture_tab_id(voiture_tab* v, char* name);
+
 #endif
