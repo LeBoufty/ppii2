@@ -110,11 +110,11 @@ def get_coord_ville(ville:str):
     x,y = 0,0
     for i in f:
         if i[0] == ville:
-            app.logger.info(i)
             x,y = float(i[1]), float(i[2])
     return x,y
 
 def simulation(n:int):
+    os.system('rm -f '+out+"*.txt")
     cmd = 'cd .. && ./exe/simulation.exe '+str(n)
     return os.system(cmd)
 
