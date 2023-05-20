@@ -124,3 +124,29 @@ voiture_tab* read_csv_voiture_tab(const char* filename) {
     fclose(file);
     return tab_v;
 }
+
+// Ecrire dans un fichier txt les informations d'un chemin
+void write_txt_chemin_tab_struct(chemin_tab_struct* chemin, station_tab* tab_s, coord* depart, coord* arrivee){
+    char filename[40] = "web/static/parcours/parcours.txt";
+
+    FILE* file = fopen(filename, "w");
+
+    if (chemin == NULL) {
+        fprintf(file, "Erreur : chemin non trouvé\n");
+        fclose(file);
+        return;
+    }
+
+    fprintf(file, "%f,%f,0;", get_coord_x(depart), get_coord_y(depart));
+
+    for (int i = size_chemin_tab_struct(chemin) - 2 ; i > 0 ; i--){
+        int id = get_chemin_tab_struct_id_station(chemin, i);
+        fprintf(file, "%f,", get_station_tab_coord_x(tab_s, id));
+        fprintf(file, "%f,", get_station_tab_coord_y(tab_s, id));
+        fprintf(file, "%f;", get_chemin_tab_struct_temps_recharge(chemin, i));
+    }
+
+    fprintf(file, "%f,%f,0;", get_coord_x(arrivee), get_coord_y(arrivee));
+
+    fclose(file);  
+}

@@ -41,6 +41,8 @@ int main(int argc, char** argv){
     // Si le chemin n'existe pas
     if(chemin == NULL){
         printf("Erreur : chemin non trouvé\n");
+        write_txt_chemin_tab_struct(chemin, tab_s, depart, arrivee);
+
         // Destruction des structures
         destroy_coord(depart);
         destroy_coord(arrivee);
@@ -60,6 +62,9 @@ int main(int argc, char** argv){
         printf("%f\n", get_chemin_tab_struct_temps_recharge(chemin, i));
         j++;
     }
+
+    // Enregistrement du chemin dans un fichier txt
+    write_txt_chemin_tab_struct(chemin, tab_s, depart, arrivee);
 
     // Destruction des structures
     destroy_chemin_tab_struct(chemin);

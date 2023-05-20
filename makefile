@@ -26,7 +26,7 @@ COMPONENT_OBJ_P1 = $(patsubst %, $(OBJ)/%.o, $(COMPONENT_P1)) # Remplace chaque 
 simulation.exe: $(COMPONENT_OBJ) $(OBJ)/simulation.o
 	$(EXEC) $^ -o $(EXE)/$@
 
-sim_debug.exe: $(COMPONENT_OBJ) $(OBJ)/sim_debug.o
+sim_debug.exe: $(COMPONENT_OBJ) $(OBJ)/sim_debug.o 
 	$(EXEC) $^ -o $(EXE)/$@
 
 pota_deb.exe: $(COMPONENT_OBJ) $(OBJ)/potagibus_debug.o
@@ -51,3 +51,15 @@ clean_exe:
 	rm -f $(EXE)/*.exe
 
 clean: clean_obj clean_exe
+
+#--------
+
+#Création des dossiers
+
+make_obj:
+	mkdir -p $(OBJ)
+
+make_exe:
+	mkdir -p $(EXE)
+
+essential: make_obj make_exe
