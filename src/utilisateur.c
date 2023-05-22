@@ -41,7 +41,8 @@ utilisateur* rdm_utilisateur(voiture_tab* list_v, station_tab* list_s,int n) {
     int i=0;
     int IDvoiture;
     for (i=0;i<n;i++){
-
+        
+        srand(time(NULL)+(unsigned int)(i*rand()));
         rdm_v=rand()%taille_v;
         rdm_s_dep=rand()%taille_s;
         rdm_s_arr=rand()%taille_s;

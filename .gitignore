@@ -1,5 +1,5 @@
 consolidation-etalab-schema-irve-statique-v-2.2.0-20230327.csv
-stations
+stations/*.txt
 matrice.csv
 __pycache__
 env

@@ -2,14 +2,14 @@
 
 OUTPUT_FILE="execution_times_mean.csv"
 
-for ((N=1; N<=100; N++))
+for ((N=251; N<=1052; N=N+50))
 do
     echo "Running simulation for N=$N"
 
     total_time=0
 
     # Lance la simu 10 fois et récupère le temps de début et de fin
-    for ((i=0; i<10; i++))
+    for ((i=0; i<15; i++))
     do
         START_TIME=$(date +%s%N)
         ./exe/simulation.exe "$N"
@@ -22,7 +22,7 @@ do
     done
 
     # Calcul le temps moyen d'exécution en secondes
-    AVERAGE_TIME=$(echo "scale=6; $total_time / 10" | bc)
+    AVERAGE_TIME=$(echo "scale=6; $total_time / 15" | bc)
 
     # Ajoute les résultats au fichier de sortie
     echo "$N,$AVERAGE_TIME" >> "$OUTPUT_FILE"
