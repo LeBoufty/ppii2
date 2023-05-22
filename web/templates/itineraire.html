@@ -29,6 +29,14 @@
                     <td><input type="number" id="attmax" name="attmax"/></td>
                 </tr>
                 <tr>
+                    <td>Voiture :</td>
+                    <td><select id="voiture" name="voiture">
+                        {% for i in vroum %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select></td>
+                </tr>
+                <tr>
                     <td><input type="submit" value="Go !"/></td>
                 </tr>
             </table>

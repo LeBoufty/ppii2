@@ -10,6 +10,7 @@ outparcours = "static/parcours/parcours.txt"
 carte = "static/carte.html"
 villescsv = "static/villes.csv"
 exe = "../exe/"
+voitures = open("static/voiture.txt", 'r').read().split(';')
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 
@@ -129,6 +130,12 @@ def calculer_itineraire(depart, arrivee, idvoit, pcmin, attmax):
     app.logger.info(cmd)
     return os.system(cmd)
 
+def get_voiture(id:int):
+    return voitures[id]
+
+def get_id_voiture(voit:str):
+    return voitures.index(voit)
+
 ### Routes
 @app.route('/')
 def hello():
@@ -164,11 +171,11 @@ def itineraire():
 
 @app.route('/calcitineraire', methods=['GET', 'POST'])
 def calcitineraire():
-    if request.method == 'GET': return render_template("itineraire.html")
+    if request.method == 'GET': return render_template("itineraire.html", vroum=voitures)
     else:
         vildepar = request.form['depart']
         vilarriv = request.form['arrivee']
-        idvoit = 4 # TODO : Mettre une sélection de voiture (<select>)
+        idvoit = get_id_voiture(request.form['voiture'])
         pcmin = int(request.form['pcmin'])
         attmax = int(request.form['attmax']) / 60
         calculer_itineraire(vildepar, vilarriv, idvoit, pcmin, attmax)
