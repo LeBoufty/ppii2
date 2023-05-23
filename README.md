@@ -84,11 +84,35 @@ Le résultat est une liste de l'occupation des bornes de recharge en temps réel
 
 ## Utilisation en Web
 
+### Démarrage
+
+Lancez script `runsite.sh` depuis la racine du projet :
+```bash
+./runsite.sh
+```
+En suite, ouvrez votre navigateur web et entrez-y l'adresse renseignée sur le terminal (par défaut : `http://127.0.0.1:5000`).
+
 ### Simple Parcours
 
+Depuis l'index, cliquez sur `Calculer`, puis `Calculer un itinéraire`. Vous devrez renseigner :
+- La ville de départ (nom exact)
+- La ville d'arrivée (nom exact)
+- Le pourcentage minimal de batterie accepté
+- Le temps maximal (en minutes) que vous êtes prêt à attendre
+- Le modèle de voiture
 
+Une fois le calcul réalisé, vous serez redirigé sur la carte du résultat. Les points bleus affichent les stations auxquelles vous devrez vous arrêter et le temps passé à charger la voiture. Vous pourrez la consulter à nouveau en cliquant sur `Carte : Itinéraire` depuis l'index.
 
 ### Simulation
+
+Depuis l'index, cliquez sur `Calculer`. Vous devrez renseigner :
+- Le nombre d'usagers que vous voulez simuler
+
+Une fois le calcul réalisé, vous serez redirigé sur la carte du résultat. Vous pouvez afficher un seul tick grâce au slider, ou tous en même temps. Dans le second cas, cliquer sur un marqueur affichera les ticks durant lesquels cette station est utilisée. Vous pourrez consulter la carte à nouveau en cliquant sur `Carte : Simulation` depuis l'index.
+
+### Informations supplémentaires
+
+La catégorie `Calculer` nécessite d'avoir les programmes `pota_p1.exe` et `simulation.exe` présents dans le dossier [exe/](/exe/). De plus, cela nécessite d'être en capacité d'exécuter ces programmes. Les cartes seront tout de même disponibles : elles afficheront les résultats du dernier calcul. 
 
 ## Désinstallation
 
