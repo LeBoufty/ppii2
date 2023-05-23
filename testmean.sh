@@ -2,7 +2,7 @@
 
 OUTPUT_FILE="execution_times_mean.csv"
 
-for ((N=251; N<=1052; N=N+50))
+for ((N=226; N<=1052; N=N+50))
 do
     echo "Running simulation for N=$N"
 
