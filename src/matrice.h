@@ -6,11 +6,11 @@
 #include <string.h>
 #include <math.h>
 
-struct matrice_inf
+typedef struct matrice_inf
 {
     int taille;
     float** mat;
-} typedef matrice_inf;
+} matrice_inf;
 
 //float** create_matrice(int n); // Seulement dans le module matrice.c
 //void destroy_matrice(float** mat, int n); // Seulement dans le module matrice.c

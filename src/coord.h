@@ -10,11 +10,11 @@
 #define DEG_TO_RAD 0.0174532925
 #define EARTH_RADIUS 6378.137
 
-struct coord
+typedef struct coord
 {
     double x;
     double y;
-} typedef coord;
+} coord;
 
 coord* create_coord();
 void destroy_coord(coord* point);

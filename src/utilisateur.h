@@ -22,32 +22,32 @@
 #define CAPACITE_DEPART 0
 
 
-struct utilisateur
+typedef struct utilisateur
 {
     int IDvoiture;
     coord* depart; //lo=longitude, la=latitude
     coord* arrivee;
     struct utilisateur* next;
-} typedef utilisateur;
+} utilisateur;
 
-struct utilisateurinfo
+typedef struct utilisateurinfo
 {
     int ID_courrant;
     int Nb_ticks_attente;
     chemin_tab_struct* chemin;
-} typedef utilisateurinfo;
+} utilisateurinfo;
 
-struct utilisateurtrajet
+typedef struct utilisateurtrajet
 {
     utilisateurinfo* info;
     struct utilisateurtrajet* next;
-} typedef utilisateurtrajet;
+} utilisateurtrajet;
 
-struct utilisateurtrajet_header
+typedef struct utilisateurtrajet_header
 {
     utilisateurtrajet* first;
     int size;
-}typedef utilisateurtrajet_header;
+} utilisateurtrajet_header;
 
 utilisateur* create_utilisateur();
 
@@ -78,4 +78,3 @@ void destroy_utilisateur(utilisateur* utilisateur);
 void destroy_utilisateur_trajet_header(utilisateurtrajet_header* header);
 
 #endif
-

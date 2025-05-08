@@ -7,11 +7,11 @@
 #include <stdbool.h>
 #include "coord.h"
 
-struct list_t
+typedef struct list_t
 {
     coord *element;
     struct list_t *next;
-} typedef list_t;
+} list_t;
 
 list_t* create_list_t();
 void destroy_list_t(list_t* list);

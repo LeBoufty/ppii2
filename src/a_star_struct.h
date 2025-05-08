@@ -12,7 +12,7 @@
 
 #define INITIAL_SIZE_GARBAGE 50 // Taille initiale de la liste de garbage
 
-struct chemin
+typedef struct chemin
 {
     struct chemin* suivant;
     int id; // Identifiant de la station, -1 si départ, -2 si arrivée
@@ -20,29 +20,29 @@ struct chemin
     double distance_prochain; // Distance à la prochaine station, -1 s'il n'y en a pas (arrivée)
     double capacite_avant; // Capacité de la voiture au début de la station (avant recharge), en Wh
     double capacite_apres; // Capacité de la voiture à la fin de la station (après recharge), en Wh
-} typedef chemin;
+} chemin;
 
-struct garbage_chemin
+typedef struct garbage_chemin
 {
     chemin** chemin;
     int taille;
     int taille_max;
-} typedef garbage_chemin;
+} garbage_chemin;
 
-struct file
+typedef struct file
 {
     struct file* suivant;
     struct file* precedent;
     chemin* chemin;
     double distance_approche;
-  
-} typedef file;
 
-struct visite_tab
+} file;
+
+typedef struct visite_tab
 {
     int* tab;
     int taille;
-} typedef visite_tab;
+} visite_tab;
 
 
 chemin* create_chemin(garbage_chemin* gc);

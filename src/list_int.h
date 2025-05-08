@@ -5,11 +5,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct list_int
+typedef struct list_int
 {
     int element;
     struct list_int *next;
-} typedef list_int;
+} list_int;
 
 list_int* create_list_int();
 void destroy_list_int(list_int* one_list);

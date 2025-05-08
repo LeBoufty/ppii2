@@ -10,18 +10,18 @@
 #define LENGTH_NAME 40
 
 
-struct voiture {
+typedef struct voiture {
     char name[LENGTH_NAME];
     int range; // en km
     int efficiency; // en Wh/km
     int fast_charge; // en km/h
-} typedef voiture;
+} voiture;
 
-struct voiture_tab
+typedef struct voiture_tab
 {
     int taille;
     voiture* tab;
-} typedef voiture_tab;
+} voiture_tab;
 
 
 voiture_tab* create_voiture_tab(int taille);

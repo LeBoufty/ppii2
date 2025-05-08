@@ -10,28 +10,28 @@
 #define LENGTH_ID 40
 
 // Structure de données pour les stations
-struct station {
+typedef struct station {
     char id[LENGTH_ID];
     coord* coord;
     int nbre_pdc;
     int nbre_pdc_dispo;
     int puissance;
-} typedef station;
+} station;
 
 // Structure de données de tableau de stations
-struct station_tab
+typedef struct station_tab
 {
     int taille;
     station* tab;
-} typedef station_tab;
+} station_tab;
 
 
 // Structure de données pour les correspondances entre le tableau de stations et le tableau de stations trié
-struct corresp_station_tab
+typedef struct corresp_station_tab
 {
     int taille;
     int* tab_id;
-} typedef corresp_station_tab;
+} corresp_station_tab;
 
 station_tab* create_station_tab(int taille);
 void destroy_station_tab(station_tab* tab_s);
